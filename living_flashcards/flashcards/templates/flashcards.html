@@ -10,5 +10,14 @@
 
     {{flashcard_data}}
 
+    {% for category, cards in flashcard_data.items %}
+        <p>Category: {{category}}</p>
+        {% for term, definition in cards.items %}
+            <p>Term: {{term}}</p>
+            <p>Definition: {{definition}}</p>
+        {% endfor %}
+        
+    {% endfor %}
+
 </body>
 </html>

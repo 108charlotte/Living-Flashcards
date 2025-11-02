@@ -8,5 +8,5 @@ from django.template import loader
 def flashcards(request):
   template = loader.get_template('flashcards.html')
   # replace with code to actually populate flashcards from .csv or API
-  terms_and_definitions = {"cat": "idk", "dog": "idk 2"}
+  terms_and_definitions = {"category1": {"cat": "idk", "dog": "idk"}, "category2": {"no": "yes"}}
   return render(request, 'flashcards.html', {'flashcard_data': terms_and_definitions})

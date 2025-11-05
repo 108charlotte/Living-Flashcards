@@ -1,3 +1,85 @@
-* {
-    color: blue; 
+head {
+    background-color: FCFCF7;
+}
+/* Header*/
+
+h1{ /* Home on the top left*/
+    color: black;
+    font-size: 48px;
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2{  /* "profile" on header*/
+    color: black;
+    font-size: 36px;
+    text-align: right;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h3{ /* header stuff like "about", "contact", etc. */
+    color: black;
+    font-size:24px;
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Deck Titles */
+
+h4{ /* Deck Title in English */
+    color: black;
+    font-size:50px;
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h5{ /* Deck Sub-title in Sora */
+    color: black;
+    font-size:30px;
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Flashcards */
+.card-word {
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card-phonetic {
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.flashcard {
+  background-color: #739F7F;
+  border-radius: 12px;
+  width: 500px;
+  height: 220px;
+  position: relative;
+  padding: 3rem 2rem;
+}
+
+/* Middle card */
+.flashcard-stack::after {
+  position: absolute;
+  width: 450px;
+  height: 40px;
+  background-color:#8FC29D;
+  border-radius: 12px;
+}
+/* Bottom card */
+.flashcard-stack::before {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 100%;
+  height: 100%;
+  background-color: #9ED9AD;
+  border-radius: 12px;
+  z-index: 1;
 }

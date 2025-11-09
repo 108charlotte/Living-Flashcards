@@ -1,23 +1,54 @@
+
 {% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{% static 'flashcards.css' %}">
-    </head>
+<html lang="en">
+<head>
+    <title>Living Flashcards</title>
+    <link rel="stylesheet" href="{% static 'flashcards.css' %}">
+</head>
 <body>
+    <header>
+    <!-- Header with home and profile buttons -->
+     <!--idk what these svgs are for but sure-->
+        <svg></svg>
+        <h1>Home</h1>
 
-    <h2>Testing</h2>
+        <svg></svg>
+        <h2>Profile</h2>
 
-    {{flashcard_data}}
+    <!-- Progress bar showing progress through flashcards -->
+    </header>
 
-    {% for category, cards in flashcard_data.items %}
-        <p>Category: {{category}}</p>
-        {% for term, definition in cards.items %}
-            <p>Term: {{term}}</p>
-            <p>Definition: {{definition}}</p>
-        {% endfor %}
-        
-    {% endfor %}
+    <h4>Animals</h4>
+    <h5>dʒontun</h5>
 
+       <section class="cards-wrap">
+        <div class="stack" id="stack">
+          <div class="card-layer card-mid"></div>
+          <div class="card-layer card-back"></div>
+
+          <article class="card-layer card-front" id="card">
+            <button class="speaker" id="speakerbutton" aria-label="Play pronunciation">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 9v6h4l5 4V5L9 9H5z" />
+                <path d="M16.5 8.5a3.5 3.5 0 0 1 0 7" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" />
+              </svg>
+            </button>
+
+            <div class="card-content">
+              <h2 class="card-word" id="cardWord">kapara</h2>
+              <div class="card-phonetic" id="cardphonetic">kapara</div>
+            </div>
+          </article>
+        </div>
+
+        <div class="controls">
+          <div class="lang-toggle">
+            <span id="lang-left">Sora</span>
+            <div class="switch" id="langSwitch" role="switch" aria-checked="false">
+              <div class="knob"></div>
+            </div>
+            <span id="lang-right">English</span>
+          </div>
 </body>
 </html>

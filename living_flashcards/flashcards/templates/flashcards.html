@@ -19,28 +19,33 @@
     <!-- Progress bar showing progress through flashcards -->
     </header>
 
-    <h4>Animals</h4>
-    <h5>dʒontun</h5>
+    {% for category, cards in flashcard_data.items %}
+      <h4 class="deck-name">Category: {{category}}</h4>
+      <h5 class="deck-name-in-language">Fix data structure later to include name in language</h5>
+      <section class="cards-wrap">
+          <div class="stack" id="stack">
+      {% for term, phonetic in cards.items %}
+            <div class="card-layer card-mid"></div>
+            <div class="card-layer card-back"></div>
 
-       <section class="cards-wrap">
-        <div class="stack" id="stack">
-          <div class="card-layer card-mid"></div>
-          <div class="card-layer card-back"></div>
+            <article class="card-layer card-front" id="card">
+              <button class="speaker" id="speakerbutton" aria-label="Play pronunciation">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 9v6h4l5 4V5L9 9H5z" />
+                  <path d="M16.5 8.5a3.5 3.5 0 0 1 0 7" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" />
+                </svg>
+              </button>
 
-          <article class="card-layer card-front" id="card">
-            <button class="speaker" id="speakerbutton" aria-label="Play pronunciation">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 9v6h4l5 4V5L9 9H5z" />
-                <path d="M16.5 8.5a3.5 3.5 0 0 1 0 7" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" />
-              </svg>
-            </button>
-
-            <div class="card-content">
-              <h2 class="card-word" id="cardWord">kapara</h2>
-              <div class="card-phonetic" id="cardphonetic">kapara</div>
-            </div>
-          </article>
-        </div>
+              <div class="card-content">
+                <h2 class="card-word" id="cardWord">{{term}}</h2>
+                <div class="card-phonetic" id="cardphonetic">{{phonetic}}</div>
+                <!--i'm a little confused...what is "phonetic" v definition? also pls don't use divs for text, use a div with a p tag or smth inside of it. also, where is the back of the card?-->
+              </div>
+            </article>
+      {% endfor %}
+    {% endfor %}
+      </div>
+    </section>
 
         <div class="controls">
           <div class="lang-toggle">

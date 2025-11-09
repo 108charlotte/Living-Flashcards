@@ -1,6 +1,7 @@
 # Commands to run (please run these in the root of the repo (/Living-Flashcards, not /living_flashcards)): 
 python -m venv .venv  
-source .venv/bin/activate  
+if on mac: source .venv/bin/activate  
+if on windows: .venv\Scripts\activate
 pip install requirements.txt  
 
 To view the application: 

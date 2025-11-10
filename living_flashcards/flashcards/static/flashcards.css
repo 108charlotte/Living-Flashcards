@@ -69,7 +69,7 @@ h5{ /* Deck Sub-title in Sora */
 }
 
 /* Middle card */
-.flashcard-stack::after {
+.card-layer card-mid {
   position: absolute;
   width: 450px;
   height: 40px;

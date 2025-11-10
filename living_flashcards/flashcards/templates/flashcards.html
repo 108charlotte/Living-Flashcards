@@ -9,19 +9,21 @@
 <body>
     <header>
     <!-- Header with home and profile buttons -->
-     <!--idk what these svgs are for but sure-->
+     <!--svgs are for Living Flashcard's logo right next to home, and then a profile svg next to profile -->
         <svg></svg>
-        <h1>Home</h1>
+        <a href="templates/home.html" class="home-link"><h1>Home</h1></a>
 
         <svg></svg>
-        <h2>Profile</h2>
+        <a href="templates/profile.html" class="home-link"><h2>Home</h2></a>
 
     <!-- Progress bar showing progress through flashcards -->
     </header>
 
     {% for category, cards in flashcard_data.items %}
+    <!-- Deck titles -->
       <h4 class="deck-name">Category: {{category}}</h4>
       <h5 class="deck-name-in-language">Fix data structure later to include name in language</h5>
+    <!-- Flashcards --> 
       <section class="cards-wrap">
           <div class="stack" id="stack">
       {% for term, phonetic in cards.items %}
@@ -38,23 +40,30 @@
 
               <div class="card-content">
                 <h2 class="card-word" id="cardWord">{{term}}</h2>
-                <div class="card-phonetic" id="cardphonetic">{{phonetic}}</div>
-                <!--i'm a little confused...what is "phonetic" v definition? also pls don't use divs for text, use a div with a p tag or smth inside of it. also, where is the back of the card?-->
+                <p class="card-phonetic" id="cardphonetic">{{phonetic}}</p>
+                <h2 class="card-definition" id="carddefinition">{{definition}}</h2>
+                <!--phonetic is for the pronunciation, idk that's the way they have their entries on LD-->
               </div>
+
+              <div class="card-layer card-back" id="card">
+                <button class="dictionary-entry" id="dictionaryentrybtn" aria-label="View Living Dictionary data/full entry">
+                  <svg></svg>
+                  </button>
+                <p class="card-defintion"</p>
+              </div>
+              {% endfor %}
             </article>
-      {% endfor %}
     {% endfor %}
       </div>
     </section>
-
-        <div class="controls">
-          <div class="lang-toggle">
-            <span id="lang-left">Sora</span>
-            <div class="switch" id="langSwitch" role="switch" aria-checked="false">
-              <div class="knob"></div>
-            </div>
-            <span id="lang-right">English</span>
-          </div>
+ <!-- Need to make buttons like Anki's -->    
+<!-- Language Toggle --> 
+<footer class="controls">
+        <div class="lang-toggle">
+            <button class="lang-btn lang-sora" id="langSora">Sora</button>
+            <button class="lang-btn lang-english active" id="langEnglish">English</button>
+        </div>
+    </footer>
 </body>
 </head>
 </html>

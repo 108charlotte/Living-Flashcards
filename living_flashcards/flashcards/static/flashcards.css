@@ -1,6 +1,9 @@
-/* fyi head is used for content that isn't visible on the page. I think u meant header */
+/* Page background */
+body {
+    background-color: #FCFCF7;
+}
 header {
-    background-color: FCFCF7;
+    background-color: #FCFCF7;
 }
 /* Header*/
 

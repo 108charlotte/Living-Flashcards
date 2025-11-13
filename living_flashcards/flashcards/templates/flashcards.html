@@ -10,15 +10,29 @@
     <header>
     <!-- Header with home and profile buttons -->
      <!--svgs are for Living Flashcard's logo right next to home, and then a profile svg next to profile -->
-        <svg></svg>
+        <!-- <svg></svg> -->
         <a href="templates/home.html" class="home-link"><h1>Home</h1></a>
-
-        <svg></svg>
-        <a href="templates/profile.html" class="home-link"><h2>Home</h2></a>
+        <!-- <svg></svg> -->
+        <a href="templates/profile.html" class="profile-link"><h2>Profile</h2></a> <!--fixed class and profile-->
 
     <!-- Progress bar showing progress through flashcards -->
     </header>
 
+    {% for category, cards in flashcard_data.items %}
+      <h4 class="deck-name">Category: {{category}}</h4>
+      <h5 class="deck-name-in-language">Fix data structure later to include name in language</h5>    
+      
+      <section class="cards-wrap">
+        {% for term, phonetic in cards.items %}
+          <div class="flashcard">
+            <h2 class="card-word">{{ term }}</h2>
+            <p class="card-phonetic">{{ phonetic }}</p>
+          </div>
+        {% endfor %}
+      </section>
+    {% endfor %}
+
+    {% comment %}
     {% for category, cards in flashcard_data.items %}
     <!-- Deck titles -->
       <h4 class="deck-name">Category: {{category}}</h4>
@@ -39,26 +53,28 @@
               </button>
 
               <div class="card-content">
-                <h2 class="card-word" id="cardWord">{{term}}</h2>
+                <h2 class="card-word flashcard" id="cardWord">{{term}}</h2><!-- added flashcard to the class, probably not the right fix -->
                 <p class="card-phonetic" id="cardphonetic">{{phonetic}}</p>
                 <h2 class="card-definition" id="carddefinition">{{definition}}</h2>
                 <!--phonetic is for the pronunciation, idk that's the way they have their entries on LD-->
               </div>
 
-              <div class="card-layer card-back" id="card">
+              <div class="card-layer card-back" id="card"> <!--shouldn't id be unique? already used card before...-->
                 <button class="dictionary-entry" id="dictionaryentrybtn" aria-label="View Living Dictionary data/full entry">
                   <svg></svg>
                   </button>
-                <p class="card-defintion"</p>
+                <p class="card-definition"></p> 
               </div>
-              {% endfor %}
             </article>
+      {% endfor %}
+          </div>
+      </section>
     {% endfor %}
-      </div>
-    </section>
+    {% endcomment %}
+
  <!-- Need to make buttons like Anki's -->    
 <!-- Language Toggle --> 
-<footer class="controls">
+    <footer class="controls">
         <div class="lang-toggle">
             <button class="lang-btn lang-sora" id="langSora">Sora</button>
             <button class="lang-btn lang-english active" id="langEnglish">English</button>

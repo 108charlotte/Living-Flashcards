@@ -1,27 +1,33 @@
 /* Page background */
 body {
     background-color: #FCFCF7;
+    margin: 0;
+    padding-top: 60px;
 }
 header {
     background-color: #FCFCF7;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    position: fixed;
 }
+
 /* Header*/
 
-header h1{ /* Home on the top left*/
+header h1 { /* Home on the top left*/
     color: black;
     font-size: 48px;
     text-align: left;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
-header h2{  /* "profile" on header*/
+header h2 {  /* "profile" on header*/
     color: black;
     font-size: 36px;
     text-align: right;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-header h3{ /* header stuff like "about", "contact", etc. */
+header h3 { /* header stuff like "about", "contact", etc. */
     color: black;
     font-size:24px;
     text-align: center;

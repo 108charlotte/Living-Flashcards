@@ -5,11 +5,11 @@ body {
     padding-top: 60px;
 }
 header {
-    background-color: #FCFCF7;
     justify-content: space-between;
     align-items: center;
     display: flex;
     position: fixed;
+    width: 100%;
 }
 
 /* Header*/
@@ -51,6 +51,12 @@ h5{ /* Deck Sub-title in Sora */
 }
 
 /* Flashcards */
+.cards-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 .card-word {
     color: white;
     font-size: 40px;
@@ -72,6 +78,7 @@ h5{ /* Deck Sub-title in Sora */
   height: 220px;
   position: relative;
   padding: 3rem 2rem;
+  margin: 0 auto;
 }
 
 /* Middle card */
@@ -92,4 +99,19 @@ h5{ /* Deck Sub-title in Sora */
   background-color: #9ED9AD;
   border-radius: 12px;
   z-index: 1;
+}
+
+/*Anki buttons*/
+.btn-container {
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    margin: 10px auto;
+}
+
+/*language toggle*/
+.lang-toggle {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }

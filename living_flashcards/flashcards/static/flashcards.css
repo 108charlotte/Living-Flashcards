@@ -51,11 +51,21 @@ h5{ /* Deck Sub-title in Sora */
 }
 
 /* Flashcards */
-.cards-wrap {
+
+/* .cards-wrap {
     display: flex;
     justify-content: center;
     width: 100%;
+} */
+
+/*to only show one flashcard, remove later and un-comment above*/
+.cards-wrap .flashcard {
+    display: none;
 }
+.cards-wrap .flashcard:first-child {
+    display: block;
+}
+/*end remove later section*/
 
 .card-word {
     color: white;

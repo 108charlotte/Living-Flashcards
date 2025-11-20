@@ -19,18 +19,21 @@
     </header>
 
     {% for category, cards in flashcard_data.items %}
-      <h4 class="deck-name">Category: {{category}}</h4>
-      <h5 class="deck-name-in-language">Fix data structure later to include name in language</h5>    
-      
-      <section class="cards-wrap">
-        {% for term, phonetic in cards.items %}
-          <div class="flashcard">
-            <h2 class="card-word">{{ term }}</h2>
-            <p class="card-phonetic">{{ phonetic }}</p>
-          </div>
-        {% endfor %}
-      </section>
+      {% if forloop.first %} <!-- only show the first category for now, remove later -->
+        <h4 class="deck-name">Category: {{category}}</h4>
+        <h5 class="deck-name-in-language">Fix data structure later to include name in language</h5>    
+
+        <section class="cards-wrap">
+            {% for term, phonetic in cards.items %}
+                <div class="flashcard">
+                    <h2 class="card-word">{{ term }}</h2>
+                    <p class="card-phonetic">{{ phonetic }}</p>
+                </div>
+            {% endfor %}
+        </section>
+      {% endif %}
     {% endfor %}
+
 
     {% comment %}
     {% for category, cards in flashcard_data.items %}
@@ -82,6 +85,7 @@
       
 <!-- Language Toggle --> 
     <footer class="controls">
+      
       <div class="lang-btn-container">
         <label class="toggle-switch">
           <input type="checkbox" id="toggle-input"/>

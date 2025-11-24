@@ -15,6 +15,18 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# global variable for decks, would be imported from JSON but here hardcoded
+# structurally, decks is a global variable which is an array
+# this array contains dictionaries with three keys: name, name_in_lang, and cards
+# name is just the name in english ig, then name_in_lang is the name in the language that is being studied
+# the cards key contains an array of dictionaries, where each dictionary contains two keys: term and definition
+# the values of those keys are the term and definition respectively 
+
+# NOT scalable for when we get a lot of decks, at that point we should just add indices or smth
+decks = [
+    {"name": "animals", "name_in_lang": "idkkkk", "cards": [{"term": "cat", "definition": "idk"}, {"term": "dog", "definition": "idk also"}]}, 
+    {"name": "greetings", "name_in_lang": "idkkkkkkk", "cards": [{"term": "salve (latin)", "definition": "hello"}, {"term": "something", "definition": "good morning"}]}
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -37,7 +49,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "flashcards"
+    "flashcards", 
+    "all_decks"
 ]
 
 MIDDLEWARE = [

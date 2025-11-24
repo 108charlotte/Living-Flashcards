@@ -2,7 +2,7 @@
 python -m venv .venv  
 if on mac: source .venv/bin/activate  
 if on windows: .venv\Scripts\activate
-pip install requirements.txt  
+pip install -r requirements.txt  
 
 To view the application: 
 1. navigate to the living_flashcards folder

@@ -5,7 +5,7 @@ from django.template import loader
 
 # Create your views here.
 
-def flashcards(request):
+def flashcards(request, slug):
   template = loader.get_template('flashcards.html')
   # replace with code to actually populate flashcards from .csv or API
   terms_and_definitions = {"category1": {"cat": "idk", "dog": "idk"}, "category2": {"no": "yes"}}

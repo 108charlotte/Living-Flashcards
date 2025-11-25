@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'all_decks.css' %}">
+    <title>All Decks View</title>
+  </head>
+  <body>
+    <h1>All Deck View</h1>
+    {% for deck in decks %}
+    <div class="deck" id="{{deck.name}}">
+        <p class="{{deck.name}}"">{{deck.name_in_lang}} ({{deck.name}})</p>
+    </div>
+    {% endfor %}
+    <script src="{% static 'all_decks.js' %}"></script>
+  </body>
+</html>

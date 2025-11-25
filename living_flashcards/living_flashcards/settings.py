@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # the values of those keys are the term and definition respectively 
 
 # NOT scalable for when we get a lot of decks, at that point we should just add indices or smth
-decks = [
+DECKS = [
     {"name": "animals", "name_in_lang": "idkkkk", "cards": [{"term": "cat", "definition": "idk"}, {"term": "dog", "definition": "idk also"}]}, 
     {"name": "greetings", "name_in_lang": "idkkkkkkk", "cards": [{"term": "salve (latin)", "definition": "hello"}, {"term": "something", "definition": "good morning"}]}
 ]

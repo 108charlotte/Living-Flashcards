@@ -1,5 +1,5 @@
-
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,72 +9,21 @@
 <body>
     <header>
     <!-- Header with home and profile buttons -->
-     <!--svgs are for Living Flashcard's logo right next to home, and then a profile svg next to profile -->
-        <!-- <svg></svg> -->
-        <a href="templates/home.html" class="home-link"><h1>Home</h1></a>
-        <!-- <svg></svg> -->
-        <a href="templates/profile.html" class="profile-link"><h2>Profile</h2></a> <!--fixed class and profile-->
 
     <!-- Progress bar showing progress through flashcards -->
     </header>
+    <h3>{{deck_info.name_in_lang}} ({{deck_info.name}})</h3>
 
-    {% for category, cards in flashcard_data.items %}
-      {% if forloop.first %} <!-- only show the first category for now, remove later -->
-        <h4 class="deck-name">Category: {{category}}</h4>
-        <h5 class="deck-name-in-language">Fix data structure later to include name in language</h5>    
-
-        <section class="cards-wrap">
-            {% for term, phonetic in cards.items %}
-                <div class="flashcard">
-                    <h2 class="card-word">{{ term }}</h2>
-                    <p class="card-phonetic">{{ phonetic }}</p>
-                </div>
-            {% endfor %}
-        </section>
-      {% endif %}
-    {% endfor %}
-
+    <div class="deck">
+      {% for card in deck_info.cards %}
+          <div class="card">
+            <p class="card-word">{{card.term}}</p>
+            <p class="card-definition">{{card.definition}}</p>
+          </div>
+      {% endfor %}
+    </div>
 
     {% comment %}
-    {% for category, cards in flashcard_data.items %}
-    <!-- Deck titles -->
-      <h4 class="deck-name">Category: {{category}}</h4>
-      <h5 class="deck-name-in-language">Fix data structure later to include name in language</h5>
-    <!-- Flashcards --> 
-      <section class="cards-wrap">
-          <div class="stack" id="stack">
-      {% for term, phonetic in cards.items %}
-            <div class="card-layer card-mid"></div>
-            <div class="card-layer card-back"></div>
-
-            <article class="card-layer card-front" id="card">
-              <button class="speaker" id="speakerbutton" aria-label="Play pronunciation">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 9v6h4l5 4V5L9 9H5z" />
-                  <path d="M16.5 8.5a3.5 3.5 0 0 1 0 7" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" />
-                </svg>
-              </button>
-
-              <div class="card-content">
-                <h2 class="card-word flashcard" id="cardWord">{{term}}</h2><!-- added flashcard to the class, probably not the right fix -->
-                <p class="card-phonetic" id="cardphonetic">{{phonetic}}</p>
-                <h2 class="card-definition" id="carddefinition">{{definition}}</h2>
-                <!--phonetic is for the pronunciation, idk that's the way they have their entries on LD-->
-              </div>
-
-              <div class="card-layer card-back" id="card"> <!--shouldn't id be unique? already used card before...-->
-                <button class="dictionary-entry" id="dictionaryentrybtn" aria-label="View Living Dictionary data/full entry">
-                  <svg></svg>
-                  </button>
-                <p class="card-definition"></p> 
-              </div>
-            </article>
-      {% endfor %}
-          </div>
-      </section>
-    {% endfor %}
-    {% endcomment %}
-
  <!-- Need to make buttons like Anki's -->
     <div class="btn-container">
       <button class="anki-btn">Again</button>
@@ -95,6 +44,7 @@
       </div>
 
     </footer>
+    {% endcomment %}
 
     <script src="{% static 'flashcards.js' %}"></script>
 </body>

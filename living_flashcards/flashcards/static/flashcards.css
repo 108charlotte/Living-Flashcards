@@ -1,0 +1,215 @@
+/* Page background */
+body {
+    background-color: #FCFCF7;
+    margin: 0;
+    padding-top: 20px;
+}
+header {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    position: fixed;
+    width: 100%;
+    padding: 10px 25px;
+    z-index: 1000;
+}
+
+header a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+/* Header*/
+
+header h1 { /* Home on the top left*/
+    color: black;
+    font-size: 30px;
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+header h2 {  /* "profile" on header*/
+    color: black;
+    font-size: 36px;
+    text-align: right;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header h3 { /* header stuff like "about", "contact", etc. */
+    color: black;
+    font-size:24px;
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/* Progress Bar*/
+.progress {
+  position: relative;
+  width: 210px;
+  height: 20px;
+  background-color: #E2E2DE;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress_fill {
+  background-color: #739F7F;
+  height: 100%;
+  width: 0; 
+  transition: all 0.2s;
+}
+
+.progress_text {
+  margin-left: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  color: black;
+}
+
+/* Deck Titles */
+
+h4{ /* Deck Title in English */
+    color: black;
+    font-size:50px;
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h5{ /* Deck Sub-title in Sora */
+    color: black;
+    font-size:30px;
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Flashcards */
+
+/* .cards-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+} */
+
+/*to only show one flashcard, remove later and un-comment above*/
+.cards-wrap .flashcard {
+    display: none;
+}
+.cards-wrap .flashcard:first-child {
+    display: block;
+}
+/*end remove later section*/
+
+.card-word {
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card-phonetic {
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.flashcard {
+  background-color: #739F7F;
+  border-radius: 12px;
+  width: 500px;
+  height: 220px;
+  position: relative;
+  padding: 3rem 2rem;
+  margin: 0 auto;
+}
+
+/* Middle card */
+.card-layer card-mid {
+  position: absolute;
+  width: 450px;
+  height: 40px;
+  background-color:#8FC29D;
+  border-radius: 12px;
+}
+/* Bottom card */
+.flashcard-stack::before {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 100%;
+  height: 100%;
+  background-color: #9ED9AD;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+/*Anki buttons*/
+.btn-container {
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+    gap: 20px;
+}
+
+.anki-btn {
+    font-size: 20px; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+/*language toggle */
+/*toggle switch credit: https://www.geeksforgeeks.org/css/how-to-create-toggle-switch-by-using-html-and-css/ */
+
+.lang-btn-container {
+    justify-content: center;
+    display: flex;
+    width: 100%;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #ccc; /* off-state color */
+    transition: background-color 0.3s;
+    border-radius: 24px;
+    width: 100%;
+    height: 100%;
+}
+
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 2px;
+    background-color: white;
+    transition: transform 0.3s;
+    border-radius: 50%
+}
+
+.toggle-switch input:checked + .slider {
+    background-color: #4CAF50; /* on-state color */
+}
+
+.toggle-switch input:checked + .slider::before {
+    transform: translateX(26px);
+}

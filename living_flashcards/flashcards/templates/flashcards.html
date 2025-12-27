@@ -15,7 +15,13 @@
     <h3>{{deck_info.name_in_lang}} ({{deck_info.name}})</h3>
 
     <div class="deck">
-      {% for card in deck_info.cards %}
+      {% for card in to_review %}
+          <div class="card">
+            <p class="card-word">{{card.term}}</p>
+            <p class="card-definition">{{card.definition}}</p>
+          </div>
+      {% endfor %}
+      {% for card in new %}
           <div class="card">
             <p class="card-word">{{card.term}}</p>
             <p class="card-definition">{{card.definition}}</p>

@@ -29,14 +29,19 @@
       {% endfor %}
     </div>
 
-    {% comment %}
  <!-- Need to make buttons like Anki's -->
+  <!--rn this 100% doesn't follow best-conventions-->
+  <form action="{% url 'flashcards:review_card' %}" method="POST">
+    <!--security thing-->
+    {% csrf_token %}
     <div class="btn-container">
-      <button class="anki-btn">Again</button>
-      <button class="anki-btn">Hard</button>
-      <button class="anki-btn">Good</button>
-      <button class="anki-btn">Easy</button>
+      <button type="submit" name="rating" value="again" class="anki-btn">Again</button>
+      <button type="submit" name="rating" value="hard" class="anki-btn">Hard</button>
+      <button type="submit" name="rating" value="good" class="anki-btn">Good</button>
+      <button type="submit" name="rating" value="easy" class="anki-btn">Easy</button>
     </div>
+    <input type="hidden" name="card_id" value="{{ card_id }}">
+  </form>
       
 <!-- Language Toggle --> 
     <footer class="controls">
@@ -50,7 +55,6 @@
       </div>
 
     </footer>
-    {% endcomment %}
 
     <script src="{% static 'flashcards.js' %}"></script>
 </body>

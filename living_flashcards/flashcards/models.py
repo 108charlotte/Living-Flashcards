@@ -20,5 +20,21 @@ class Card(models.Model):
     confidence_score = models.IntegerField(default=0)
     see_next = models.DateTimeField(null=True, blank=True)
 
+    # for spaced repetition, will have a func to convert this to the nearest character
+    # 0.05 = 5 minutes
+    # 0.10 = 10 minutes
+    # 0.15 = 15 minutes
+    # 0.20 = 20 minutes
+    # 0.30 = 30 minutes
+    # 1 = 1 day
+    # 2 = 2 days
+    # 3 = 3 days
+
+    # arbitrary value for max_digits, see above for why 2 decimal places, null until 1st review
+    easy_interval = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    good_interval = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    hard_interval = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    again_interval = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+
     def __str__(self): 
         return self.term

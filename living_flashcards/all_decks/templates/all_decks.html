@@ -10,12 +10,38 @@
     <title>All Decks View</title>
   </head>
   <body>
-    <h1>All Deck View</h1>
+    <nav class="navbar navbar-expanded-lg navbar-dark bg-dark">
+        <ul class="navbar-nav">
+          <!--copilot code to display logout only when user is authenticated-->
+          <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link nav-link">Logout</button>
+            </form>
+          </li>
+          {% else %}
+          <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="/signup">Sign up</a></li>
+          {% endif %}
+        </ul>
+    </nav>
+    {% if user.is_authenticated %}
+    <h1>Welcome {{ user.username }}!! </h1>
+    <p>Select a language you would like to study: </p>
+    <p>Select your language: </p>
+    <p>(the above are purely decorative for right now but are things we will need to consider)</p>
+    <p>Click a deck below to study! </p>
+    <!--later there will be settings here for the language-->
     {% for deck in decks %}
     <div class="deck" id="{{deck.name}}">
         <p class="{{deck.name}}"">{{deck.name_in_lang}} ({{deck.name}})</p>
     </div>
     {% endfor %}
-    <script src="{% static 'all_decks.js' %}"></script>
+    {% else %}
+    <h1>Welcome to Living Flashcards! </h1>
+    <p><a href="/login">Log in</a> or <a href="/sign-up">sign up</a> to get started! </p>
+    {% endif %}
   </body>
 </html>

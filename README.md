@@ -10,3 +10,11 @@ To view the application:
 3. add /flashcards/ to the end of the url of the window which appears
 
 - quick note: if we add search functionality it will be a new app (flashcards is another example of an app), so we probably shouldn't code everything in the flashcards.html file (just the figma for flashcards)
+
+# Resources: 
+python spaced repetition library: https://github.com/open-spaced-repetition/py-fsrs (requires MIT license attribution)
+setting up auth in django: https://docs.djangoproject.com/en/6.0/topics/auth/
+
+test user info: 
+TestUser
+testingtesting123

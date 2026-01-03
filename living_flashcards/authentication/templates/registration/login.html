@@ -1,0 +1,11 @@
+{% extends 'authentication/base.html' %}
+{% block title %}Log In{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h1>Log In</h1>
+<form method="post">
+    {% csrf_token %}{{form|crispy}}
+    <p>Don't have an account with Living Flashcards yet? Create one <a href="/sign-up">here</a></p>
+    <button class="btn btn-success" type="submit">Login</button>
+</form>
+{% endblock %}

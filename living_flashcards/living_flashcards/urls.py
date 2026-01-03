@@ -21,5 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('flashcards/', include('flashcards.urls')),
-    path('', include('all_decks.urls'))
+    path('', include('all_decks.urls')), 
+    path('', include('django.contrib.auth.urls')), # Django's built-in auth views (login/logout)
+    path('', include('authentication.urls')),  # Custom views (sign-up)
 ]

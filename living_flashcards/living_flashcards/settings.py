@@ -11,28 +11,19 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# global variable for decks, would be imported from JSON but here hardcoded
-# structurally, decks is a global variable which is an array
-# this array contains dictionaries with three keys: name, name_in_lang, and cards
-# name is just the name in english ig, then name_in_lang is the name in the language that is being studied
-# the cards key contains an array of dictionaries, where each dictionary contains two keys: term and definition
-# the values of those keys are the term and definition respectively 
-
-# NOT scalable for when we get a lot of decks, at that point we should just add indices or smth
-DECKS = [
-    {"name": "animals", "name_in_lang": "idkkkk", "cards": [{"term": "cat", "definition": "idk"}, {"term": "dog", "definition": "idk also"}]}, 
-    {"name": "greetings", "name_in_lang": "idkkkkkkk", "cards": [{"term": "salve (latin)", "definition": "hello"}, {"term": "something", "definition": "good morning"}]}
-]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-psvvmfc8ydkj-y#!7sthck7*ckfrf3z6rcfw0=qt*t0wp+9ba!"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -50,7 +41,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "flashcards", 
-    "all_decks"
+    "all_decks", 
+    "authentication", 
+    "crispy_forms",
+    "crispy_bootstrap4"
 ]
 
 MIDDLEWARE = [
@@ -89,7 +83,11 @@ WSGI_APPLICATION = "living_flashcards.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": "living_flashcards_auth",
+        "USER": "living_flashcards_auth_user", 
+        "PASSWORD": os.getenv("DB_PASSWORD"), 
+        "HOST": os.getenv("DB_HOST"), 
+        "PORT": "5432"
     }
 }
 
@@ -134,3 +132,9 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_REDIRECT_URL = '/home'
+LOGOUT_REDIRECT_URL = '/login'
+
+# crispy forms config
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

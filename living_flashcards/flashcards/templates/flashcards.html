@@ -14,47 +14,25 @@
     </header>
     <h3>{{deck_info.name_in_lang}} ({{deck_info.name}})</h3>
 
-    <div class="deck">
-      {% for card in to_review %}
-          <div class="card">
-            <p class="card-word">{{card.term}}</p>
-            <p class="card-definition">{{card.definition}}</p>
-          </div>
-      {% endfor %}
-      {% for card in new %}
-          <div class="card">
-            <p class="card-word">{{card.term}}</p>
-            <p class="card-definition">{{card.definition}}</p>
-          </div>
-      {% endfor %}
-    </div>
+    {% if card %}
+      <p class="card">{{ card.card_id.term }} ({{ card.card_id.definition }})</p>
+    {% else %}
+      <p>No cards to review.</p>
+    {% endif %}
 
  <!-- Need to make buttons like Anki's -->
   <!--rn this 100% doesn't follow best-conventions-->
-  <form action="{% url 'flashcards:review_card' %}" method="POST">
-    <!--security thing-->
+  {% if card %}
+  <form action="{% url 'flashcards:review_card' %}" method="post">
+    <!--security thing so db doesn't get mad-->
     {% csrf_token %}
-    <div class="btn-container">
-      <button type="submit" name="rating" value="again" class="anki-btn">Again</button>
-      <button type="submit" name="rating" value="hard" class="anki-btn">Hard</button>
-      <button type="submit" name="rating" value="good" class="anki-btn">Good</button>
-      <button type="submit" name="rating" value="easy" class="anki-btn">Easy</button>
-    </div>
-    <input type="hidden" name="card_id" value="{{ card_id }}">
+    <input type="hidden" name="card_id" value="{{ card.card_id.card_id }}"> <!--this is the id for the cardtouser object which is the object storing a specific card's data for a specific user-->
+    <button type="submit" name="rating" value="again">Again</button>
+    <button type="submit" name="rating" value="hard">Hard</button>
+    <button type="submit" name="rating" value="good">Good</button>
+    <button type="submit" name="rating" value="easy">Easy</button>
   </form>
-      
-<!-- Language Toggle --> 
-    <footer class="controls">
-      
-      <div class="lang-btn-container">
-        <label class="toggle-switch">
-          <input type="checkbox" id="toggle-input"/>
-          <span class="slider"></span>
-          <span class="toggle-label">Sora-English</span>
-        </label>
-      </div>
-
-    </footer>
+  {% endif %}
 
     <script src="{% static 'flashcards.js' %}"></script>
 </body>

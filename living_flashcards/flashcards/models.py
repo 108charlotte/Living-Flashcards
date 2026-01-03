@@ -40,4 +40,4 @@ class CardToUser(models.Model):
     def get_card(self): 
         if self.review_card:
             return Card.from_dict(self.review_card)
-        return Card()
+        return Card() # if first call aka no card exists yet

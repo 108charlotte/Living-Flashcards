@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST
 
 # for fsrs
 from fsrs import Scheduler, Card, Rating, ReviewLog
-from datetime import datetime, timezone
+from datetime import datetime
 
 # Create your views here.
 
@@ -15,19 +15,32 @@ scheduler = Scheduler()
 
 # display correct cards
 def flashcards(request, slug):
-  template = loader.get_template('flashcards.html')
   # take slug and use to get deck to pass to template
   deck = get_object_or_404(Deck, name=slug)
-  now = timezone.now()
 
-  # all cardtouser cards for current user, code written by Copilot
-  user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user)
-  # lte = less than or equal to, gets cards whose next review date is in the past
-  to_review = user_cards.filter(see_next__lte=now).order_by('see_next')
+  # Copilot code to create cardtouser instances any unseen cards
+  existing_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user).values_list('card_id', flat=True)
+  new_cards = deck.cards.exclude(id__in=existing_cards)
+  
+  for card_info in new_cards:
+    CardToUser.objects.create(card_id=card_info, user_id=request.user)
+  
+  # end copilot
+
+  to_review = get_cards_to_review(request, deck)
 
   start_card = to_review.first()
-  # add some sort of error saying deck couldn't be found
-  return render(request, 'flashcards.html', {'deck_info': deck, 'to_review': to_review, 'card_id': start_card.card_id.card_id})
+
+  # add some sort of error saying card couldn't be found/deck couldn't be found if its the case
+  return render(request, 'flashcards.html', {'deck_info': deck, 'card': start_card})
+
+def get_cards_to_review(request, deck): 
+  now = timezone.now()
+  # all cardtouser cards for current user, code written by Copilot
+  user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user)
+  # sorted by review time, lte = less than or equal to, gets cards whose next review date is in the past
+  to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True)).order_by('see_next')
+  return (to_review)
 
 
 # takes input from HTML form
@@ -39,37 +52,29 @@ def review_card(request):
   # tbh idk why i have this here its just what came to mind
   assert user_confidence_rating in ["easy", "good", "hard", "again"]
   # need to get the current card on display
-  card = get_object_or_404(CardToUser, card_id=card_id, user_id=request.user.id)
+  card = get_object_or_404(CardToUser, card_id__card_id=card_id, user_id=request.user.id)
   # now update next reviews for card + spacing
-  review_card = card.review_card
+  review_card = card.get_card() # creates fsrs card object w/ data
 
   if user_confidence_rating == "easy": 
     rating = Rating.Easy
-  if user_confidence_rating == "good": 
+  elif user_confidence_rating == "good": 
     rating = Rating.Good
-  if user_confidence_rating == "hard": 
+  elif user_confidence_rating == "hard": 
     rating = Rating.Hard
   else: 
     rating = Rating.Again
 
-  scheduler.review_card(review_card, rating)
-  
+  updated_card, review_log = scheduler.review_card(review_card, rating)
+  # save new card data
+  card.update_json(updated_card)
+  card.save()
 
+  deck = get_object_or_404(CardInfo, card_id=card_id).deck
 
+  # re-load cards to review
+  to_review = get_cards_to_review(request, deck)
 
-"""
-from fsrs import Scheduler, Card, Rating, ReviewLog
-from datetime import datetime, timezone
+  start_card = to_review.first()
 
-scheduler = Scheduler()
-
-card = Card()
-
-rating = Rating.Good
-
-card, review_log = scheduler.review_card(card, rating)
-
-due = card.due
-
-time_delta = due - datetime.now(timezone.utc)
-"""
+  return render(request, 'flashcards.html', {'deck_info': deck, 'card': start_card})

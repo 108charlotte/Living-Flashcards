@@ -15,6 +15,4 @@ To view the application:
 python spaced repetition library: https://github.com/open-spaced-repetition/py-fsrs (requires MIT license attribution)
 setting up auth in django: https://docs.djangoproject.com/en/6.0/topics/auth/
 
-test user info: 
-TestUser
-testingtesting123
+CHECK MY TODO FILE FOR A LOT MORE INFO

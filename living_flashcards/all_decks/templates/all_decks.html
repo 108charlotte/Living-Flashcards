@@ -35,9 +35,9 @@
     <p>Click a deck below to study! </p>
     <!--later there will be settings here for the language-->
     {% for deck in decks %}
-    <div class="deck" id="{{deck.name}}">
-        <p class="{{deck.name}}"">{{deck.name_in_lang}} ({{deck.name}})</p>
-    </div>
+    <a href="{% url 'flashcards:flashcards' deck.name %}">
+      <p class="deck">{{ deck.name_in_lang }} ({{ deck.name }})</p>
+    </a>
     {% endfor %}
     {% else %}
     <h1>Welcome to Living Flashcards! </h1>

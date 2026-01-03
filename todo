@@ -2,7 +2,8 @@
 - [X] finish setting up auth
 - [X] connect users to card spaced repetition data
 - [X] update cards after review
-- [ ] display next card after review
+- [X] display next card after review
+- [ ] need to handle missing cards and decks more gracefully and make more polished
 
 BIGGEST ISSUE RIGHT NOW: 
 how to accomdate different languages for term/definition of each card? 

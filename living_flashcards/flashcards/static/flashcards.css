@@ -4,3 +4,12 @@
     border-radius: 10px; 
     margin: 10px 0px; 
 }
+
+.button-link, button {
+    text-decoration: none; 
+    color: black; 
+    border: 2px solid gray; 
+    background-color: lightgray;
+    padding: 5px; 
+    border-radius: 5px; 
+}

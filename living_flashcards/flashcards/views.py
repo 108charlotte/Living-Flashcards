@@ -42,7 +42,6 @@ def get_cards_to_review(request, deck):
   to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True)).order_by('see_next')
   return (to_review)
 
-
 # takes input from HTML form
 # updates current card's stats and moves on to next one
 @require_POST

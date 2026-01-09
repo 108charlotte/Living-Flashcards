@@ -8,6 +8,7 @@ import json
 class Deck(models.Model): 
     name = models.CharField(max_length=50)
     name_in_lang = models.CharField(max_length=50)
+    cards_to_review = models.IntegerField() # will get set in view
 
     def __str__(self): 
         return self.name

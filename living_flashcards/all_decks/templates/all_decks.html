@@ -35,9 +35,19 @@
     <p>Click a deck below to study! </p>
     <!--later there will be settings here for the language-->
     {% for deck in decks %}
-    <a href="{% url 'flashcards:flashcards' deck.name %}">
-      <p class="deck">{{ deck.name_in_lang }} ({{ deck.name }})</p>
-    </a>
+      {% if deck.cards_to_review > 0 %}
+      <div class="deck">
+        <a href="{% url 'flashcards:flashcards' deck.name %}">{{ deck.name_in_lang }} ({{ deck.name }}): {{ deck.cards_to_review }} to review</a>
+      </div>
+      {% endif %}
+    {% endfor %}
+    <p>No cards left to review: </p>
+    {% for deck in decks %}
+      {% if deck.cards_to_review == 0 %}
+      <div class="deck">
+        <a href="{% url 'flashcards:flashcards' deck.name %}">{{ deck.name_in_lang }} ({{ deck.name }}): {{ deck.cards_to_review }} to review</a>
+      </div>
+      {% endif %}
     {% endfor %}
     {% else %}
     <h1>Welcome to Living Flashcards! </h1>

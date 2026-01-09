@@ -29,8 +29,17 @@
     </nav>
     {% if user.is_authenticated %}
     <h1>Welcome {{ user.username }}!! </h1>
+    <p>Select a language: </p> <!--i'd love any tips on a better way to say this--I mean the user's language they would like to have their card definitions in-->
+    <form id="user-language-form">
+      <label for="user-language-dropdown">Select a language: </label>
+      <select name="user-language">
+        {% for available_language in available_languages %}
+          <option value={available_language}>{available_language}</option>
+        {% endfor %}
+      </select>
+    </form>
     <p>Select a language you would like to study: </p>
-    <p>Select your language: </p>
+
     <p>(the above are purely decorative for right now but are things we will need to consider)</p>
     <p>Click a deck below to study! </p>
     <!--later there will be settings here for the language-->

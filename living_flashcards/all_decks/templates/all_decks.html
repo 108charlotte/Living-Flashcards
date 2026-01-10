@@ -34,7 +34,7 @@
       <label for="user-language-dropdown">Select a language: </label>
       <select name="user-language">
         {% for available_language in available_languages %}
-          <option value={available_language}>{available_language}</option>
+          <option value={{available_language}}>{{available_language}}</option>
         {% endfor %}
       </select>
     </form>
@@ -42,7 +42,7 @@
       <label for="target-language-dropdown">Select a language to study: </label>
       <select name="target-language">
         {% for available_language_to_learn in available_languages_to_learn %}
-          <option value={available_language_to_learn}>{available_language_to_learn}</option>
+          <option value={{available_language_to_learn}}>{{available_language_to_learn}}</option>
         {% endfor %}
       </select>
     </form>

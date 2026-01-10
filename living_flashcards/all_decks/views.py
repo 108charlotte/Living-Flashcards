@@ -15,5 +15,5 @@ def all_decks(request):
         now = timezone.now()
         user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user)
         to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True))
-        deck.cards_to_review = to_review.count()  # Set count for template
+        deck.cards_to_review = to_review.count()  # set count for template
     return render(request, 'all_decks.html', {'decks': decks, 'available_languages': ["English"], 'available_languages_to_learn': ["Sora"]})

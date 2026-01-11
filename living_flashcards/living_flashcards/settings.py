@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "all_decks", 
     "authentication", 
     "crispy_forms",
-    "crispy_bootstrap4"
+    "crispy_bootstrap4", 
+    'lang_selection', 
 ]
 
 MIDDLEWARE = [
@@ -135,6 +136,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login'
+
+# diff redirect than login for config
+ACCOUNT_SIGNUP_REDIRECT_URL = 'langselection/'
 
 # crispy forms config
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

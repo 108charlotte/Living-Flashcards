@@ -12,7 +12,7 @@
             <ul class="navbar-nav">
                 <!--copilot code to only display logout button when user is logged in-->
                 {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'all_decks' %}">Home</a></li>
                 <li class="nav-item">
                     <form method="post" action="{% url 'logout' %}" style="display: inline;">
                         {% csrf_token %}
@@ -21,7 +21,7 @@
                 </li>
                 {% else %}
                 <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="/signup">Sign up</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'authentication:sign-up' %}">Sign up</a></li>
                 {% endif %}
             </ul>
         </nav>
@@ -30,7 +30,7 @@
             <p>If you already have an account on Living Flashcards: </p>
             <button href="/login">Log in</button>
             <p>Or if you don't</p>
-            <button href="/signup">Sign up</button>
+            <a href="{% url 'authentication:sign-up' %}"><button>Sign up</button></a>
             {% endblock %}
         </div>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>

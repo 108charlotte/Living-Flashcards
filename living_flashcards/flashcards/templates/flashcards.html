@@ -28,10 +28,10 @@
     <!--security thing so db doesn't get mad-->
     {% csrf_token %}
     <input type="hidden" name="card_id" value="{{ card.card_id.card_id }}"> <!--this is the id for the cardtouser object which is the object storing a specific card's data for a specific user-->
-    <button type="submit" name="rating" value="again">Again</button>
-    <button type="submit" name="rating" value="hard">Hard</button>
-    <button type="submit" name="rating" value="good">Good</button>
-    <button type="submit" name="rating" value="easy">Easy</button>
+    <button type="submit" name="rating" value="again">Again: {{review_intervals.again}}</button>
+    <button type="submit" name="rating" value="hard">Hard: {{review_intervals.hard}}</button>
+    <button type="submit" name="rating" value="good">Good: {{review_intervals.good}}</button>
+    <button type="submit" name="rating" value="easy">Easy: {{review_intervals.easy}}</button>
   </form>
   {% endif %}
 

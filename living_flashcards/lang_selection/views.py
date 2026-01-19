@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from .models import UserLanguage
 
 # Create your views here.
 def langselection(request): 
@@ -6,5 +7,8 @@ def langselection(request):
 
 def setlanguage(request): 
     if request.method == "POST": 
-        # logic to set language for user model instance
+        if request.user.is_authenticated: 
+            language = request.POST.get('language', 'en')
+            UserLanguage.objects.update_or_create(djangousermodel=request.user, defaults={'language': language})
+
         return redirect('all_decks')

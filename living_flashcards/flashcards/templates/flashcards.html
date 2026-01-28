@@ -7,31 +7,90 @@
     <link rel="stylesheet" href="{% static 'flashcards.css' %}">
 </head>
 <body>
-    <header>
-    <!-- Header with home and profile buttons -->
 
-    <!-- Progress bar showing progress through flashcards -->
+  <nav class="navbar">
+      <div class="navbar-left">
+        <img src="#" alt="Living Flashcards logo"> <!--add svgs later?-->
+        <span class="brand">Living Flashcards</span>
+      </div>
+        <ul class="navbar-nav"> <!--add real links later-->
+          <li><a href="#">Donate</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <!--copilot code to display logout only when user is authenticated-->
+          <li class="nav-item"><a class="nav-link" href="{% url 'all_decks' %}">Home</a></li>
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link nav-link">Logout</button>
+            </form>
+          </li>
+          {% else %}
+          <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'authentication:sign-up' %}">Sign up</a></li>
+          {% endif %}
+        </ul>
+    </nav>
+
+    <header>
+      <div class="header-center">
+      <!-- Progress bar showing progress through flashcards -->
+        <div class="progress">
+          <div class="progress_fill"></div><!-- need django to get it to actually fill-->
+        </div>
+        <span class="progress_text">{{currentIndex}}/{{totalCards}}</span> <!-- I think the weird slash display is b/c this is empty-->
+      </div>
     </header>
+
     <h3>{{deck_info.name_in_lang}} ({{deck_info.name}})</h3>
 
     {% if card %}
+
+     <div class="card-stack">
+                <div class="card card-back"></div>
+                <div class="card card-mid"></div>
+              <div class="flashcard">
+                  <h2 class="card-word">{{ card.card_id.term }}</h2>
+                  <p class="card-phonetic">{{ card.card_id.phonetic }}</p>
+                  <p class="card">{{card.card_id.definition}}</p>
+      </div>
+              </div>
+    {% else %}
+      <p>No cards to review.</p>
+      <a href="/" class="button-link">Go home</a>
+
+    {% endif %}
+
+{% comment %}
       <p class="card">{{ card.card_id.term }} ({{ card.card_id.definition }})</p>
     {% else %}
       <p>No cards to review.</p>
       <a href="/" class="button-link">Go home</a>
-    {% endif %}
+{% endcomment %}
 
- <!-- Need to make buttons like Anki's -->
   <!--rn this 100% doesn't follow best-conventions-->
   {% if card %}
-  <form action="{% url 'flashcards:review_card' %}" method="post">
+  <form action="{% url 'flashcards:review_card' %}" method="post" class="btn-container">
     <!--security thing so db doesn't get mad-->
     {% csrf_token %}
+    <!-- Hidden review intervals -->
+  <input type="hidden" name="interval_again" value="{{ review_intervals.again }}">
+  <input type="hidden" name="interval_hard" value="{{ review_intervals.hard }}">
+  <input type="hidden" name="interval_good" value="{{ review_intervals.good }}">
+  <input type="hidden" name="interval_easy" value="{{ review_intervals.easy }}">
+  
+  <button type="submit" name="rating" value="again" class="anki-btn">Again</button>
+  <button type="submit" name="rating" value="hard" class="anki-btn">Hard</button>
+  <button type="submit" name="rating" value="good" class="anki-btn">Good</button>
+  <button type="submit" name="rating" value="easy" class="anki-btn">Easy</button>
+    {% comment %} <!-- wanted to save this just in case-->
     <input type="hidden" name="card_id" value="{{ card.card_id.card_id }}"> <!--this is the id for the cardtouser object which is the object storing a specific card's data for a specific user-->
-    <button type="submit" name="rating" value="again">Again: {{review_intervals.again}}</button>
-    <button type="submit" name="rating" value="hard">Hard: {{review_intervals.hard}}</button>
-    <button type="submit" name="rating" value="good">Good: {{review_intervals.good}}</button>
-    <button type="submit" name="rating" value="easy">Easy: {{review_intervals.easy}}</button>
+    <button type="submit" name="rating" value="again" class="anki-btn">Again: {{review_intervals.again}}</button>
+    <button type="submit" name="rating" value="hard" class="anki-btn">Hard: {{review_intervals.hard}}</button>
+    <button type="submit" name="rating" value="good" class="anki-btn">Good: {{review_intervals.good}}</button>
+    <button type="submit" name="rating" value="easy" class="anki-btn">Easy: {{review_intervals.easy}}</button>
+    {% endcomment %}
   </form>
   {% endif %}
 

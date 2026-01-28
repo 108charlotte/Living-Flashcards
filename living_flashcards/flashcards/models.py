@@ -20,6 +20,7 @@ class CardInfo(models.Model):
     # for unique identifiers for each card
     card_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     term = models.CharField(max_length=100)
+    phonetic = models.CharField(max_length=100, blank=True)
     definition = models.TextField()
     
     def __str__(self): 

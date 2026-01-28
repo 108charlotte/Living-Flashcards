@@ -5,6 +5,13 @@
 <head>
     <title>Living Flashcards</title>
     <link rel="stylesheet" href="{% static 'flashcards.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<!--Fonts-->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -14,7 +21,7 @@
         <span class="brand">Living Flashcards</span>
       </div>
         <ul class="navbar-nav"> <!--add real links later-->
-          <li><a href="#">Donate</a></li>
+          <li><a href="https://www.flipcause.com/secure/cause_pdetails/NTQ3NDQ">Donate</a></li>
           <li><a href="#">About</a></li>
           <li><a href="#">Contact</a></li>
           <!--copilot code to display logout only when user is authenticated-->
@@ -50,10 +57,12 @@
      <div class="card-stack">
                 <div class="card card-back"></div>
                 <div class="card card-mid"></div>
-              <div class="flashcard">
+              <div class="card">
+                  <button class="speaker-btn" id="speakerBtn" title="Hear the word">
+                    <img src="{% static 'speaker_icon.svg' %}" alt="Speaker icon">
+                  </button>
                   <h2 class="card-word">{{ card.card_id.term }}</h2>
                   <p class="card-phonetic">{{ card.card_id.phonetic }}</p>
-                  <p class="card">{{card.card_id.definition}}</p>
       </div>
               </div>
     {% else %}

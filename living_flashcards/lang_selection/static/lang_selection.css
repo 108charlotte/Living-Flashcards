@@ -1,0 +1,96 @@
+body {
+    background-color: #FCFCF7;
+    margin: 0;
+    padding-top: 20px;
+}
+
+/* Navbar styles */
+
+/* Hide dropdown by default */
+.nav-item.dropdown .dropdown-menu {
+    display: none;
+    position: absolute;      /* position relative to Profile */
+    top: 100%;               /* directly below Profile */
+    left: 0;
+    list-style: none;        /* remove bullet points */
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 120px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+/* Show dropdown only on hover */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Style items in dropdown */
+.nav-item.dropdown .dropdown-menu a,
+.nav-item.dropdown .dropdown-menu button {
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+}
+
+/* Hover effect for items */
+.nav-item.dropdown .dropdown-menu a:hover,
+.nav-item.dropdown .dropdown-menu button:hover {
+    background-color: #f0f0f0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #000000;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 150px;
+  height: auto;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;  
+}
+
+.navbar-right a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 40px 24px;
+}

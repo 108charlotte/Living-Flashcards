@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import dj_database_url
 
 load_dotenv()
 
@@ -82,14 +83,7 @@ WSGI_APPLICATION = "living_flashcards.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "living_flashcards_auth",
-        "USER": "living_flashcards_auth_user", 
-        "PASSWORD": os.getenv("DB_PASSWORD"), 
-        "HOST": os.getenv("DB_HOST"), 
-        "PORT": "5432"
-    }
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
 
 

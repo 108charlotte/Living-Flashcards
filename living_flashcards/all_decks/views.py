@@ -20,4 +20,4 @@ def all_decks(request):
     else: 
         for deck in decks:
             deck.cards_to_review = 0
-    return render(request, 'all_decks.html', {'decks': decks, 'available_languages': ["English"], 'available_languages_to_learn': ["Sora"]})
+    return render(request, 'all_decks.html', {'decks': decks, 'available_languages': ["English"], 'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"]})

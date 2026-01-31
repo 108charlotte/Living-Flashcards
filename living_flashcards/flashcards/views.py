@@ -7,7 +7,6 @@ from django.views.decorators.http import require_POST
 
 # for fsrs
 from fsrs import Scheduler, Card, Rating, ReviewLog
-from datetime import datetime
 
 # Create your views here.
 

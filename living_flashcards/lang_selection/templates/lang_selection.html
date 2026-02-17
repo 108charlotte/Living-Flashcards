@@ -1,32 +1,16 @@
+{%extends 'base.html' %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{% block title %}Living Flashcards{% endblock %}
+
+{% block content %}
+
+{%block extra_css %}
   <link rel="stylesheet" href="{% static 'lang_selection.css' %}">
-    <title>Living Flashcards</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expanded-lg navbar-dark bg-dark">
-        <ul class="navbar-nav">
-          <!--copilot code to display logout only when user is authenticated-->
-          <li class="nav-item"><a class="nav-link" href="{% url 'all_decks' %}">Home</a></li>
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <form method="post" action="{% url 'logout' %}" style="display: inline;">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-link nav-link">Logout</button>
-            </form>
-          </li>
-          {% else %}
-          <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'authentication:sign-up' %}">Sign up</a></li>
-          {% endif %}
-        </ul>
-    </nav>
+{% endblock extra_css %}
+
+
     {% if user.is_authenticated %}
     <h1>Select a language: </h1>
     <p>This is the language for the card definitions and user interface, not the language(s) that you would like to study!</p>
@@ -44,5 +28,4 @@
     <h1>Please create an account! </h1>
     <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started! </p>
     {% endif %}
-  </body>
-</html>
+{% endblock content %}

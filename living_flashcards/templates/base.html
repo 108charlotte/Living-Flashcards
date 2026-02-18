@@ -13,6 +13,7 @@
 <body>
 
   <!--Navbar-->
+ {% block navbar %}
  <nav class="navbar">
       <div class="navbar-left">
         <a href="/">
@@ -97,7 +98,8 @@
           {% endif %}
         </ul>
       </li>
-    </nav>
+  </nav>
+ {% endblock navbar%}
 
   <!--main-->
   <main class="content">

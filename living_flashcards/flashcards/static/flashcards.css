@@ -32,6 +32,7 @@
   color: black;
 }
 
+/*card styles*/
 .card-stack {
   position: relative;
   width: 450px;
@@ -43,17 +44,21 @@
     position: absolute;
     border-radius: 12px;
     background-color: #739F7F;
-  width: 450px;
-  height: 400px;
-  z-index: 3;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
+    width: 450px;
+    height: 350px;
+    z-index: 3;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: white;
+}
+
+.clickable-card {
+    cursor: pointer;
 }
 
 .card-word {
@@ -81,16 +86,16 @@
 
 .stack-mid {
     background-color: #8FC29D;
-    top: 22px;
-    width: 450px;
-    height: 400px;
+    top: 30px;
+    width: 400px;
+    height: 350px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
 }
 
 .stack-back {
-  top: 44px;
+  top: 102px;
   z-index: 1;
   background-color: #9ED9AD;
   width: 350px;

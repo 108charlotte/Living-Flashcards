@@ -21,3 +21,9 @@ def all_decks(request):
         for deck in decks:
             deck.cards_to_review = 0
     return render(request, 'all_decks.html', {'decks': decks, 'available_languages': ["English"], 'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"]})
+
+def about(request):
+    return render(request, "about.html")
+
+def contact(request):
+    return render(request, "contact.html")

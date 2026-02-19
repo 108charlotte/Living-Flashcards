@@ -59,16 +59,17 @@
               <image id="image0_19_449" width="90" height="90" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAAD5ElEQVR4nO2dSWsUQRTHfxA1EberG6ioX8DlZMQgUYgKxoMK0YD7JUKiomdvatAoAb+GWw4G8wGiosSoBy+KB3fN4skEYkpKnhCH6TA63VWve94P/pdhlvf+DNVV1a9eg2EYhmEYhmEYhlExdcBm4DjQDdwBngOvgVFgUjQqrz2X91yRz2yS7zDKsBLoAvqA74CrUuPAPaATWEGNMx9oBwaAnymYm6Qp4AFwGGighlgo/7T3GZqbpC/ARWAJBWYucB4YiWBwqXwM5ySmQrEVeKHA4FK9ApopAH5MvAlMKzA1ST62XqCenLIaeKjASFehngLryBnNKU3TXGD5aeF2csI+4IcC09x/yi+GDqKcUxnPiV0g+RxOopRWWRzENsmlaPYBlOHHtQkF5rgMhpGdKGF9Ti987h8ukGtjm1wv0yJXcD2JPc++qcAEF0h+UROFbRFWfINAj2gw8G/7XBtDm+w3Y14GTHIMaCkTxy4ZQ0PF4W8yzAlp9PnA/6aWWWLZHTiWM6FMXhR4q3OwgpgeBYznq+ypZ86FwP+gqxXEdC1wTH4vO/PbT58UGt0TOKYPWd8Waw+ckFM4dPzRoSyNHoiQkJPZRRJ7IsXUn2VJQKyduXGZXZQzOeT0bqb8BtqyLIzuipSQm6FHMh5fBx4riOd0Fkb3KUjMKdOttE2uk9VZ7MScMo2lXX62WUFSTqk2pmn0CQUJOaU6mqbR3QoSckp1KU2j7ypIyNXCBXFYQUJOqYbSNPqtgoSSiB3XG1JEQwVoErHj8tumqTGpIKEkYsflyyxSw4wmjNE2dBBm6LCLIWEuhhqmd0kUanqnYcGSRKEWLBqW4EkUagl+XEFCScSO6wgF2yZNInZcGyjYxn8Shdr4R85Wm9FkeysLOVZsRvOXOrIwennkMypJxIrHe7GUjPBdAsxofus+BSsJc0qNbsvS6IZI7R+cMqM/SsFnoYrQnUKjzxKABbI1WKtGfwtViI4UYteq0Z0ExB+YeRYhSRdZL2J0rWlU3vDEpaxpOfIXhV4FBrhAukFE6uX4riu4HgPziMzaiFX3LtAO3RqU0JTzrjMuQb7MYgfK2FvAxij7UcrJgrT6mZKacNW05nwYmdDY4me21j/jOb3wNZEzVkXoqeGq0BMNLX2qmWf3Kl9BTstiJPo8Oa3l+rACU0vlY9pCwZgjTUVibLGW6qvswgXtJhOaBZLkuwgGf5ZG3YupIRqkFUN/xgudKbmR2lZrrefLsUwOsN+Wp1FUa+6ofFdHliUBeadO6tmOAZelGmhIHgUyMuPxICPy2pC857KcYvWftceDGIZhGIZhGIZhUCG/AG5HFrcVEg5bAAAAAElFTkSuQmCC"/>
               </defs>
             </svg>
-          <li><a href="#">About</a></li><!--don't forget to add real links-->
+          <li><a href="{% url 'all_decks:about' %}">About</a></li><!--don't forget to add real links-->
           
             <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 18.3333V3.33333C2 2.875 2.19583 2.48264 2.5875 2.15625C2.97917 1.82986 3.45 1.66667 4 1.66667H20C20.55 1.66667 21.0208 1.82986 21.4125 2.15625C21.8042 2.48264 22 2.875 22 3.33333V13.3333C22 13.7917 21.8042 14.184 21.4125 14.5104C21.0208 14.8368 20.55 15 20 15H6L2 18.3333ZM5.15 13.3333H20V3.33333H4V14.2708L5.15 13.3333Z" fill="#1D1B20"/>
             </svg>
-          <li><a href="#">Contact</a></li><!--don't forget to add real links-->
+          <li><a href="{% url 'all_decks:contact' %}">Contact</a></li>
 
           <!--copilot code to display logout only when user is authenticated-->
-
+          {% comment %}      
           <!-- the living flashcards should be the home button but in case that's confusing I left this in<li class="nav-item"><a class="nav-link" href="{% url 'all_decks' %}">Home</a></li> -->
+          {% endcomment %} 
 
             <svg width="33" height="37" viewBox="0 0 33 37" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <rect width="32.3462" height="36.0784" fill="url(#pattern0_18_193)"/>
@@ -83,7 +84,7 @@
           <li class="nav-item dropdown" style="position: relative;">
             <a class="nav-link dropdown-toggle" href="#" id="profileDropdown">
             Profile
-            </a>
+            </a><!-- last thing to add real link for I think-->
          <ul class="dropdown-menu">   
           {% if user.is_authenticated %}
           <li>

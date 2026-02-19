@@ -53,10 +53,4 @@ label[for="target-language-dropdown"] {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
-    padding: 40px 24px;
-}
+/* if you're looking for the block class that holds temporary centering styles, I moved it to main.css so it could be used in more places*/

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Contact{% endblock %}
+
+{% block extra_css %}
+ <link rel="stylesheet" href="{% static 'contact.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="block">
+  <h1>Contact Us</h1>
+  <p>Add contact info/form.</p>
+</div>
+{% endblock %}

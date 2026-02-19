@@ -113,3 +113,11 @@ body {
 }
 
 /* end copilot */
+
+.block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 40px 24px;
+}

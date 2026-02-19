@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block extra_css %}
+ <link rel="stylesheet" href="{% static 'about.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="block">
+  <h1>About</h1>
+  <p>Fill out with info about us, living tongues, why this app is important, etc.</p>
+</div>
+{% endblock %}

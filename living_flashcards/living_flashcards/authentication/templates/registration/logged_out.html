@@ -1,0 +1,8 @@
+{% extends 'authentication/base.html' %}
+{% block title %}Logged Out{% endblock %}
+{% block content %}
+<div class="mt-5">
+    <h1>You have been successfully logged out</h1>
+    <a href="{% url 'login' %}" class="btn btn-primary">Log in again</a>
+</div>
+{% endblock %}

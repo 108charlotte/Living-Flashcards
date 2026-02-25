@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
-from flashcards.models import Deck, CardInfo, CardToUser
+# Copilot generated: import Review model to record per-review events
+from flashcards.models import Deck, CardInfo, CardToUser, Review
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
@@ -118,6 +119,24 @@ def review_card(request):
   # save new card data
   card.update_json(updated_card)
   card.save()
+
+  # Copilot generated: record the review event (do not break review flow on failure)
+  try:
+    # Save textual rating if available
+    rating_str = None
+    if rating == Rating.Easy:
+        rating_str = 'easy'
+    elif rating == Rating.Good:
+        rating_str = 'good'
+    elif rating == Rating.Hard:
+        rating_str = 'hard'
+    elif rating == Rating.Again:
+        rating_str = 'again'
+
+    Review.objects.create(user=request.user, card=card.card_id, rating=rating_str)
+  except Exception:
+    # Do not fail the review flow if analytics recording fails
+    pass
 
   deck = get_object_or_404(CardInfo, card_id=card_id).deck
 

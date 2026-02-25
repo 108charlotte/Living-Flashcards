@@ -11,4 +11,4 @@ def setlanguage(request):
             language = request.POST.get('language', 'en')
             UserLanguage.objects.update_or_create(djangousermodel=request.user, defaults={'language': language})
 
-        return redirect('all_decks')
+        return redirect('all_decks:all_decks')

@@ -5,6 +5,17 @@ body {
     padding-top: 20px;
 }
 
+/* Heatmap color variables (defaults, can be overridden by theme) */
+:root {
+  --heatmap-level-0: #ebedf0;
+  --heatmap-level-1: #c6e48b;
+  --heatmap-level-2: #7bc96f;
+  --heatmap-level-3: #239a3b;
+  --heatmap-level-4: #196127;
+  --heatmap-future: #ffffff;
+  --heatmap-empty: #f7f7f7;
+}
+
 /* Navbar styles */
 
 /* Hide dropdown by default */

@@ -42,3 +42,21 @@ class CardToUser(models.Model):
         if self.review_card:
             return Card.from_dict(self.review_card)
         return Card() # if first call aka no card exists yet
+
+# Copilot generated: Review model to store per-review events for heatmap and analytics
+class Review(models.Model):
+    """Record of a single review event for heatmap and analytics.
+
+    Stored separately from the CardToUser FSRS state so we have an immutable
+    history of when reviews occurred.
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
+    card = models.ForeignKey(CardInfo, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.CharField(max_length=16, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Review {self.card} by {self.user} at {self.created_at}"

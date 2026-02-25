@@ -1,3 +1,4 @@
 from django.db import models
 
-# Create your models here.
+# Copilot generated placeholder removed.
+# Review history is recorded by the `Review` model in the `flashcards` app.

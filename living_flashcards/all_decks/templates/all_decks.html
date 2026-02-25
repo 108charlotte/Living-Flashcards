@@ -51,5 +51,36 @@
       // copilot code to create functional frontend dropdown
       document.querySelector('#profileDropdown').onclick = () => document.querySelector('.dropdown-menu').classList.toggle('show');
     </script>
-  
+
+  <!-- Copilot generated: heatmap container and asset includes -->
+  <div id="heatmap-container"></div>
+
+<!-- Load heatmap assets from static/heatmap/ -->
+<link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
+<script src="{% static 'heatmap/heatmap.js' %}"></script>
+
+<script>
+  // Fetch the SVG mask first, then fetch the heatmap JSON and render
+  const svgUrl = "{% static 'heatmap/square.svg' %}";
+
+  fetch(svgUrl)
+    .then(resp => resp.text())
+    .then(svgText => {
+      return fetch("{% url 'all_decks:heatmap_data' %}")
+        .then(response => response.json())
+        .then(data => ({ svgText, data }));
+    })
+    .then(({ svgText, data }) => {
+      const config = {
+        heatmapShowStreak: true,
+        heatmapShowMonths: true,
+        heatmapShowWeekdays: true,
+        heatmapShowWeekHeader: true,
+        heatmapDefaultView: 'year',
+        heatmapSvgContent: svgText
+      };
+      window.OnigiriHeatmap.render('heatmap-container', data, config);
+    })
+    .catch(err => console.error('Heatmap load error', err));
+</script>
 {% endblock content %}

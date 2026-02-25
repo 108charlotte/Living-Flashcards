@@ -102,6 +102,56 @@
   </nav>
  {% endblock navbar%}
 
+  <!-- Sidebar static links moved from navbar -->
+  <div id="sidebar-static-links" style="display:none;">
+    <a id="donate-link" href="https://www.flipcause.com/secure/cause_pdetails/NTQ3NDQ">Donate</a>
+    <a id="about-link" href="{% url 'all_decks:about' %}">About</a>
+    <a id="contact-link" href="{% url 'all_decks:contact' %}">Contact</a>
+  </div>
+
+<!-- Onigiri-style sidebar -->
+<aside id="onigiri-sidebar" class="onigiri-sidebar">
+  <div id="profile-bar" class="profile-bar">
+    {% if user.is_authenticated %}
+      <svg class="profile-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4.4184 3.5817-8 8-8s8 3.5816 8 8" fill="currentColor"/></svg>
+      <div class="profile-name">{{ user.username }}</div>
+      <form id="logout-form" method="post" action="{% url 'logout' %}" style="display:none;">
+        {% csrf_token %}
+      </form>
+    {% else %}
+      <svg class="profile-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4.4184 3.5817-8 8-8s8 3.5816 8 8" fill="currentColor"/></svg>
+      <div class="profile-name">Guest</div>
+    {% endif %}
+  </div>
+  <div id="sidebar-buttons" class="sidebar-buttons"></div>
+
+  <!-- Moved nav links from top navbar with icons -->
+  <div class="sidebar-extra-links">
+    <a class="sidebar-link" id="sidebar-donate" href="https://www.flipcause.com/secure/cause_pdetails/NTQ3NDQ">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="2"/><text x="12" y="14" text-anchor="middle" font-size="10" fill="currentColor">$</text></svg>
+      <span>Donate</span>
+    </a>
+    <a class="sidebar-link" id="sidebar-about" href="{% url 'all_decks:about' %}">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="2"/><text x="12" y="14" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">i</text></svg>
+      <span>About</span>
+    </a>
+    <a class="sidebar-link" id="sidebar-contact" href="{% url 'all_decks:contact' %}">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/><line x1="2" y1="6" x2="22" y2="6" stroke="currentColor" stroke-width="2"/></svg>
+      <span>Contact</span>
+    </a>
+    {% if user.is_authenticated %}
+    <button class="sidebar-link sidebar-logout-btn" id="sidebar-logout">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 7l-5 5m0 0l5 5m-5-5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 7v10a2 2 0 01-2 2H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>Logout</span>
+    </button>
+    {% endif %}
+  </div>
+</aside>
+
+<!-- Onigiri sidebar assets -->
+<link rel="stylesheet" href="{% static 'onigiri/sidebar.css' %}">
+<script src="{% static 'onigiri/sidebar.js' %}" defer></script>
+
   <!--main-->
   <main class="content">
     {% block content %}

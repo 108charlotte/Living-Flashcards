@@ -4,7 +4,12 @@ from django.template import loader
 from django.conf import settings
 from flashcards.models import Deck
 from django.utils import timezone
-from flashcards.models import CardToUser
+# Copilot generated: import Review for heatmap aggregation
+from flashcards.models import CardToUser, Review
+from django.http import JsonResponse
+from datetime import datetime, timedelta
+from django.contrib.auth.decorators import login_required
+import json
 
 # Create your views here.
 
@@ -27,3 +32,78 @@ def about(request):
 
 def contact(request):
     return render(request, "contact.html")
+
+# Copilot generated code to add a new API endpoint for fetching heatmap data
+@login_required
+def get_heatmap_data(request):
+    """
+    Fetch review statistics for heatmap visualization.
+    Returns calendar data (reviews by day), due_calendar, streak, and daily_average.
+    """
+    from flashcards.models import CardToUser
+    
+    # Get all user's reviews
+    user_cards = CardToUser.objects.filter(user_id=request.user)
+    
+    # Today's start in user's timezone
+    today_start = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    today_date_key = today_start.strftime('%Y-%m-%d')
+    
+    # ===== 1. PAST REVIEWS =====
+    # (Copilot Generated) Prefer the new `Review` model history. Aggregate by local date string YYYY-MM-DD.
+    reviews_by_day = {}
+    try:
+        user_reviews = Review.objects.filter(user=request.user).values_list('created_at', flat=True)
+        for dt in user_reviews:
+            local_date = timezone.localtime(dt).date().strftime('%Y-%m-%d')
+            reviews_by_day[local_date] = reviews_by_day.get(local_date, 0) + 1
+    except Exception:
+        reviews_by_day = {}
+    
+    # ===== 2. TODAY'S REVIEW COUNT =====
+    today_count = reviews_by_day.get(today_date_key, 0)
+    reviews_by_day[today_date_key] = today_count
+    
+    # ===== 3. FUTURE DUE CARDS =====
+    due_by_day = {}
+    for card_to_user in user_cards:
+        if card_to_user.see_next and card_to_user.see_next > timezone.now():
+            due_date_key = card_to_user.see_next.date().strftime('%Y-%m-%d')
+            due_by_day[due_date_key] = due_by_day.get(due_date_key, 0) + 1
+    
+    # ===== 4. STREAK CALCULATION =====
+    streak = 0
+    # Count consecutive days ending today that have reviews
+    try:
+        check_date = timezone.localdate()
+        while True:
+            key = check_date.strftime('%Y-%m-%d')
+            if reviews_by_day.get(key, 0) > 0:
+                streak += 1
+                check_date = check_date - timedelta(days=1)
+            else:
+                break
+    except Exception:
+        streak = 0
+    
+    # ===== 5. DAILY AVERAGE =====
+    # daily_average: total review events / days since first review (fallback to 1)
+    try:
+        total_reviews = sum(reviews_by_day.values())
+        first_review = Review.objects.filter(user=request.user).order_by('created_at').first()
+        if first_review:
+            days_elapsed = (timezone.localdate() - timezone.localtime(first_review.created_at).date()).days + 1
+            days_elapsed = max(days_elapsed, 1)
+        else:
+            days_elapsed = 1
+        daily_average = total_reviews / days_elapsed if total_reviews > 0 else 0
+    except Exception:
+        daily_average = 0
+    
+    return JsonResponse({
+        "calendar": reviews_by_day,
+        "streak": streak,
+        "due_calendar": due_by_day,
+        "today_date_key": today_date_key,
+        "daily_average": daily_average
+    })

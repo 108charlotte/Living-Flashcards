@@ -8,7 +8,7 @@ def langselection(request):
 def setlanguage(request): 
     if request.method == "POST": 
         if request.user.is_authenticated: 
-            language = request.POST.get('language', 'en')
+            language = request.POST.get('user-language', 'en')
             UserLanguage.objects.update_or_create(djangousermodel=request.user, defaults={'language': language})
 
-        return redirect('all_decks')
+        return redirect('all_decks:all_decks')

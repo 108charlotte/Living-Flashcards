@@ -11,6 +11,7 @@
 {% endblock extra_css %}
 
 
+<div class="block">
     {% if user.is_authenticated %}
     <h1>Select a language: </h1>
     <p>This is the language for the card definitions and user interface, not the language(s) that you would like to study!</p>
@@ -28,4 +29,6 @@
     <h1>Please create an account! </h1>
     <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started! </p>
     {% endif %}
+</div>
+
 {% endblock content %}

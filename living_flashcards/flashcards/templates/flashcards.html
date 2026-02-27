@@ -68,6 +68,14 @@
 {% block content %}
 <!--I think the header tags got lost somewhere...-->
 
+<!-- Progress bar showing progress through flashcards -->
+      {% if card %}
+      <div class="progress">
+          <div class="progress_fill"></div>
+        <span class="progress_text">{{currentIndex}}/{{totalCards}}</span>
+      </div>
+      {% endif %}
+
     <h3>{{deck_info.name_in_lang}}</h3>
     <h4>{{deck_info.name}}</h4>
 
@@ -75,22 +83,26 @@
       <div class="card-stack">
         <div class="card stack-back"></div>
         <div class="card stack-mid"></div>
-        <div class="card clickable-card" onclick="flipCard()">
-          <button class="speaker-btn" id="speakerBtn" title="Hear the word">
-            <img src="{% static 'Speaker_Icon.svg' %}" alt="Speaker icon">
-          </button>
-          <div class="card-front">
-            <h2 class="card-word">{{ card.card_id.term }}</h2>
-            <p class="card-phonetic">{{ card.card_id.phonetic }}</p>
+        <div class="card clickable-card">
+            <!-- speaker button only on the front face so the back side isn't mirrored -->
+
+            <div class="card-front">
+              <button class="speaker-btn" title="Hear the word">
+                <img src="{% static 'Speaker_Icon.svg' %}" alt="Speaker icon">
+              </button>
+              <h2 class="card-word">{{ card.card_id.term }}</h2>
+              <p class="card-phonetic">{{ card.card_id.phonetic }}</p>
+            </div>
+            <div class="card-back hidden">
+              <p class="card-definition">{{ card.card_id.definition }}</p>
+            </div>
           </div>
-          <div class="card-back hidden">
-            <p class="card-definition">{{ card.card_id.definition }}</p>
-          </div>
-        </div>
       </div>
     {% else %}
-      <p>No cards to review.</p>
-      <a href="/" class="button-link">Go home</a>
+      <div class="block">
+        <p>No cards to review.</p>
+        <a href="/" class="button-link">Go home</a>
+      </div>
     {% endif %}
 
  <!-- Need to make buttons like Anki's -->

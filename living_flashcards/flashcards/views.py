@@ -29,13 +29,21 @@ def flashcards(request, slug):
 
   to_review = get_cards_to_review(request, deck)
 
+  total_cards = to_review.count()#to create progress bar values
+
   start_card = to_review.first()
 
   if start_card: 
     review_intervals = get_review_intervals(start_card)
 
   # need to add some sort of error saying card couldn't be found/deck couldn't be found if its the case
-  return render(request, 'flashcards.html', {'deck_info': deck, 'card': start_card, 'review_intervals': review_intervals})
+  return render(request, 'flashcards.html', {
+    'deck_info': deck,
+    'card': start_card,
+    'review_intervals': review_intervals,
+    'currentIndex': 0,
+    'totalCards': total_cards
+  })
 
 def get_cards_to_review(request, deck): 
   now = timezone.now()
@@ -124,6 +132,8 @@ def review_card(request):
   # re-load cards to review
   to_review = get_cards_to_review(request, deck)
 
+  total_cards = to_review.count()# progress bar again
+
   start_card = to_review.first()
 
   if start_card: 
@@ -131,4 +141,10 @@ def review_card(request):
   else: 
     review_intervals = [None, None, None, None]
 
-  return render(request, 'flashcards.html', {'deck_info': deck, 'card': start_card, 'review_intervals': review_intervals})
+  return render(request, 'flashcards.html', {
+    'deck_info': deck,
+    'card': start_card,
+    'review_intervals': review_intervals,
+    'currentIndex': 0,
+    'totalCards': total_cards
+  })

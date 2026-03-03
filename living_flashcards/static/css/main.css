@@ -35,6 +35,12 @@ body {
     z-index: 1000;
 }
 
+.main-content,
+main.content {
+    margin-left: 260px; /* sidebar width (220px) + left position (16px) + spacing (24px) */
+    padding: 20px;
+}
+
 /* Show dropdown */
 .nav-item.dropdown:hover .dropdown-menu {
     display: block;

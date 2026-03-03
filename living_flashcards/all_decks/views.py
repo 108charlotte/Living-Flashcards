@@ -16,12 +16,14 @@ import json
 def all_decks(request):
     decks = Deck.objects.all()
     if request.user.is_authenticated: 
-        # code from copilot to retreive the number of cards to review for each deck before displaying it
         for deck in decks:
             now = timezone.now()
             user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user.id)
-            to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True))
-            deck.cards_to_review = to_review.count()  # set count for template
+            if user_cards.exists():
+                to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True))
+                deck.cards_to_review = to_review.count() # sets temp python attribute
+            else:
+                deck.cards_to_review = deck.cards.count()
     else: 
         for deck in decks:
             deck.cards_to_review = 0

@@ -30,7 +30,7 @@
     {% for deck in decks %}
       {% if deck.cards_to_review > 0 %}
       <div class="deck">
-        <a href="{% url 'flashcards:flashcards' deck.name %}">{{ deck.name_in_lang }} ({{ deck.name }}): {{ deck.cards_to_review }} to review</a>
+        <a href="{% url 'flashcards:flashcards' deck.slug %}">{{ deck.name }}: {{ deck.cards_to_review }} to review</a>
       </div>
       {% endif %}
     {% endfor %}
@@ -38,7 +38,7 @@
     {% for deck in decks %}
       {% if deck.cards_to_review == 0 %}
       <div class="deck">
-        <a href="{% url 'flashcards:flashcards' deck.name %}">{{ deck.name_in_lang }} ({{ deck.name }}): {{ deck.cards_to_review }} to review</a>
+        <a href="{% url 'flashcards:flashcards' deck.slug %}">{{ deck.name }}: {{ deck.cards_to_review }} to review</a>
       </div>
       {% endif %}
     {% endfor %}

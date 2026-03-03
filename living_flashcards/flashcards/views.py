@@ -17,7 +17,7 @@ scheduler = Scheduler()
 # display correct cards
 def flashcards(request, slug):
   # take slug and use to get deck to pass to template
-  deck = get_object_or_404(Deck, name=slug)
+  deck = get_object_or_404(Deck, slug=slug)
 
   # Copilot code to create cardtouser instances any unseen cards
   existing_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user).values_list('card_id', flat=True)

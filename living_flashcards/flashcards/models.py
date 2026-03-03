@@ -3,16 +3,21 @@ import uuid
 from django.conf import settings
 from fsrs import Card
 import json
+from django.utils.text import slugify
 
 # Create your models here.
 class Deck(models.Model): 
-    name = models.CharField(max_length=50)
-    name_in_lang = models.CharField(max_length=50)
-    cards_to_review = models.IntegerField() # will get set in view
+    name = models.CharField(max_length=100)
+    slug = models.CharField(max_length=100)
 
     def __str__(self): 
         return self.name
-
+    
+    # claude code to auto-generate slugs
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 # used copilot help to define cards in relation to a deck
 class CardInfo(models.Model): 
@@ -21,6 +26,7 @@ class CardInfo(models.Model):
     card_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     term = models.CharField(max_length=100)
     definition = models.TextField()
+    audio_path = models.CharField(max_length=400, null=True, blank=True)
     
     def __str__(self): 
         return self.term

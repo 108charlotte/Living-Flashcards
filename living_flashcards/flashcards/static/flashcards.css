@@ -1,98 +1,14 @@
-/* Page background */
-body {
-    background-color: #FCFCF7;
-    margin: 0;
-    padding-top: 60px;
-}
-header {
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
-    position: fixed;
-    width: 100%;
-    padding: 6px 8px;
-    z-index: 1000;
-    box-sizing: border-box;
+.hidden {
+    display: none !important;
 }
 
-header svg {
-    max-width: 40px;
-    max-height: 40px;
+/*header styles*/
+.header-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.header-left,
-.header-right {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.header-left,
-.header-right {
-    flex: 0 0 auto;
-}
-
-.header-center {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
-
-header a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Progress bar styles */
-.progress {
-    width: 120px;
-    height: 6px;
-    background-color: #ddd;
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.progress_fill {
-    height: 100%;
-    width: 3%;
-    background-color: #739F7F;
-    border-radius: 3px;
-}
-
-.progress_text {
-    font-size: 12px;
-    color: black;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    white-space: nowrap;
-    margin-left: 3px;
-}
-
-/* Header*/
-
-header h1 { /* Home on the top left*/
-    color: black;
-    font-size: 30px;
-    text-align: left;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-header h2 {  /* "profile" on header*/
-    color: black;
-    font-size: 36px;
-    text-align: right;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-header h3 { /* header stuff like "about", "contact", etc. */
-    color: black;
-    font-size:24px;
-    text-align: center;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
 /* Progress Bar*/
 .progress {
   position: relative;
@@ -104,9 +20,8 @@ header h3 { /* header stuff like "about", "contact", etc. */
 }
 
 .progress_fill {
-  background-color: #739F7F;
-  height: 100%;
-  width: 0; 
+  background-color: #9EC7B5;
+  height: 100%; 
   transition: all 0.2s;
 }
 
@@ -117,152 +32,121 @@ header h3 { /* header stuff like "about", "contact", etc. */
   color: black;
 }
 
-/* Deck Titles */
-
-h4{ /* Deck Title in English */
-    color: black;
-    font-size:50px;
-    text-align: center;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/*card styles*/
+.card-stack {
+  position: relative;
+  width: 450px;
+  margin: 30px auto 70px auto;
+  height: 360px;
 }
 
-h5{ /* Deck Sub-title in Sora */
-    color: black;
-    font-size:30px;
-    text-align: center;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Flashcards */
-
-/* .cards-wrap {
+.card {
+    position: absolute;
+    border-radius: 12px;
+    background-color: #739F7F;
+    width: 450px;
+    height: 350px;
+    z-index: 3;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    width: 100%;
-} */
+    align-items: center;
+    color: white;
+}
 
-/*to only show one flashcard, remove later and un-comment above*/
-.cards-wrap .flashcard {
-    display: none;
+.clickable-card {
+    cursor: pointer;
 }
-.cards-wrap .flashcard:first-child {
-    display: block;
-}
-/*end remove later section*/
 
 .card-word {
+    margin: 0;
+    font-size: 48px;
+    font-weight: bold;
     color: white;
-    font-size: 40px;
-    text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .card-phonetic {
+    margin: 16px 0 0 0;
+    font-size: 16px;
     color: white;
-    font-size: 25px;
+    font-family: 'Inter', sans-serif;
+}
+
+.card-definition {
+    font-size: 20px;
+    color: white;
+    font-family: 'Inter', sans-serif;
     text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
 }
 
-.flashcard {
-  background-color: #739F7F;
-  border-radius: 12px;
-  width: 500px;
-  height: 220px;
-  position: relative;
-  padding: 3rem 2rem;
-  margin: 0 auto;
+.stack-mid {
+    background-color: #8FC29D;
+    top: 30px;
+    width: 400px;
+    height: 350px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
 }
 
-/* Middle card */
-.card-layer card-mid {
-  position: absolute;
-  width: 450px;
-  height: 40px;
-  background-color:#8FC29D;
-  border-radius: 12px;
-}
-/* Bottom card */
-.flashcard-stack::before {
-  position: absolute;
-  bottom: 0;
-  left: 10px;
-  width: 100%;
-  height: 100%;
-  background-color: #9ED9AD;
-  border-radius: 12px;
+.stack-back {
+  top: 102px;
   z-index: 1;
+  background-color: #9ED9AD;
+  width: 350px;
+  height: 300px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/*Anki buttons*/
-.btn-container {
-    justify-content: center;
-    display: flex;
-    width: 100%;
-    margin: 10px auto;
-    padding: 10px;
-    gap: 20px;
+.button-link, button {
+    text-decoration: none; 
+    color: black; 
+    border: 2px solid gray; 
+    background-color: lightgray;
+    padding: 5px; 
+    border-radius: 5px; 
 }
 
-.anki-btn {
-    font-size: 20px; 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    width: 100px;
-    height: 40px;
+/* Speaker Button */ /* generated by Copilot */
+.speaker-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+  width: auto;
+  height: auto;
+    font-size: 24px;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: none;
 }
 
-/*language toggle */
-/*toggle switch credit: https://www.geeksforgeeks.org/css/how-to-create-toggle-switch-by-using-html-and-css/ */
+.speaker-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
 
-.lang-btn-container {
-    justify-content: center;
+/* constrain the inline SVG/IMG inside the speaker button */
+.speaker-btn img {
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+
+.review-buttons {
     display: flex;
-    width: 100%;
-}
-
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
-}
-
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    background-color: #ccc; /* off-state color */
-    transition: background-color 0.3s;
-    border-radius: 24px;
-    width: 100%;
-    height: 100%;
-}
-
-.slider::before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 2px;
-    background-color: white;
-    transition: transform 0.3s;
-    border-radius: 50%
-}
-
-.toggle-switch input:checked + .slider {
-    background-color: #4CAF50; /* on-state color */
-}
-
-.toggle-switch input:checked + .slider::before {
-    transform: translateX(26px);
+    align-items: center; 
+    justify-content: center;
+    gap: 10px;
 }

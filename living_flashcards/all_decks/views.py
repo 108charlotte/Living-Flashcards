@@ -35,6 +35,9 @@ def about(request):
 def contact(request):
     return render(request, "contact.html")
 
+def contact(request):
+    return render(request, "profile.html")
+
 # Copilot generated code to add a new API endpoint for fetching heatmap data
 @login_required
 def get_heatmap_data(request):

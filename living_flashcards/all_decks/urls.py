@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.all_decks, name='all_decks'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
+    path('profile/', views.profile, name='profile'),
     # Copilot generated: Heatmap API endpoint (returns JSON used by the front-end heatmap renderer)
     path('heatmap/data/', views.get_heatmap_data, name='heatmap_data'),
 ]

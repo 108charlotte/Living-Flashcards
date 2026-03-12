@@ -37,19 +37,51 @@ label[for="target-language-dropdown"] {
 
 .deck {
     background-color: rgba(144, 186, 144, 1); 
-    padding: 10px 20px; 
+    padding: 10px; 
     border-radius: 10px; 
-    margin: 10px 0px; 
-    width: 400px; 
+    margin: 0;
+    width: 160px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.deck-grid {
+    display: grid;
+    align-self: stretch;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 160px));
+    grid-auto-flow: row;
+    row-gap: 16px;
+    column-gap: 36px;
+    justify-content: start;
 }
 
 .deck a {
     text-decoration: none; 
     color: black; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.deck-title {
+    font-weight: 600;
+}
+
+.deck-count {
+    font-weight: 400;
 }
 
 .deck:hover {
-    padding: 12px 22px; 
+    padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 

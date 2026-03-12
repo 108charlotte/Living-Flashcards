@@ -24,24 +24,34 @@
     </div>
 
     <!--temporary centering-->
-    <div class="block">
+    <div>
     <p>Click a deck below to study! </p>
     <!--later there will be settings here for the language-->
+    <div class="deck-grid">
     {% for deck in decks %}
       {% if deck.cards_to_review > 0 %}
       <div class="deck">
-        <a href="{% url 'flashcards:flashcards' deck.slug %}">{{ deck.name }}: {{ deck.cards_to_review }} to review</a>
+        <a href="{% url 'flashcards:flashcards' deck.slug %}">
+          <span class="deck-title">{{ deck.name }}</span>
+          <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+        </a>
       </div>
       {% endif %}
     {% endfor %}
+    </div>
     <p>No cards left to review: </p>
+    <div class="deck-grid">
     {% for deck in decks %}
       {% if deck.cards_to_review == 0 %}
       <div class="deck">
-        <a href="{% url 'flashcards:flashcards' deck.slug %}">{{ deck.name }}: {{ deck.cards_to_review }} to review</a>
+        <a href="{% url 'flashcards:flashcards' deck.slug %}">
+          <span class="deck-title">{{ deck.name }}</span>
+          <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+        </a>
       </div>
       {% endif %}
     {% endfor %}
+    </div>
     {% else %}
     <h1>Welcome to Living Flashcards! </h1>
     <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started! </p>

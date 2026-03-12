@@ -200,7 +200,7 @@ h4 {
 }
 
 .card-definition {
-    font-size: 20px;
+  font-size: 32px;
     color: white;
     font-family: 'Inter', sans-serif;
     text-align: center;
@@ -302,5 +302,28 @@ h4 {
     align-items: center; 
     justify-content: center;
     gap: 10px;
+}
+
+.review-buttons button {
+  font-size: 15px;
+  padding: 8px 15px;
+  border-radius: 12px;
+  width: 100px;
+  min-height: 46px;
+}
+
+.review-buttons .rating-label,
+.review-buttons .rating-interval {
+  display: block;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.review-buttons .rating-label {
+  font-size: 17px;
+}
+
+.review-buttons .rating-interval {
+  font-size: 15px;
 }
 

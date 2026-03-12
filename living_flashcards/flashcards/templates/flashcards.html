@@ -68,10 +68,14 @@
 {% block content %}
 <!--I think the header tags got lost somewhere...-->
 
+<div class="flashcards-content">
+
 <!-- Progress bar showing progress through flashcards -->
   {% if totalCards %}
-      <div class="progress">
-          <div class="progress_fill"></div>
+      <div class="progress-row">
+        <div class="progress">
+            <div class="progress_fill"></div>
+        </div>
         <span class="progress_text">{{currentIndex}}/{{totalCards}}</span>
       </div>
       {% endif %}
@@ -119,4 +123,5 @@
   {% endif %}
 
   <script src="{% static 'flashcards.js' %}"></script>
+</div>
 {% endblock content %}

@@ -23,33 +23,35 @@
       </form>
     </div>
 
-    <!--temporary centering-->
     <div>
     <p>Click a deck below to study! </p>
-    <!--later there will be settings here for the language-->
+    <!-- Strict-rule section: decks with at least one Review event by this user -->
+    <p>Started decks:</p>
     <div class="deck-grid">
-    {% for deck in decks %}
-      {% if deck.cards_to_review > 0 %}
+    {% for deck in started_decks %}
       <div class="deck">
         <a href="{% url 'flashcards:flashcards' deck.slug %}">
           <span class="deck-title">{{ deck.name }}</span>
           <span class="deck-count">{{ deck.cards_to_review }} to review</span>
         </a>
       </div>
-      {% endif %}
+    {% empty %}
+      <p>You haven't started any decks yet.</p>
     {% endfor %}
     </div>
-    <p>No cards left to review: </p>
+
+    <!-- Rule for seperating decks with zero Review events by this user -->
+    <p>Not started yet:</p>
     <div class="deck-grid">
-    {% for deck in decks %}
-      {% if deck.cards_to_review == 0 %}
+    {% for deck in not_started_decks %}
       <div class="deck">
         <a href="{% url 'flashcards:flashcards' deck.slug %}">
           <span class="deck-title">{{ deck.name }}</span>
           <span class="deck-count">{{ deck.cards_to_review }} to review</span>
         </a>
       </div>
-      {% endif %}
+    {% empty %}
+      <p>You've started all available decks.</p>
     {% endfor %}
     </div>
     {% else %}

@@ -323,6 +323,14 @@ h4 {
   border-radius: 12px;
   width: 100px;
   min-height: 44px;
+  background-color: #e6e6e6;
+  border: 2px solid #c9c9c9;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-buttons button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .review-buttons .rating-label,
@@ -334,6 +342,7 @@ h4 {
 
 .review-buttons .rating-label {
   font-size: 17px;
+  font-weight: 700;
 }
 
 .review-buttons .rating-interval {

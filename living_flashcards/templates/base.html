@@ -109,6 +109,7 @@
     <a id="contact-link" href="{% url 'all_decks:contact' %}">Contact</a>
   </div>
 
+{% comment %}
 <!-- Onigiri-style sidebar -->
 <aside id="onigiri-sidebar" class="onigiri-sidebar">
   <div id="profile-bar" class="profile-bar">
@@ -151,6 +152,7 @@
 <!-- Onigiri sidebar assets -->
 <link rel="stylesheet" href="{% static 'onigiri/sidebar.css' %}">
 <script src="{% static 'onigiri/sidebar.js' %}" defer></script>
+{% endcomment %}
 
   <!--main-->
   <main class="content">

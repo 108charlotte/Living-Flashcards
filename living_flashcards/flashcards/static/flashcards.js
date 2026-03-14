@@ -46,7 +46,27 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cardElement) {
     cardElement.addEventListener('click', flipCard);
   }
+
+//keyboard shortcut for flipping the card
+  document.addEventListener('keydown', handleFlipShortcut);
 });
+
+function handleFlipShortcut(event) {
+  const isSpaceKey = event.code === 'Space' || event.key === ' ';
+  if (!isSpaceKey || event.repeat) return;
+
+  const target = event.target;
+  const tagName = target?.tagName;
+  const isInteractiveElement = target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(tagName);
+
+  if (isInteractiveElement) return;
+
+  const card = document.querySelector('.card.clickable-card');
+  if (!card || card.classList.contains('flipped')) return;
+
+  event.preventDefault();
+  flipCard({ currentTarget: card });
+}
 
 // copilot code to create card "flip"
 function flipCard(event) {

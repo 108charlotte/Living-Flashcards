@@ -4,6 +4,7 @@ from . import views
 app_name = 'all_decks'
 urlpatterns = [
     path('', views.all_decks, name='all_decks'),
+    path('category/<str:category>/', views.deck_category, name='deck_category'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     # Copilot generated: Heatmap API endpoint (returns JSON used by the front-end heatmap renderer)

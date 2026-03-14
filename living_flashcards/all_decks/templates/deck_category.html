@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'all_decks.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="block deck-category-page">
+  <div class="deck-category-header">
+    <a class="deck-category-back" href="{% url 'all_decks:all_decks' %}">← Back to all decks</a>
+    <h1>{{ page_title }}</h1>
+    <p>Browse every deck in this category.</p>
+  </div>
+
+  <div class="deck-grid">
+    {% for deck in category_decks %}
+      <div class="deck">
+        <a href="{% url 'flashcards:flashcards' deck.slug %}">
+          <span class="deck-title">{{ deck.name }}</span>
+          <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+        </a>
+      </div>
+    {% empty %}
+      <p>{{ empty_message }}</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

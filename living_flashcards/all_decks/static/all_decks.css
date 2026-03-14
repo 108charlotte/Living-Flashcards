@@ -133,6 +133,37 @@ h1 {
     max-width: 50%;
 }
 
+.deck-section-heading {
+    margin: 0 0 14px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.deck-section-link {
+    color: #111;
+    text-decoration: none;
+}
+
+.deck-section-link:hover,
+.deck-section-link:focus-visible {
+    text-decoration: underline;
+}
+
+.deck-grid-scroll {
+    max-height: 452px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.deck-grid-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.deck-grid-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 999px;
+}
+
 @media (max-width: 960px) {
     .deck-section {
         max-width: 100%;
@@ -163,6 +194,29 @@ h1 {
 .deck:hover {
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.deck-category-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.deck-category-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.deck-category-back {
+    width: fit-content;
+    color: #444;
+    text-decoration: none;
+}
+
+.deck-category-back:hover,
+.deck-category-back:focus-visible {
+    text-decoration: underline;
 }
 
 /* if you're looking for the block class that holds temporary centering styles, I moved it to main.css so it could be used in more places*/

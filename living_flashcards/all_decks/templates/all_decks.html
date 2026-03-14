@@ -4,11 +4,11 @@
 
 {% block title %}All Decks{% endblock %}
 
-{% block content %}
-
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'all_decks.css' %}">
 {% endblock extra_css %}
+
+{% block content %}
 
     <div class="block">
       {% if user.is_authenticated %}
@@ -36,34 +36,42 @@
 
       <!-- copilt rule for separating decks with zero Review events by this user -->
       <section class="deck-section">
-        <p>Started decks:</p>
-        <div class="deck-grid">
-        {% for deck in started_decks %}
-          <div class="deck">
-            <a href="{% url 'flashcards:flashcards' deck.slug %}">
-              <span class="deck-title">{{ deck.name }}</span>
-              <span class="deck-count">{{ deck.cards_to_review }} to review</span>
-            </a>
+        <h2 class="deck-section-heading">
+          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'started' %}">Started decks</a>
+        </h2>
+        <div class="deck-grid-scroll">
+          <div class="deck-grid">
+          {% for deck in started_decks %}
+            <div class="deck">
+              <a href="{% url 'flashcards:flashcards' deck.slug %}">
+                <span class="deck-title">{{ deck.name }}</span>
+                <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+              </a>
+            </div>
+          {% empty %}
+            <p>You haven't started any decks yet.</p>
+          {% endfor %}
           </div>
-        {% empty %}
-          <p>You haven't started any decks yet.</p>
-        {% endfor %}
         </div>
       </section>
 
       <section class="deck-section">
-        <p>Not started yet:</p>
-        <div class="deck-grid">
-        {% for deck in not_started_decks %}
-          <div class="deck">
-            <a href="{% url 'flashcards:flashcards' deck.slug %}">
-              <span class="deck-title">{{ deck.name }}</span>
-              <span class="deck-count">{{ deck.cards_to_review }} to review</span>
-            </a>
+        <h2 class="deck-section-heading">
+          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'not-started' %}">Not started yet</a>
+        </h2>
+        <div class="deck-grid-scroll">
+          <div class="deck-grid">
+          {% for deck in not_started_decks %}
+            <div class="deck">
+              <a href="{% url 'flashcards:flashcards' deck.slug %}">
+                <span class="deck-title">{{ deck.name }}</span>
+                <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+              </a>
+            </div>
+          {% empty %}
+            <p>You've started all available decks.</p>
+          {% endfor %}
           </div>
-        {% empty %}
-          <p>You've started all available decks.</p>
-        {% endfor %}
         </div>
       </section>
     </div>

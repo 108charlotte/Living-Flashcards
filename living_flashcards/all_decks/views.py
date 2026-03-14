@@ -9,30 +9,32 @@ from flashcards.models import CardToUser, Review
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 import json
 
 # Create your views here.
 
-def all_decks(request):
+
+def _get_deck_page_context(user):
     # Convert to list so we can keep a stable, explicit ordering while splitting decks.
     decks = list(Deck.objects.all())
 
     started_decks = []
     not_started_decks = []
 
-    if request.user.is_authenticated:
+    if user.is_authenticated:
         now = timezone.now()
 
         # Rule for seperating started and not-startedd decks:
         # A deck is "started" only if the user has at least one persisted Review event for any card inside that deck.
         started_deck_ids = set(
-            Review.objects.filter(user=request.user)
+            Review.objects.filter(user=user)
             .values_list('card__deck_id', flat=True)
             .distinct()
         )
 
         for deck in decks:
-            user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user.id)
+            user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user.id)
             if user_cards.exists():
                 to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True))
                 deck.cards_to_review = to_review.count() # sets temp python attribute
@@ -48,17 +50,42 @@ def all_decks(request):
         for deck in decks:
             deck.cards_to_review = 0
 
-    return render(
-        request,
-        'all_decks.html',
-        {
-            'decks': decks,
-            'started_decks': started_decks,
-            'not_started_decks': not_started_decks,
-            'available_languages': ["English"],
-            'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"],
-        },
-    )
+    return {
+        'decks': decks,
+        'started_decks': started_decks,
+        'not_started_decks': not_started_decks,
+        'available_languages': ["English"],
+        'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"],
+    }
+
+def all_decks(request):
+    return render(request, 'all_decks.html', _get_deck_page_context(request.user))
+
+
+@login_required
+def deck_category(request, category):
+    context = _get_deck_page_context(request.user)
+
+    if category == 'started':
+        context.update(
+            {
+                'page_title': 'Started decks',
+                'category_decks': context['started_decks'],
+                'empty_message': "You haven't started any decks yet.",
+            }
+        )
+    elif category == 'not-started':
+        context.update(
+            {
+                'page_title': 'Not started yet',
+                'category_decks': context['not_started_decks'],
+                'empty_message': "You've started all available decks.",
+            }
+        )
+    else:
+        raise Http404('Deck category not found.')
+
+    return render(request, 'deck_category.html', context)
 
 def about(request):
     return render(request, "about.html")

@@ -47,13 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
     cardElement.addEventListener('click', flipCard);
   }
 
-//keyboard shortcut for flipping the card
+//copilot generated keyboard shortcut for flipping the card, again, hard, good, easy
+//did not make the space also apply to easy, this way 1 corresponds to the first button, 2 to the second, etc., to make it easier to explain to the user
+//might change it later?
   document.addEventListener('keydown', handleFlipShortcut);
 });
 
 function handleFlipShortcut(event) {
-  const isSpaceKey = event.code === 'Space' || event.key === ' ';
-  if (!isSpaceKey || event.repeat) return;
+  if (event.repeat) return;
 
   const target = event.target;
   const tagName = target?.tagName;
@@ -61,11 +62,26 @@ function handleFlipShortcut(event) {
 
   if (isInteractiveElement) return;
 
-  const card = document.querySelector('.card.clickable-card');
-  if (!card || card.classList.contains('flipped')) return;
+  const isSpaceKey = event.code === 'Space' || event.key === ' ';
+  if (isSpaceKey) {
+    const card = document.querySelector('.card.clickable-card');
+    if (!card || card.classList.contains('flipped')) return;
+    event.preventDefault();
+    flipCard({ currentTarget: card });
+    return;
+  }
+
+  // 1=Again, 2=Hard, 3=Good, 4=Easy
+  const ratingMap = { '1': 'again', '2': 'hard', '3': 'good', '4': 'easy' };
+  const rating = ratingMap[event.key];
+  if (!rating) return;
+
+  const form = document.getElementById('difficulty-buttons');
+  if (!form || form.classList.contains('hidden')) return;
 
   event.preventDefault();
-  flipCard({ currentTarget: card });
+  const btn = form.querySelector(`button[value="${rating}"]`);
+  if (btn) btn.click();
 }
 
 // copilot code to create card "flip"

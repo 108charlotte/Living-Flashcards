@@ -13,26 +13,87 @@ h1 {
     color: #000000;
 }
 
-#target-language-form {
+/*experimenting...*/
+.lang-title {
+    text-align: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+    margin-top: 4px;
+    margin-bottom: 25px;
+}
+
+.title-main {
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.deck-selector {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-size: 16px;
+    color: #444;
+}
+
+.arrow-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.arrow {
+    font-size: 14px;
+}
+
+.language-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    min-width: 180px;
+    padding: 8px;
+    border: 1px solid #d0d5dd;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    z-index: 20;
+}
+
+.language-dropdown-menu.show {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
 }
 
-label[for="target-language-dropdown"] {
-    font-size: 15px;
-    font-weight: 500;
+.language-option {
+    width: 100%;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    font: inherit;
+    color: #444;
+    text-align: left;
+    cursor: pointer;
 }
 
-.styled-select {
-    width: 360px;
-    background-color: #F5F5F8; 
-    padding: 12px 16px; 
-    border-radius: 8px; 
-    border: 1px solid #d0d5dd;
-    font-family: Inter, sans-serif;
-    font-size: 14px; 
-    cursor: pointer; 
+.language-option:hover,
+.language-option:focus-visible {
+    background-color: #f5f5f8;
+    outline: none;
+}
+
+.language-option-empty {
+    padding: 10px 12px;
+    color: #667085;
 }
 
 .deck {
@@ -57,6 +118,25 @@ label[for="target-language-dropdown"] {
     row-gap: 16px;
     column-gap: 36px;
     justify-content: start;
+}
+
+.deck-sections {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 48px;
+    flex-wrap: wrap;
+}
+
+.deck-section {
+    flex: 1 1 420px;
+    max-width: 50%;
+}
+
+@media (max-width: 960px) {
+    .deck-section {
+        max-width: 100%;
+    }
 }
 
 .deck a {

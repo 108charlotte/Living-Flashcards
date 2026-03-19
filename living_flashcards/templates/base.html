@@ -11,6 +11,7 @@
 </head>
 
 <body>
+{% if user.is_authenticated and not hide_main_nav %}
 <!-- header and select language to study, some Gemini AI help-->
  <header class="main-header">
 <a href="/" class="app-logo">
@@ -31,12 +32,10 @@
     </a>
    <h1 class="app-title">Living Flashcards</h1>
 <div class="block">
-  {% if user.is_authenticated %}
-   <form id="target-language-form" method="post" action="{% url 'lang_selection:setlanguage' %}" style="display:none;"> <!-- copilot generated -->
-  {% csrf_token %} <!-- copilot generated -->
-  <input type="hidden" name="target-language" id="hidden-lang-input"> <!-- copilot generated -->
-    </form>
-  {% endif %}
+  <form id="target-language-form" method="post" action="{% url 'lang_selection:setlanguage' %}" style="display:none;"> <!-- copilot generated -->
+    {% csrf_token %} <!-- copilot generated -->
+    <input type="hidden" name="language" id="hidden-lang-input"> <!-- copilot generated -->
+  </form>
 </div>
 </header>
 
@@ -44,9 +43,9 @@
  <nav class="sub-nav">
     <div class="profile-section">
       <div class="profile-container"> <!-- copilot generated -->
-      <div class="profile-trigger" onclick="toggleProfileMenu(event)" id="profileDropdown"> <!-- copilot generated -->
+      <div class="profile-trigger" id="profileDropdown"> <!-- copilot generated -->
         <div class="profile-icon"> <!-- copilot generated -->
-          <img src="{% static 'onigiri/sidebar.png' %}" alt="profile" width="28" height="28"> <!-- copilot generated -->
+          <img src="{% static 'all_decks/icon-profile.svg' %}" alt="profile" width="28" height="28"> <!-- copilot generated -->
         </div> <!-- copilot generated -->
         <div class="profile-image-wrapper"> <!-- copilot generated -->
       <svg width="33" height="37" viewBox="0 0 33 37" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <!-- copilot generated -->
@@ -63,8 +62,24 @@
   <div class="dropdown-card" id="profileMenu"> <!-- copilot generated -->
     <ul class="menu-list"> <!-- copilot generated -->
       <li><a href="{% url 'all_decks:profile' %}">Profile</a></li> <!-- copilot generated -->
-      <li><a class="menu-item" href="{% url 'all_decks:about' %}"><span style="font-size: 14px;">ℹ️</span> About</a></li>
-      <li><a class="menu-item" href="{% url 'all_decks:contact' %}"><svg width="20" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 18.3333V3.33333C2 2.875 2.19583 2.48264 2.5875 2.15625C2.97917 1.82986 3.45 1.66667 4 1.66667H20C20.55 1.66667 21.0208 1.82986 21.4125 2.15625C21.8042 2.48264 22 2.875 22 3.33333V13.3333C22 13.7917 21.8042 14.184 21.4125 14.5104C21.0208 14.8368 20.55 15 20 15H6L2 18.3333ZM5.15 13.3333H20V3.33333H4V14.2708L5.15 13.3333Z" fill="#1D1B20"/></svg>Contact</a></li>
+      <li>
+        <svg width="29" height="24" viewBox="0 0 29 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <rect width="29" height="24" fill="url(#pattern0_19_449)"/>
+          <defs>
+            <pattern id="pattern0_19_449" patternContentUnits="objectBoundingBox" width="1" height="1">
+              <use xlink:href="#image0_19_449" transform="matrix(0.0091954 0 0 0.0111111 0.0862069 0)"/>
+            </pattern>
+            <image id="image0_19_449" width="90" height="90" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAAD5ElEQVR4nO2dSWsUQRTHfxA1EberG6ioX8DlZMQgUYgKxoMK0YD7JUKiomdvatAoAb+GWw4G8wGiosSoBy+KB3fN4skEYkpKnhCH6TA63VWve94P/pdhlvf+DNVV1a9eg2EYhmEYhmEYhlExdcBm4DjQDdwBngOvgVFgUjQqrz2X91yRz2yS7zDKsBLoAvqA74CrUuPAPaATWEGNMx9oBwaAnymYm6Qp4AFwGGighlgo/7T3GZqbpC/ARWAJBWYucB4YiWBwqXwM5ySmQrEVeKHA4FK9ApopAH5MvAlMKzA1ST62XqCenLIaeKjASFehngLryBnNKU3TXGD5aeF2csI+4IcC09x/yi+GDqKcUxnPiV0g+RxOopRWWRzENsmlaPYBlOHHtQkF5rgMhpGdKGF9Ti987h8ukGtjm1wv0yJXcD2JPc++qcAEF0h+UROFbRFWfINAj2gw8G/7XBtDm+w3Y14GTHIMaCkTxy4ZQ0PF4W8yzAlp9PnA/6aWWWLZHTiWM6FMXhR4q3OwgpgeBYznq+ypZ86FwP+gqxXEdC1wTH4vO/PbT58UGt0TOKYPWd8Waw+ckFM4dPzRoSyNHoiQkJPZRRJ7IsXUn2VJQKyduXGZXZQzOeT0bqb8BtqyLIzuipSQm6FHMh5fBx4riOd0Fkb3KUjMKdOttE2uk9VZ7MScMo2lXX62WUFSTqk2pmn0CQUJOaU6mqbR3QoSckp1KU2j7ypIyNXCBXFYQUJOqYbSNPqtgoSSiB3XG1JEQwVoErHj8tumqTGpIKEkYsflyyxSw4wmjNE2dBBm6LCLIWEuhhqmd0kUanqnYcGSRKEWLBqW4EkUagl+XEFCScSO6wgF2yZNInZcGyjYxn8Shdr4R85Wm9FkeysLOVZsRvOXOrIwennkMypJxIrHe7GUjPBdAsxofus+BSsJc0qNbsvS6IZI7R+cMqM/SsFnoYrQnUKjzxKABbI1WKtGfwtViI4UYteq0Z0ExB+YeRYhSRdZL2J0rWlU3vDEpaxpOfIXhV4FBrhAukFE6uX4riu4HgPziMzaiFX3LtAO3RqU0JTzrjMuQb7MYgfK2FvAxij7UcrJgrT6mZKacNW05nwYmdDY4me21j/jOb3wNZEzVkXoqeGq0BMNLX2qmWf3Kl9BTstiJPo8Oa3l+rACU0vlY9pCwZgjTUVibLGW6qvswgXtJhOaBZLkuwgGf5ZG3YupIRqkFUN/xgudKbmR2lZrrefLsUwOsN+Wp1FUa+6ofFdHliUBeadO6tmOAZelGmhIHgUyMuPxICPy2pC857KcYvWftceDGIZhGIZhGIZhUCG/AG5HFrcVEg5bAAAAAElFTkSuQmCC"/>
+          </defs>
+        </svg>
+        <a href="{% url 'all_decks:about' %}">About</a>
+      </li>
+      <li>
+        <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 18.3333V3.33333C2 2.875 2.19583 2.48264 2.5875 2.15625C2.97917 1.82986 3.45 1.66667 4 1.66667H20C20.55 1.66667 21.0208 1.82986 21.4125 2.15625C21.8042 2.48264 22 2.875 22 3.33333V13.3333C22 13.7917 21.8042 14.184 21.4125 14.5104C21.0208 14.8368 20.55 15 20 15H6L2 18.3333ZM5.15 13.3333H20V3.33333H4V14.2708L5.15 13.3333Z" fill="#1D1B20"/>
+        </svg>
+        <a href="{% url 'all_decks:contact' %}">Contact</a>
+      </li>
       <hr>
       {% if user.is_authenticated %}
       <li>
@@ -82,66 +97,87 @@
     </ul>
   </div>
   </div> <!-- copilot generated -->
-  {% if user.is_authenticated %}
+  {% if available_languages_to_learn %}
     <div class="nav-language-wrapper"> <!-- copilot generated -->
       <div class="custom-dropdown nav-language"> <!-- copilot generated -->
-        <div class="dropdown-toggle" onclick="toggleDropdown()"> <!-- copilot generated -->
-          <span id="selected-language">{{ available_languages_to_learn.0 }}</span> <!-- copilot generated -->
-          <span class="arrow">▼</span> <!-- copilot generated -->
-        </div> <!-- copilot generated -->
+        <div class="dropdown-toggle"> <!-- copilot generated -->
+          <span id="selected-language">{{ selected_language|default:available_languages_to_learn.0|default:'Language' }}</span>
+          <span class="arrow">▼</span>
+        </div>
         <ul class="dropdown-menu" id="languageMenu"> <!-- copilot generated -->
-          <li class="menu-header">Select a language to learn</li> <!-- copilot generated -->
+          <li class="menu-header">Select a language to learn</li>
           {% for available_language_to_learn in available_languages_to_learn %}
-            <li onclick="selectLanguage('{{ available_language_to_learn }}')">{{ available_language_to_learn }}</li>
+            <li data-lang="{{ available_language_to_learn }}">{{ available_language_to_learn }}</li>
           {% endfor %}
         </ul> <!-- copilot generated -->
       </div> <!-- copilot generated -->
     </div> <!-- copilot generated -->
   {% endif %}
 </div>
-    <div class="donate-section"> <!-- copilot generated -->
-      <a class="donate-link" href="https://www.flipcause.com/secure/cause_pdetails/NTQ3NDQ">Donate</a> <!-- copilot generated -->
+    <div class="donate-section"> 
+      <a class="donate-link" href="https://www.flipcause.com/secure/cause_pdetails/NTQ3NDQ">Donate</a> 
     </div>
   </nav>
+  {% endif %}
 
   {% block content %}{% endblock content %}
   {% block extra_js %}{% endblock extra_js %}
 
   <!-- JS for the language selector and profile, Gemini generated-->
   <script>
-    function toggleDropdown() {
-  const dropdown = document.querySelector('.custom-dropdown');
-  dropdown.classList.toggle('active');
-  }
+    document.addEventListener('DOMContentLoaded', function() {
+      const profileTrigger = document.querySelector('.profile-trigger');
+      const profileContainer = document.querySelector('.profile-container');
+      const profileMenu = document.querySelector('.profile-container .dropdown-card');
 
-  function selectLanguage(lang) {
-  // Update the UI
-  document.getElementById('selected-language').innerText = lang;
-  
-  // Update the hidden form for the backend
-  document.getElementById('hidden-lang-input').value = lang;
-  
-  // Close the menu
-  toggleDropdown();
-  
-  // Auto-submit so the backend saves the change immediately
-  document.getElementById('target-language-form').submit();
-  }
-              function toggleProfileMenu(event) {
-            const container = document.querySelector('.profile-container');
-            if (!container) return;
-            event.stopPropagation();
-            container.classList.toggle('active');
-        }
-
-        // Close the menu if the user clicks outside of the profile area
-        window.addEventListener('click', function(e) {
-            const container = document.querySelector('.profile-container');
-            if (!container) return;
-            if (!container.contains(e.target)) {
-                container.classList.remove('active');
-            }
+      if (profileTrigger && profileContainer && profileMenu) {
+        profileTrigger.addEventListener('click', function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          profileContainer.classList.toggle('active');
         });
-    </script>
+
+        window.addEventListener('click', function(e) {
+          if (!profileContainer.contains(e.target)) {
+            profileContainer.classList.remove('active');
+          }
+        });
+      }
+
+      const languageDropdown = document.querySelector('.custom-dropdown.nav-language');
+      const languageToggle = languageDropdown ? languageDropdown.querySelector('.dropdown-toggle') : null;
+      const languageMenu = languageDropdown ? languageDropdown.querySelector('.dropdown-menu') : null;
+      const selectedLanguage = document.getElementById('selected-language');
+      const hiddenInput = document.getElementById('hidden-lang-input');
+      const form = document.getElementById('target-language-form');
+
+      if (languageToggle && languageDropdown) {
+        languageToggle.addEventListener('click', function(event) {
+          event.stopPropagation();
+          languageDropdown.classList.toggle('active');
+        });
+      }
+
+      if (languageMenu && selectedLanguage && hiddenInput && form) {
+        languageMenu.querySelectorAll('li').forEach(function(li) {
+          if (li.classList.contains('menu-header')) return;
+          li.addEventListener('click', function() {
+            const selected = li.dataset.lang || li.textContent.trim();
+            selectedLanguage.innerText = selected;
+            hiddenInput.value = selected;
+            languageDropdown.classList.remove('active');
+            form.submit();
+          });
+        });
+
+        // close when clicking outside nav-language
+        document.addEventListener('click', function(e) {
+          if (languageDropdown && !languageDropdown.contains(e.target)) {
+            languageDropdown.classList.remove('active');
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

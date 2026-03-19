@@ -6,26 +6,30 @@
 
 {% block content %}
 
-{%block extra_css %}
+{% block extra_css %}
   <link rel="stylesheet" href="{% static 'lang_selection.css' %}">
 {% endblock extra_css %}
 
-
+<div class="page-wrapper">
+  <div class="language-card">
     {% if user.is_authenticated %}
-    <h1>Select a language: </h1>
-    <p>This is the language for the card definitions and user interface, not the language(s) that you would like to study!</p>
-    <form id="user-language-form" method="post" action="{% url 'lang_selection:setlanguage' %}">
-      {% csrf_token %}
-      <label for="user-language-dropdown">Select a language: </label>
-      <select name="user-language">
-        {% for available_language in available_languages %}
-          <option value={{available_language}} name="language">{{available_language}}</option>
-        {% endfor %}
-      </select>
-      <button type="submit">Set language</button>
-    </form>
+      <h1>Select a language:</h1>
+      <p>This is the language for the card definitions and user interface, not the language(s) that you would like to study!</p>
+      <form id="user-language-form" method="post" action="{% url 'lang_selection:setlanguage' %}">
+        {% csrf_token %}
+        <label for="user-language-dropdown">Select a language:</label>
+        <select id="user-language-dropdown" name="user-language">
+          {% for available_language in available_languages %}
+            <option value="{{ available_language }}">{{ available_language }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Set language</button>
+      </form>
     {% else %}
-    <h1>Please create an account! </h1>
-    <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started! </p>
+      <h1>Please create an account!</h1>
+      <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started!</p>
     {% endif %}
+  </div>
+</div>
+
 {% endblock content %}

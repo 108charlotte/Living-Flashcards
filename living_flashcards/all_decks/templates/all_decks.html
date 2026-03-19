@@ -10,49 +10,7 @@
 <link rel="stylesheet" href="{% static 'all_decks.css' %}">
 {% endblock extra_css %}
 
-    <div class="block">
-      {% if user.is_authenticated %}
-      <h1>Welcome {{ user.username }}!</h1>
-      <form id="target-language-form">
-        <label for="target-language-dropdown">Select a language to study: </label>
-        <select name="target-language" class="styled-select">
-          {% for available_language_to_learn in available_languages_to_learn %}
-            <option value={{available_language_to_learn}}>{{available_language_to_learn}}</option>
-          {% endfor %}
-        </select>
-      </form>
-    </div>
-
-    <!--temporary centering-->
-    <div class="block">
-    <p>Click a deck below to study! </p>
-    <!--later there will be settings here for the language-->
-    {% for deck in decks %}
-      {% if deck.cards_to_review > 0 %}
-      <div class="deck">
-        <a href="{% url 'flashcards:flashcards' deck.slug %}">{{ deck.name }}: {{ deck.cards_to_review }} to review</a>
-      </div>
-      {% endif %}
-    {% endfor %}
-    <p>No cards left to review: </p>
-    {% for deck in decks %}
-      {% if deck.cards_to_review == 0 %}
-      <div class="deck">
-        <a href="{% url 'flashcards:flashcards' deck.slug %}">{{ deck.name }}: {{ deck.cards_to_review }} to review</a>
-      </div>
-      {% endif %}
-    {% endfor %}
-    {% else %}
-    <h1>Welcome to Living Flashcards! </h1>
-    <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started! </p>
-    {% endif %}
-    </div>
-    <script>
-      // copilot code to create functional frontend dropdown
-      document.querySelector('#profileDropdown').onclick = () => document.querySelector('.dropdown-menu').classList.toggle('show');
-    </script>
-
-  <!-- Copilot generated: heatmap container and asset includes -->
+ <!-- Copilot generated: heatmap container and asset includes -->
   <div id="heatmap-container"></div>
 
 <!-- Load heatmap assets from static/heatmap/ -->
@@ -84,3 +42,32 @@
     .catch(err => console.error('Heatmap load error', err));
 </script>
 {% endblock content %}
+    <!--temporary centering-->
+    <div class="block">
+    <p>Click a deck below to study! </p>
+    <!--later there will be settings here for the language-->
+    {% for deck in decks %}
+      {% if deck.cards_to_review > 0 %}
+      <div class="deck">
+        <a href="{% url 'flashcards:flashcards' deck.slug %}">{{ deck.name }}: {{ deck.cards_to_review }} to review</a>
+      </div>
+      {% endif %}
+    {% endfor %}
+    <p>No cards left to review: </p>
+    {% for deck in decks %}
+      {% if deck.cards_to_review == 0 %}
+      <div class="deck">
+        <a href="{% url 'flashcards:flashcards' deck.slug %}">{{ deck.name }}: {{ deck.cards_to_review }} to review</a>
+      </div>
+      {% endif %}
+    {% endfor %}
+    {% else %}
+    <h1>Welcome to Living Flashcards! </h1>
+    <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started! </p>
+    {% endif %}
+    </div>
+    <script>
+      // copilot code to create functional frontend dropdown
+      document.querySelector('#profileDropdown').onclick = () => document.querySelector('.dropdown-menu').classList.toggle('show');
+    </script>
+

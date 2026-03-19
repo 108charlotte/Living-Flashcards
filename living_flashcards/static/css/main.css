@@ -1,11 +1,5 @@
-/*page background*/
-body {
-    background-color: #FCFCF7;
-    margin: 0;
-    padding-top: 20px;
-}
 
-/* Heatmap color variables (defaults, can be overridden by theme) */
+/* Heatmap color variables */
 :root {
   --heatmap-level-0: #ebedf0;
   --heatmap-level-1: #c6e48b;
@@ -16,125 +10,226 @@ body {
   --heatmap-empty: #f7f7f7;
 }
 
-/* Navbar styles */
+/* ===== Beginning ChatGPT generated (or tbh it was a revision of my own code, which I believe also had Gemini aid) ===== */
 
-/* Hide dropdown by default */
-.nav-item.dropdown .dropdown-menu {
-    display: none;
-    position: absolute;      /* position relative to Profile */
-    top: 100%;               /* directly below Profile */
-    left: 0;
-    list-style: none;        /* remove bullet points */
-    padding: 0;
-    margin: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    min-width: 120px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    z-index: 1000;
-}
-
-.main-content,
-main.content {
-    margin-left: 260px; /* sidebar width (220px) + left position (16px) + spacing (24px) */
-    padding: 20px;
-}
-
-/* Show dropdown */
-.nav-item.dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-/* Style items in dropdown */
-.nav-item.dropdown .dropdown-menu a,
-.nav-item.dropdown .dropdown-menu button {
-    display: block;
-    width: 100%;
-    padding: 8px 16px;
-    text-align: left;
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: #000;
-    text-decoration: none;
-}
-
-/* Hover effect for items */
-.nav-item.dropdown .dropdown-menu a:hover,
-.nav-item.dropdown .dropdown-menu button:hover {
-    background-color: #f0f0f0;
-}
-
-.navbar a {
-  text-decoration: none;
-  color: #000000;
-}
-
-.navbar a:hover {
-  text-decoration: underline;
-}
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 24px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.navbar-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: auto;
-  height: auto;
-}
-
-.navbar-left svg {
-  width: 40px !important;
-  height: 40px !important;
-  flex-shrink: 0;
-}
-
-.navbar-nav {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  list-style: none;
+* {
   margin: 0;
-  padding: 0;  
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* copilot styling for application name + logo */
+/* ===== Page ===== */
 
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #FCFCF7;
+  color: #333;
 }
 
-.brand-line {
-  font-size: 16px;
+/* ===== Header ===== */
+
+.main-header {
+  text-align: center;
+  padding: 20px 0 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Title */
+
+.app-title {
+  font-size: 28px;
   font-weight: 600;
-  color: #000000;
-  text-decoration: none;
+  margin-bottom: 6px;
 }
 
-.navbar-left a {
+/* ===== Language Selector ===== */
+
+.custom-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dropdown-toggle {
   display: flex;
   align-items: center;
   gap: 8px;
-  text-decoration: none;
-  color: #000000;
+  font-size: 14px;
+  color: #555;
+  transition: opacity 0.2s;
 }
 
-/* end copilot */
+.dropdown-toggle:hover {
+  opacity: 0.8;
+}
 
-.block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
-    padding: 40px 24px;
+/* Arrow animation */
+
+.arrow {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.custom-dropdown.active .arrow {
+  transform: rotate(180deg);
+}
+
+/* ===== Language Dropdown Menu ===== */
+
+.dropdown-menu {
+  position: absolute;
+  top: 130%;
+  left: 0;
+  background: #FCFCF7;
+  color: black;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  min-width: 160px;
+  display: none;
+  z-index: 1000;
+}
+
+.custom-dropdown.active .dropdown-menu {
+  display: block;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown-menu li:hover {
+  background: #f0f0f0;
+}
+
+/* ===== Sub Navigation ===== */
+
+.sub-nav {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+}
+
+/* Left side (Profile area) */
+
+.profile-section {
+  margin-right: auto;
+}
+
+/* Right side (Donate) */
+
+.donate-section {
+  margin-left: auto;
+}
+
+.donate-section a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #333;
+}
+
+/* ===== Profile Trigger ===== */
+
+.profile-container {
+  position: relative;
+}
+
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.profile-trigger:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.welcome-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* ===== Profile Dropdown ===== */
+
+.dropdown-card {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 200px;
+  background: white;
+  border: 1.5px solid #000;
+  margin-top: 8px;
+  display: none;
+  z-index: 1000;
+}
+
+.profile-container.active .dropdown-card {
+  display: block;
+}
+
+/* Dropdown menu list */
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li a,
+.sign-out-btn {
+  display: block;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #000;
+  font-size: 16px;
+  text-align: left;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.menu-list li:hover {
+  background: #f4f4f4;
+}
+
+/* Sign out button */
+
+.sign-out-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sign-out-icon {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Divider */
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 0;
 }

@@ -53,4 +53,36 @@ label[for="target-language-dropdown"] {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Center all decks content */
+.all-decks-content {
+    width: min(900px, 92%);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 0 30px;
+}
+
+#heatmap-container {
+    width: min(560px, 100%);
+    margin: 0 auto;
+    max-height: 380px;
+}
+
+.deck {
+    width: min(420px, 100%);
+    text-align: center;
+}
+
+.block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.deck p, .deck a { text-align: center; }
+
 /* if you're looking for the block class that holds temporary centering styles, I moved it to main.css so it could be used in more places*/

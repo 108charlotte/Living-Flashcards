@@ -11,13 +11,14 @@
 {% endblock extra_css %}
 
  <!-- Copilot generated: heatmap container and asset includes -->
-  <div id="heatmap-container"></div>
+  <div class="all-decks-content">
+    <div id="heatmap-container"></div>
 
-<!-- Load heatmap assets from static/heatmap/ -->
-<link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
-<script src="{% static 'heatmap/heatmap.js' %}"></script>
+    <!-- Load heatmap assets from static/heatmap/ -->
+    <link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
+    <script src="{% static 'heatmap/heatmap.js' %}"></script>
 
-<script>
+    <script>
   // Fetch the SVG mask first, then fetch the heatmap JSON and render
   const svgUrl = "{% static 'heatmap/square.svg' %}";
 
@@ -62,8 +63,15 @@
     {% endfor %}
     </div>
     <script>
-      // copilot code to create functional frontend dropdown
-      document.querySelector('#profileDropdown').onclick = () => document.querySelector('.dropdown-menu').classList.toggle('show');
+      // safely bind dropdown toggles if present
+      const profileDropdown = document.querySelector('#profileDropdown');
+      if (profileDropdown) {
+        profileDropdown.onclick = () => {
+          const menu = document.querySelector('.dropdown-menu');
+          if (menu) menu.classList.toggle('show');
+        };
+      }
     </script>
+  </div>
 {% endblock content %}
 

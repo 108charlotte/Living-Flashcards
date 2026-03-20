@@ -10,27 +10,6 @@
 
 {% block content %}
 
-    <div class="block">
-      {% if user.is_authenticated %}
-      <div class="lang-title">
-        <div><h1>Living Flashcards</h1></div>
-        <div class="deck-selector">
-          <span id="selected-language-label">Sora</span>
-          <button id="open-language-dropdown" class="arrow-button" type="button" aria-label="Open language selector" aria-expanded="false" aria-controls="language-dropdown-menu">
-            <span class="arrow">▾</span>
-          </button>
-          <div id="language-dropdown-menu" class="language-dropdown-menu" aria-labelledby="open-language-dropdown">
-            {% for available_language_to_learn in available_languages_to_learn %}
-              <button type="button" class="language-option" data-language="{{ available_language_to_learn }}">{{ available_language_to_learn }}</button>
-            {% empty %}
-              <div class="language-option-empty">No languages available</div>
-            {% endfor %}
-          </div>
-        </div>
-        <p id="language-coming-soon-message" class="language-coming-soon-message" hidden>Flashcards for this language coming soon!</p>
-      </div>
-    </div>
-
     <div class="all-decks-home">
     <div class="all-decks-heatmap">
       <div

@@ -1,4 +1,4 @@
-// for copilot generated language selection dropdown
+
 const profileDropdown = document.querySelector('#profileDropdown');
 if (profileDropdown) {
 	profileDropdown.onclick = () => document.querySelector('.dropdown-menu').classList.toggle('show');

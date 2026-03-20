@@ -65,21 +65,25 @@ def all_decks(request):
 @login_required
 def deck_category(request, category):
     context = _get_deck_page_context(request.user)
+    # Keep category keys stable for URLs/logic ('started', 'not-started'),
+    # while user-facing labels use the names ('My Decks', 'Explore Decks').
 
     if category == 'started':
         context.update(
             {
-                'page_title': 'Started decks',
+                'page_title': 'My Decks',
                 'category_decks': context['started_decks'],
                 'empty_message': "You haven't started any decks yet.",
+                'category_description': "Browse every deck that you've started.",
             }
         )
     elif category == 'not-started':
         context.update(
             {
-                'page_title': 'Not started yet',
+                'page_title': 'Explore Decks',
                 'category_decks': context['not_started_decks'],
                 'empty_message': "You've started all available decks.",
+                'category_description': "Browse every deck that you still have to start.",
             }
         )
     else:

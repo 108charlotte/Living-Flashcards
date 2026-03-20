@@ -96,13 +96,28 @@ h1 {
     color: #667085;
 }
 
+.language-coming-soon-message {
+    margin-top: 8px;
+    color: #444;
+    font-size: 14px;
+}
+
+.deck-instruction {
+    font-size: 16px;
+    margin: 0 40px;
+}
+
 .deck {
     background-color: rgba(144, 186, 144, 1); 
     padding: 10px; 
     border-radius: 10px; 
     margin: 0;
-    width: 160px;
+    width: clamp(140px, 18vw, 180px);
+    min-width: clamp(140px, 18vw, 180px);
+    max-width: clamp(140px, 18vw, 180px);
     height: 140px;
+    min-height: 120px;
+    max-height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,19 +128,20 @@ h1 {
     display: grid;
     align-self: stretch;
     width: 100%;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 160px));
+    grid-template-columns: repeat(auto-fit, minmax(clamp(140px, 18vw, 180px), clamp(140px, 18vw, 180px)));
     grid-auto-flow: row;
-    row-gap: 16px;
-    column-gap: 36px;
-    justify-content: start;
+    row-gap: 24px;
+    column-gap: 44px;
+    justify-content: center;
 }
 
 .deck-sections {
     display: flex;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 48px;
     flex-wrap: wrap;
+    padding: 0 40px;
 }
 
 .deck-section {
@@ -133,8 +149,19 @@ h1 {
     max-width: 50%;
 }
 
+.deck-section:first-child {
+    border-right: 1px solid #ddd;
+    padding-right: 24px;
+}
+
+.deck-section:last-child {
+    padding-left: 24px;
+}
+
 .deck-section-heading {
-    margin: 0 0 14px;
+    margin: 0 0 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #ddd;
     font-size: 20px;
     font-weight: 600;
 }
@@ -150,8 +177,9 @@ h1 {
 }
 
 .deck-grid-scroll {
-    max-height: 452px;
+    max-height: calc(100vh - 260px);
     overflow-y: auto;
+    overflow-x: hidden;
     padding-right: 10px;
 }
 
@@ -164,9 +192,44 @@ h1 {
     border-radius: 999px;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1199px) {
     .deck-section {
         max-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .deck-grid-scroll {
+        max-height: none;
+        overflow-y: visible;
+    }
+    
+    .deck-section:first-child {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        padding-right: 0;
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+    }
+    
+    .deck-section:last-child {
+        padding-left: 0;
+    }
+    
+    .deck-grid {
+        grid-template-columns: repeat(auto-fit, minmax(clamp(130px, 20vw, 170px), clamp(130px, 20vw, 170px)));
+    }
+    
+    .deck {
+        width: clamp(130px, 20vw, 170px);
+        min-width: clamp(130px, 20vw, 170px);
+        max-width: clamp(130px, 20vw, 170px);
+    }
+}
+
+@media (max-width: 768px) {
+    .deck-sections {
+        padding: 0 24px;
+        gap: 24px;
     }
 }
 
@@ -196,27 +259,49 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* deck_category.html styles start here */
 .deck-category-page {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: flex-start;
+    padding-top: 20px;
+    margin: 0 15px;
 }
 
 .deck-category-header {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    width: 100%;
 }
 
 .deck-category-back {
     width: fit-content;
     color: #444;
     text-decoration: none;
+    text-align: left;
 }
 
 .deck-category-back:hover,
 .deck-category-back:focus-visible {
     text-decoration: underline;
+}
+
+.deck-category-header h1 {
+    justify-content: center;
+}
+
+.deck-category-page .deck-grid {
+    justify-content: center;
+}
+
+.deck-category-back,
+.deck-category-header h1,
+.deck-category-header p,
+.deck-category-page .deck-grid {
+    position: relative;
+    top: -36px;
 }
 
 /* if you're looking for the block class that holds temporary centering styles, I moved it to main.css so it could be used in more places*/

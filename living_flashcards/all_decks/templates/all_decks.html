@@ -27,17 +27,17 @@
             {% endfor %}
           </div>
         </div>
+        <p id="language-coming-soon-message" class="language-coming-soon-message" hidden>Flashcards for this language coming soon!</p>
       </div>
     </div>
 
     <div>
-    <p>Click a deck below to study! </p>
     <div class="deck-sections">
 
       <!-- copilt rule for separating decks with zero Review events by this user -->
       <section class="deck-section">
         <h2 class="deck-section-heading">
-          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'started' %}">Started decks</a>
+          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'started' %}">My Decks</a>
         </h2>
         <div class="deck-grid-scroll">
           <div class="deck-grid">
@@ -57,7 +57,7 @@
 
       <section class="deck-section">
         <h2 class="deck-section-heading">
-          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'not-started' %}">Not started yet</a>
+          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'not-started' %}">Explore Decks</a>
         </h2>
         <div class="deck-grid-scroll">
           <div class="deck-grid">

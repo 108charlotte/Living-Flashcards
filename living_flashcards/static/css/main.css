@@ -26,6 +26,11 @@ body {
   color: #333;
 }
 
+.main-content,
+main.content {
+    padding: 20px;
+}
+
 /* ===== Header ===== */
 
 .main-header {

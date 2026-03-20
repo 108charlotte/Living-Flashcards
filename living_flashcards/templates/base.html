@@ -120,7 +120,13 @@
   </nav>
   {% endif %}
 
-  {% block content %}{% endblock content %}
+  <!--main-->
+  <main class="content">
+    {% block content %}
+    <!-- page content goes here -->
+    {% endblock %}
+  </main>
+
   {% block extra_js %}{% endblock extra_js %}
 
   <!-- JS for the language selector and profile, Gemini generated-->

@@ -4,74 +4,93 @@
 
 {% block title %}All Decks{% endblock %}
 
-{% block content %}
-
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'all_decks.css' %}">
 {% endblock extra_css %}
 
- <!-- Copilot generated: heatmap container and asset includes -->
-  <div class="all-decks-content">
-    <div id="heatmap-container"></div>
+{% block content %}
 
-    <!-- Load heatmap assets from static/heatmap/ -->
-    <link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
-    <script src="{% static 'heatmap/heatmap.js' %}"></script>
-
-    <script>
-  // Fetch the SVG mask first, then fetch the heatmap JSON and render
-  const svgUrl = "{% static 'heatmap/square.svg' %}";
-
-  fetch(svgUrl)
-    .then(resp => resp.text())
-    .then(svgText => {
-      return fetch("{% url 'all_decks:heatmap_data' %}")
-        .then(response => response.json())
-        .then(data => ({ svgText, data }));
-    })
-    .then(({ svgText, data }) => {
-      const config = {
-        heatmapShowStreak: true,
-        heatmapShowMonths: true,
-        heatmapShowWeekdays: true,
-        heatmapShowWeekHeader: true,
-        heatmapDefaultView: 'year',
-        heatmapSvgContent: svgText
-      };
-      window.OnigiriHeatmap.render('heatmap-container', data, config);
-    })
-    .catch(err => console.error('Heatmap load error', err));
-</script>
-    <!--temporary centering-->
     <div class="block">
-    <p>Click a deck below to study! </p>
-    <!--later there will be settings here for the language-->
-    {% for deck in decks %}
-      {% if deck.cards_to_review > 0 %}
-      <div class="deck">
-        <a href="{% url 'flashcards:flashcards' deck.slug %}">{{ deck.name }}: {{ deck.cards_to_review }} to review</a>
+      {% if user.is_authenticated %}
+      <div class="lang-title">
+        <div><h1>Living Flashcards</h1></div>
+        <div class="deck-selector">
+          <span id="selected-language-label">Sora</span>
+          <button id="open-language-dropdown" class="arrow-button" type="button" aria-label="Open language selector" aria-expanded="false" aria-controls="language-dropdown-menu">
+            <span class="arrow">▾</span>
+          </button>
+          <div id="language-dropdown-menu" class="language-dropdown-menu" aria-labelledby="open-language-dropdown">
+            {% for available_language_to_learn in available_languages_to_learn %}
+              <button type="button" class="language-option" data-language="{{ available_language_to_learn }}">{{ available_language_to_learn }}</button>
+            {% empty %}
+              <div class="language-option-empty">No languages available</div>
+            {% endfor %}
+          </div>
+        </div>
+        <p id="language-coming-soon-message" class="language-coming-soon-message" hidden>Flashcards for this language coming soon!</p>
       </div>
-      {% endif %}
-    {% endfor %}
-    <p>No cards left to review: </p>
-    {% for deck in decks %}
-      {% if deck.cards_to_review == 0 %}
-      <div class="deck">
-        <a href="{% url 'flashcards:flashcards' deck.slug %}">{{ deck.name }}: {{ deck.cards_to_review }} to review</a>
-      </div>
-      {% endif %}
-    {% endfor %}
     </div>
-    <script>
-      // safely bind dropdown toggles if present
-      const profileDropdown = document.querySelector('#profileDropdown');
-      if (profileDropdown) {
-        profileDropdown.onclick = () => {
-          const menu = document.querySelector('.dropdown-menu');
-          if (menu) menu.classList.toggle('show');
-        };
-      }
-    </script>
-  </div>
-{% endblock content %}
 
+    <div class="all-decks-home">
+    <div class="all-decks-heatmap">
+      <div
+        id="heatmap-container"
+        data-svg-url="{% static 'heatmap/square.svg' %}"
+        data-heatmap-url="{% url 'all_decks:heatmap_data' %}"
+      ></div>
+    </div>
+
+    <div class="deck-sections">
+
+      <!-- copilt rule for separating decks with zero Review events by this user -->
+      <section class="deck-section">
+        <h2 class="deck-section-heading">
+          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'started' %}">My Decks</a>
+        </h2>
+        <div class="deck-grid-scroll">
+          <div class="deck-grid">
+          {% for deck in started_decks %}
+            <div class="deck">
+              <a href="{% url 'flashcards:flashcards' deck.slug %}">
+                <span class="deck-title">{{ deck.name }}</span>
+                <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+              </a>
+            </div>
+          {% empty %}
+            <p>You haven't started any decks yet.</p>
+          {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <section class="deck-section">
+        <h2 class="deck-section-heading">
+          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'not-started' %}">Explore Decks</a>
+        </h2>
+        <div class="deck-grid-scroll">
+          <div class="deck-grid">
+          {% for deck in not_started_decks %}
+            <div class="deck">
+              <a href="{% url 'flashcards:flashcards' deck.slug %}">
+                <span class="deck-title">{{ deck.name }}</span>
+                <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+              </a>
+            </div>
+          {% empty %}
+            <p>You've started all available decks.</p>
+          {% endfor %}
+          </div>
+        </div>
+      </section>
+    </div>
+    {% else %}
+    <h1>Welcome to Living Flashcards! </h1>
+    <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started! </p>
+    {% endif %}
+    </div>
+
+<!-- Load heatmap assets from static/heatmap/ -->
+<link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
+<script src="{% static 'heatmap/heatmap.js' %}"></script>
+<script src="{% static 'all_decks.js' %}"></script>
+{% endblock content %}

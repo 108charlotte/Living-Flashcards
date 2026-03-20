@@ -68,29 +68,44 @@
 {% block content %}
 <!--I think the header tags got lost somewhere...-->
 
-    <h3>{{deck_info.name_in_lang}}</h3>
+<div class="flashcards-content">
+
+<!-- Progress bar showing progress through flashcards -->
+  {% if totalCards %}
+      <div class="progress-row">
+        <div class="progress">
+            <div class="progress_fill"></div>
+        </div>
+        <span class="progress_text">{{currentIndex}}/{{totalCards}}</span>
+      </div>
+      {% endif %}
+
     <h4>{{deck_info.name}}</h4>
 
     {% if card %}
       <div class="card-stack">
         <div class="card stack-back"></div>
         <div class="card stack-mid"></div>
-        <div class="card clickable-card" onclick="flipCard()">
-          <button class="speaker-btn" id="speakerBtn" title="Hear the word">
-            <img src="{% static 'Speaker_Icon.svg' %}" alt="Speaker icon">
-          </button>
-          <div class="card-front">
-            <h2 class="card-word">{{ card.card_id.term }}</h2>
-            <p class="card-phonetic">{{ card.card_id.phonetic }}</p>
+        <div class="card clickable-card">
+            <!-- speaker button only on the front face so the back side isn't mirrored -->
+
+            <div class="card-front">
+              <button class="speaker-btn" title="Hear the word">
+                <img src="{% static 'Speaker_Icon.svg' %}" alt="Speaker icon">
+              </button>
+              <h2 class="card-word">{{ card.card_id.term }}</h2>
+              <p class="card-phonetic">{{ card.card_id.phonetic }}</p>
+            </div>
+            <div class="card-back hidden">
+              <p class="card-definition">{{ card.card_id.definition }}</p>
+            </div>
           </div>
-          <div class="card-back hidden">
-            <p class="card-definition">{{ card.card_id.definition }}</p>
-          </div>
-        </div>
       </div>
     {% else %}
-      <p>No cards to review.</p>
-      <a href="/" class="button-link">Go home</a>
+      <div class="block">
+        <p>You've finished the deck for now!</p>
+        <a href="/" class="button-link">Go home</a>
+      </div>
     {% endif %}
 
  <!-- Need to make buttons like Anki's -->
@@ -100,12 +115,13 @@
     <!--security thing so db doesn't get mad-->
     {% csrf_token %}
     <input type="hidden" name="card_id" value="{{ card.card_id.card_id }}"> <!--this is the id for the cardtouser object which is the object storing a specific card's data for a specific user-->
-    <button type="submit" name="rating" value="again">Again: {{review_intervals.again}}</button>
-    <button type="submit" name="rating" value="hard">Hard: {{review_intervals.hard}}</button>
-    <button type="submit" name="rating" value="good">Good: {{review_intervals.good}}</button>
-    <button type="submit" name="rating" value="easy">Easy: {{review_intervals.easy}}</button>
+    <button type="submit" name="rating" value="again"><span class="rating-label">Again</span><span class="rating-interval">{{review_intervals.again}}</span></button>
+    <button type="submit" name="rating" value="hard"><span class="rating-label">Hard</span><span class="rating-interval">{{review_intervals.hard}}</span></button>
+    <button type="submit" name="rating" value="good"><span class="rating-label">Good</span><span class="rating-interval">{{review_intervals.good}}</span></button>
+    <button type="submit" name="rating" value="easy"><span class="rating-label">Easy</span><span class="rating-interval">{{review_intervals.easy}}</span></button>
   </form>
   {% endif %}
 
   <script src="{% static 'flashcards.js' %}"></script>
+</div>
 {% endblock content %}

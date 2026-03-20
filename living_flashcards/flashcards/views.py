@@ -5,6 +5,7 @@ from django.template import loader
 from flashcards.models import Deck, CardInfo, CardToUser, Review
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
 # for fsrs
 from fsrs import Scheduler, Card, Rating, ReviewLog
@@ -23,6 +24,7 @@ PROGRESS_DECK_SESSION_KEY = 'flashcards_progress_deck_id'
 PROGRESS_COMPLETED_SESSION_KEY = 'flashcards_progress_completed'
 
 # display correct cards
+@login_required
 def flashcards(request, slug):
   # take slug and use to get deck to pass to template
   deck = get_object_or_404(Deck, slug=slug)
@@ -122,6 +124,7 @@ def get_review_intervals(card_to_user):
 
 # takes input from HTML form
 # updates current card's stats and moves on to next one
+@login_required
 @require_POST
 def review_card(request): 
   user_confidence_rating = request.POST.get("rating")

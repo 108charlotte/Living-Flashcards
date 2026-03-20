@@ -11,10 +11,11 @@
 </head>
 
 <body>
-{% if user.is_authenticated and not hide_main_nav %}
-<!-- header and select language to study, some Gemini AI help-->
- <header class="main-header">
-<a href="/" class="app-logo">
+{% block navbar %}
+  {% if user.is_authenticated and not hide_main_nav %}
+  <!-- header and select language to study, some Gemini AI help-->
+   <header class="main-header">
+  <a href="/" class="app-logo">
       <svg class="nav-logo-svg" viewBox="0 0 67 67" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_5_729)">
           <path d="M33.4999 65.8861C51.3863 65.8861 65.886 51.3864 65.886 33.5C65.886 15.6136 51.3863 1.11387 33.4999 1.11387C15.6135 1.11387 1.11377 15.6136 1.11377 33.5C1.11377 51.3864 15.6135 65.8861 33.4999 65.8861Z" stroke="black" stroke-width="13" stroke-miterlimit="10"/>
@@ -119,6 +120,7 @@
     </div>
   </nav>
   {% endif %}
+{% endblock navbar %}
 
   <!--main-->
   <main class="content">

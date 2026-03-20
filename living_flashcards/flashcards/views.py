@@ -64,7 +64,8 @@ def flashcards(request, slug):
     'card': start_card,
     'review_intervals': review_intervals,
     'currentIndex': current_index,
-    'totalCards': total_cards
+    'totalCards': total_cards,
+    'hide_main_nav': True,
   })
 
 def get_cards_to_review(request, deck): 
@@ -209,5 +210,6 @@ def review_card(request):
     'card': start_card,
     'review_intervals': review_intervals,
     'currentIndex': current_index,
-    'totalCards': total_cards
+    'totalCards': total_cards,
+    'hide_main_nav': True,
   })

@@ -9,7 +9,7 @@
 {% endblock extra_css %}
 
 {% block navbar %}
-  <nav class="navbar">
+ <nav class="navbar">
       <div class="navbar-left">
         <a href="/" class="navbar-brand">
             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
@@ -19,9 +19,15 @@
         </a>
       </div>
 
-    
-    <li class="nav-item dropdown" style="position: relative;">
-          <a 
+      <div class="navbar-center">
+        {% if estimated_time %}
+          <p class="estimated-time">Estimated time: {{ estimated_time }} minute{{ estimated_time|pluralize }}</p>
+        {% endif %}
+      </div>
+
+<div class="navbar-right">
+        <li class="nav-item dropdown" style="position: relative;">
+          <a
             class="nav-right nav-link dropdown-toggle" href="{% url 'all_decks:profile' %}" id="profileDropdown">
             <span class="profile-name">{{ user.username }}</span>
               <svg width="33" height="37" viewBox="0 0 33 37" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -30,11 +36,11 @@
                 <pattern id="pattern0_18_193" patternContentUnits="objectBoundingBox" width="1" height="1">
                 <use xlink:href="#image0_18_193" transform="matrix(0.0111111 0 0 0.00996169 0 0.0517241)"/>
                 </pattern>
-                <image id="image0_18_193" width="90" height="90" preserveAspectRatio="none" xlink:href="data:image/png;base64,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"/>
+                <image id="image0_18_193" width="90" height="90" preserveAspectRatio="none" xlink:href="data:image/png;base64,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"/>
                 </defs>
               </svg>
             </a>
-        <ul class="dropdown-menu">   
+        <ul class="dropdown-menu">  
           {% if user.is_authenticated %}
           <li>
             <form method="post" action="{% url 'logout' %}">
@@ -48,15 +54,15 @@
           {% endif %}
         </ul>
     </li>
+      </div>
   </nav>
-{% endblock navbar%}
+{% endblock navbar %}
 
 {% block content %}
-<!--I think the header tags got lost somewhere...-->
-
 <div class="flashcards-content">
+  
+  <h4 class="deck-title-header">{{ deck_info.name }}</h4>
 
-<!-- Progress bar showing progress through flashcards -->
   {% if totalCards %}
       <div class="progress-row">
         <div class="progress">
@@ -64,17 +70,13 @@
         </div>
         <span class="progress_text">{{currentIndex}}/{{totalCards}}</span>
       </div>
-      {% endif %}
-
-    <h4>{{deck_info.name}}</h4>
+  {% endif %}
 
     {% if card %}
       <div class="card-stack">
         <div class="card stack-back"></div>
         <div class="card stack-mid"></div>
         <div class="card clickable-card">
-            <!-- speaker button only on the front face so the back side isn't mirrored -->
-
             <div class="card-front">
               <button class="speaker-btn" title="Hear the word">
                 <img src="{% static 'Speaker_Icon.svg' %}" alt="Speaker icon">
@@ -87,6 +89,7 @@
             </div>
           </div>
       </div>
+
     {% else %}
       <div class="block">
         <p>You've finished the deck for now!</p>
@@ -94,20 +97,17 @@
       </div>
     {% endif %}
 
- <!-- Need to make buttons like Anki's -->
-  <!--rn this 100% doesn't follow best-conventions-->
-  {% if card %}
-  <form action="{% url 'flashcards:review_card' %}" method="post" class="hidden review-buttons" id="difficulty-buttons">
-    <!--security thing so db doesn't get mad-->
-    {% csrf_token %}
-    <input type="hidden" name="card_id" value="{{ card.card_id.card_id }}"> <!--this is the id for the cardtouser object which is the object storing a specific card's data for a specific user-->
-    <button type="submit" name="rating" value="again"><span class="rating-label">Again</span><span class="rating-interval">{{review_intervals.again}}</span></button>
-    <button type="submit" name="rating" value="hard"><span class="rating-label">Hard</span><span class="rating-interval">{{review_intervals.hard}}</span></button>
-    <button type="submit" name="rating" value="good"><span class="rating-label">Good</span><span class="rating-interval">{{review_intervals.good}}</span></button>
-    <button type="submit" name="rating" value="easy"><span class="rating-label">Easy</span><span class="rating-interval">{{review_intervals.easy}}</span></button>
-  </form>
-  {% endif %}
-
+    {% if card %}
+      <form action="{% url 'flashcards:review_card' %}" method="post" class="hidden review-buttons" id="difficulty-buttons">
+        {% csrf_token %}
+        <input type="hidden" name="card_id" value="{{ card.card_id.card_id }}">
+        <button type="submit" name="rating" value="again"><span class="rating-label">Again</span><span class="rating-interval">{{review_intervals.again}}</span></button>
+        <button type="submit" name="rating" value="hard"><span class="rating-label">Hard</span><span class="rating-interval">{{review_intervals.hard}}</span></button>
+        <button type="submit" name="rating" value="good"><span class="rating-label">Good</span><span class="rating-interval">{{review_intervals.good}}</span></button>
+        <button type="submit" name="rating" value="easy"><span class="rating-label">Easy</span><span class="rating-interval">{{review_intervals.easy}}</span></button>
+      </form>
+    {% endif %}
+  
   <script src="{% static 'flashcards.js' %}"></script>
 </div>
 {% endblock content %}

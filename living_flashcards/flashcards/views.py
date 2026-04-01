@@ -6,6 +6,7 @@ from flashcards.models import Deck, CardInfo, CardToUser, Review
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from authentication.models import UserStudySettings
 
 # for fsrs
 from fsrs import Scheduler, Card, Rating, ReviewLog
@@ -22,6 +23,14 @@ scheduler = Scheduler()
 # so the progress bar can be based on completed/(completed+remaining).
 PROGRESS_DECK_SESSION_KEY = 'flashcards_progress_deck_id'
 PROGRESS_COMPLETED_SESSION_KEY = 'flashcards_progress_completed'
+
+
+def get_daily_new_limit(user):
+  # Pull persisted user preference, creating defaults if missing.
+  settings_obj, _ = UserStudySettings.objects.get_or_create(user=user)
+
+  # Runtime clamp ensures safe behavior even if malformed data exists.
+  return max(5, min(30, settings_obj.daily_new_limit))
 
 # display correct cards
 @login_required
@@ -70,11 +79,36 @@ def flashcards(request, slug):
 
 def get_cards_to_review(request, deck): 
   now = timezone.now()
+  today = timezone.localdate()
   # all cardtouser cards for current user, code written by Copilot
   user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user)
-  # sorted by review time, lte = less than or equal to, gets cards whose next review date is in the past
-  to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True)).order_by('see_next')
-  return (to_review)
+  daily_new_limit = get_daily_new_limit(request.user)
+
+  # Learning cards are reviewed at least once and due now/past; they are never capped.
+  learning_due = user_cards.exclude(review_card={}).filter(see_next__lte=now)
+
+  # Strict daily budget:
+  # 1) Count how many cards were introduced today for this deck/user.
+  # 2) Introduce only the remaining number of brand-new cards today.
+  # 3) Always keep previously introduced-but-unreviewed new cards available.
+  introduced_today_count = user_cards.filter(new_introduced_on=today).count()
+  remaining_budget = max(daily_new_limit - introduced_today_count, 0)
+
+  if remaining_budget > 0:
+    newly_introduced_ids = list(
+      user_cards
+      .filter(review_card={}, new_introduced_on__isnull=True)
+      .order_by('id')
+      .values_list('id', flat=True)[:remaining_budget]
+    )
+    if newly_introduced_ids:
+      user_cards.filter(id__in=newly_introduced_ids).update(new_introduced_on=today)
+
+  available_new_cards = user_cards.filter(review_card={}).exclude(new_introduced_on__isnull=True)
+
+  # Combine learning and available new cards into the queue shown to the user.
+  to_review = (learning_due | available_new_cards).order_by('see_next', 'id')
+  return to_review
 
 def clean_times(now, due_date): 
   difference = due_date - now

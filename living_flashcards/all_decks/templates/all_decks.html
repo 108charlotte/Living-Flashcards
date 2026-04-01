@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}All Decks{% endblock %}
+{% block title %}Living Flashcards{% if selected_language %} | {{ selected_language }}{% endif %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'all_decks.css' %}">
@@ -10,6 +10,15 @@
 
 {% block content %}
 {% if user.is_authenticated %}
+    {% if coming_soon_language %}
+    <div class="coming-soon-layout">
+      <div class="coming-soon-state">
+        <h1>Flashcards for {{ coming_soon_language }} are coming soon!</h1>
+        <p>We are still building decks and reviewing content for this language.</p>
+        <p>Please select Sora from the language dropdown to continue studying now.</p>
+      </div>
+    </div>
+    {% else %}
     <div class="all-decks-home">
     <div class="all-decks-heatmap">
       <div
@@ -32,7 +41,7 @@
             <div class="deck">
               <a href="{% url 'flashcards:flashcards' deck.slug %}">
                 <span class="deck-title">{{ deck.name }}</span>
-                <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+                <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>
               </a>
             </div>
           {% empty %}
@@ -52,7 +61,7 @@
             <div class="deck">
               <a href="{% url 'flashcards:flashcards' deck.slug %}">
                 <span class="deck-title">{{ deck.name }}</span>
-                <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+                <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>
               </a>
             </div>
           {% empty %}
@@ -63,13 +72,20 @@
       </section>
     </div>
     </div>
+      {% endif %}
 {% else %}
-    <h1>Welcome to Living Flashcards! </h1>
-    <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started! </p>
+    <div class="logged-out-state">
+      <div class="logged-out-card">
+        <h1>Welcome to Living Flashcards!</h1>
+        <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started!</p>
+      </div>
+    </div>
 {% endif %}
 
 <!-- Load heatmap assets from static/heatmap/ -->
+    {% if user.is_authenticated and not coming_soon_language %}
 <link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
 <script src="{% static 'heatmap/heatmap.js' %}"></script>
+    {% endif %}
 <script src="{% static 'all_decks.js' %}"></script>
 {% endblock content %}

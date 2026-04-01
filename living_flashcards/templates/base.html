@@ -33,7 +33,7 @@
     </a>
    <h1 class="app-title">Living Flashcards</h1>
 <div class="block">
-  <form id="target-language-form" method="post" action="{% url 'lang_selection:setlanguage' %}" style="display:none;"> <!-- copilot generated -->
+  <form id="target-language-form" method="post" action="{% url 'all_decks:set_study_language' %}" style="display:none;"> <!-- copilot generated -->
     {% csrf_token %} <!-- copilot generated -->
     <input type="hidden" name="language" id="hidden-lang-input"> <!-- copilot generated -->
   </form>

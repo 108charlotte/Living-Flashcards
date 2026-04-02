@@ -1,3 +1,4 @@
+<!-- Copilot generated! -->
 {% extends 'base.html' %}
 {% load static %}
 
@@ -160,6 +161,12 @@
       <span class="deck-info-label">Total Duration:</span>
       <span class="deck-info-value duration">{{ estimated_time }} minutes</span>
     </div>
+    <div class="deck-info-divider"></div>
+    <div class="deck-info-row">
+      <span class="deck-info-label">Total Cards:</span>
+      <span class="deck-info-value">{{ total_cards }}</span>
+    </div>
+    <div class="deck-info-divider"></div>
   </div>
   <a href="{% url 'flashcards:flashcards' deck.slug %}" class="practice-btn">Practice Now!</a>
 </div>

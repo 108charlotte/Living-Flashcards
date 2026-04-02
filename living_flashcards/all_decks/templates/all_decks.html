@@ -6,6 +6,19 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'all_decks.css' %}">
+<style>
+  .modern-arrow-link {
+    color: #0A3323;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.25rem;
+    transition: text-decoration 0.2s;
+  }
+  .modern-arrow-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+</style>
 {% endblock extra_css %}
 
 {% block content %}
@@ -32,8 +45,11 @@
 
       <!-- copilt rule for separating decks with zero Review events by this user -->
       <section class="deck-section">
-        <h2 class="deck-section-heading">
-          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'started' %}">My Decks</a>
+        <h2 class="deck-section-heading" style="display: flex; align-items: center; gap: 10px;">
+          <a class="deck-section-link modern-arrow-link" href="{% url 'all_decks:deck_category' 'started' %}">
+            My Decks
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
+          </a>
         </h2>
         <div class="deck-grid-scroll">
           <div class="deck-grid">
@@ -52,8 +68,11 @@
       </section>
 
       <section class="deck-section">
-        <h2 class="deck-section-heading">
-          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'not-started' %}">Explore Decks</a>
+        <h2 class="deck-section-heading" style="display: flex; align-items: center; gap: 10px;">
+          <a class="deck-section-link modern-arrow-link" href="{% url 'all_decks:deck_category' 'not-started' %}">
+            Explore Decks
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
+          </a>
         </h2>
         <div class="deck-grid-scroll">
           <div class="deck-grid">

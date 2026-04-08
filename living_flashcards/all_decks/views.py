@@ -15,18 +15,19 @@ import json
 
 def all_decks(request):
     decks = Deck.objects.all()
-    if request.user.is_authenticated: 
+    if request.user.is_authenticated:
         for deck in decks:
             now = timezone.now()
             user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user.id)
-            if user_cards.exists():
-                to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True))
-                deck.cards_to_review = to_review.count() # sets temp python attribute
-            else:
-                deck.cards_to_review = deck.cards.count()
-    else: 
+            # Cards due for review (existing CardToUser)
+            to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True)).count()
+            # Cards in deck the user has never seen (no CardToUser record)
+            seen_card_ids = user_cards.values_list('card_id', flat=True)
+            new_cards = deck.cards.exclude(id__in=seen_card_ids).count()
+            deck.cards_to_review = to_review + new_cards
+    else:
         for deck in decks:
-            deck.cards_to_review = 0
+            deck.cards_to_review = deck.cards.count()
     return render(request, 'all_decks.html', {'decks': decks, 'available_languages': ["English"], 'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"]})
 
 def about(request):

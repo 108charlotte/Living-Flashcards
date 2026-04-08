@@ -33,8 +33,11 @@ def flashcards(request, slug):
   existing_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user).values_list('card_id', flat=True)
   new_cards = deck.cards.exclude(id__in=existing_cards)
   
-  for card_info in new_cards:
-    CardToUser.objects.create(card_id=card_info, user_id=request.user)
+  # updated with copilot to bulk create, hopefully speed up deck load times
+  CardToUser.objects.bulk_create([
+    CardToUser(card_id=card_info, user_id=request.user)
+    for card_info in new_cards
+])
   
   # end copilot
 

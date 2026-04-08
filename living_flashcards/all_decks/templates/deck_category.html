@@ -21,7 +21,7 @@
       <div class="deck">
         <a href="{% url 'flashcards:flashcards' deck.slug %}">
           <span class="deck-title">{{ deck.name }}</span>
-          <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+          <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>
         </a>
       </div>
     {% empty %}

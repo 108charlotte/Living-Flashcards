@@ -1,4 +1,3 @@
-
 const profileDropdown = document.querySelector('#profileDropdown');
 if (profileDropdown) {
 	profileDropdown.onclick = () => document.querySelector('.dropdown-menu').classList.toggle('show');
@@ -83,7 +82,7 @@ if (heatmapContainer) {
 					heatmapShowMonths: true,
 					heatmapShowWeekdays: true,
 					heatmapShowWeekHeader: true,
-					heatmapDefaultView: 'year',
+					heatmapDefaultView: 'month',
 					heatmapSvgContent: svgText,
 				};
 

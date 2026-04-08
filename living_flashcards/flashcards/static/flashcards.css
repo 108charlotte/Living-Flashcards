@@ -98,13 +98,37 @@ h4 {
   align-items: center;
   gap: 8px;
   width: auto;
+}
+
+.navbar-center {
+  flex: 1;
+  text-align: center;
+}
+
+.navbar-center h4 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.estimated-time {
+  margin: 4px 0 0 0;
+  font-size: 20px;
+  color: #666;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
   height: auto;
 }
 
 .brand-text {
   font-family: 'Inter', sans-serif;
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   margin-left: 6px;
 }
 

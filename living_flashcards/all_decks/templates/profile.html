@@ -11,6 +11,18 @@
 {% block content %}
 <div class="block">
   <h1>Profile</h1>
-  <p>Intended to perhaps have stats and settings.</p>
+  <p>Manage your study settings below.</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ daily_limit_form.non_field_errors }}
+    <div>
+      {{ daily_limit_form.daily_new_limit.label_tag }}
+      {{ daily_limit_form.daily_new_limit }}
+      {{ daily_limit_form.daily_new_limit.errors }}
+    </div>
+    <p>{{ daily_limit_form.daily_new_limit.help_text }}</p>
+    <button type="submit">Save</button>
+  </form>
 </div>
 {% endblock %}

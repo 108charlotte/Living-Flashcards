@@ -10,9 +10,21 @@ from django.http import JsonResponse
 from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.views.decorators.http import require_POST
 import json
+from authentication.models import UserStudySettings
+from authentication.forms import UserDailyLimitForm
 
 # Create your views here.
+
+STUDY_LANGUAGES = ["Sora", "Future Language 1", "Future Language 2"]
+FUTURE_STUDY_LANGUAGES = {"Future Language 1", "Future Language 2"}
+
+
+def get_daily_new_limit(user):
+    # Use the persisted user preference and clamp to current allowed bounds.
+    settings_obj, _ = UserStudySettings.objects.get_or_create(user=user)
+    return max(5, min(30, settings_obj.daily_new_limit))
 
 
 def _get_deck_page_context(user):
@@ -23,7 +35,8 @@ def _get_deck_page_context(user):
     not_started_decks = []
 
     if user.is_authenticated:
-        now = timezone.now()
+        today = timezone.localdate()
+        daily_new_limit = get_daily_new_limit(user)
 
         # Rule for seperating started and not-startedd decks:
         # A deck is "started" only if the user has at least one persisted Review event for any card inside that deck.
@@ -35,11 +48,29 @@ def _get_deck_page_context(user):
 
         for deck in decks:
             user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user.id)
-            if user_cards.exists():
-                to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True))
-                deck.cards_to_review = to_review.count() # sets temp python attribute
-            else:
-                deck.cards_to_review = deck.cards.count()
+            reviewed_count = user_cards.exclude(review_card={}).count()
+
+            # Show queue-eligible new cards (daily budget aware), not total new cards in deck.
+            introduced_today_count = user_cards.filter(new_introduced_on=today).count()
+            remaining_budget = max(daily_new_limit - introduced_today_count, 0)
+            previously_introduced_new_count = user_cards.filter(review_card={}).exclude(
+                new_introduced_on__isnull=True
+            ).count()
+            not_yet_introduced_new_count = user_cards.filter(
+                review_card={},
+                new_introduced_on__isnull=True,
+            ).count()
+            # Some decks may still have unseen cards without CardToUser rows.
+            # Include them so a brand-new user sees the expected default "20 new" preview.
+            unseen_new_count = max(deck.cards.count() - user_cards.count(), 0)
+            introducible_new_count = not_yet_introduced_new_count + unseen_new_count
+            deck.cards_new = previously_introduced_new_count + min(
+                remaining_budget,
+                introducible_new_count,
+            )
+
+            # "Learning" means the card has at least one saved review state.
+            deck.cards_learning = reviewed_count
 
             # Preserve original deck order while routing each deck into one section.
             if deck.id in started_deck_ids:
@@ -48,25 +79,46 @@ def _get_deck_page_context(user):
                 not_started_decks.append(deck)
     else:
         for deck in decks:
-            deck.cards_to_review = 0
+            deck.cards_new = 0
+            deck.cards_learning = 0
 
     return {
         'decks': decks,
         'started_decks': started_decks,
         'not_started_decks': not_started_decks,
         'available_languages': ["English"],
-        'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"],
+        'available_languages_to_learn': ["Sora", "Future Language 1", "Future Language 2"],
     }
 
 def all_decks(request):
-    return render(request, 'all_decks.html', _get_deck_page_context(request.user))
+    context = _get_deck_page_context(request.user)
+    context['coming_soon_language'] = request.session.get('coming_soon_language')
+    return render(request, 'all_decks.html', context)
+
+
+@login_required
+@require_POST
+def set_study_language(request):
+    selected_language = (request.POST.get('language') or '').strip()
+
+    if selected_language not in STUDY_LANGUAGES:
+        selected_language = "Sora"
+
+    request.session['selected_language_to_learn'] = selected_language
+
+    if selected_language in FUTURE_STUDY_LANGUAGES:
+        request.session['coming_soon_language'] = selected_language
+    else:
+        request.session.pop('coming_soon_language', None)
+
+    return redirect('all_decks:all_decks')
 
 
 @login_required
 def deck_category(request, category):
     context = _get_deck_page_context(request.user)
     # Keep category keys stable for URLs/logic ('started', 'not-started'),
-    # while user-facing labels use the names ('My Decks', 'Explore Decks').
+    # user-facing labels use the names ('My Decks', 'Explore Decks').
 
     if category == 'started':
         context.update(
@@ -97,8 +149,26 @@ def about(request):
 def contact(request):
     return render(request, "contact.html")
 
+@login_required
 def profile(request):
-    return render(request, "profile.html")
+    # Keep settings persisted per user; create defaults automatically on first visit.
+    study_settings, _ = UserStudySettings.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = UserDailyLimitForm(request.POST, instance=study_settings)
+        if form.is_valid():
+            form.save()
+            return redirect('all_decks:profile')
+    else:
+        form = UserDailyLimitForm(instance=study_settings)
+
+    return render(
+        request,
+        "profile.html",
+        {
+            "daily_limit_form": form,
+        },
+    )
 
 # Copilot generated code to add a new API endpoint for fetching heatmap data
 @login_required

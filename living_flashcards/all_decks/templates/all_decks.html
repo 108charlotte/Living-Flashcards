@@ -2,14 +2,36 @@
 
 {% load static %}
 
-{% block title %}All Decks{% endblock %}
+{% block title %}Living Flashcards{% if selected_language %} | {{ selected_language }}{% endif %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'all_decks.css' %}">
+<style>
+  .modern-arrow-link {
+    color: #0A3323;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.25rem;
+    transition: text-decoration 0.2s;
+  }
+  .modern-arrow-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+</style>
 {% endblock extra_css %}
 
 {% block content %}
 {% if user.is_authenticated %}
+    {% if coming_soon_language %}
+    <div class="coming-soon-layout">
+      <div class="coming-soon-state">
+        <h1>Flashcards for {{ coming_soon_language }} are coming soon!</h1>
+        <p>We are still building decks and reviewing content for this language.</p>
+        <p>Please select Sora from the language dropdown to continue studying now.</p>
+      </div>
+    </div>
+    {% else %}
     <div class="all-decks-home">
     <div class="all-decks-heatmap">
       <div
@@ -23,16 +45,19 @@
 
       <!-- copilt rule for separating decks with zero Review events by this user -->
       <section class="deck-section">
-        <h2 class="deck-section-heading">
-          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'started' %}">My Decks</a>
+        <h2 class="deck-section-heading" style="display: flex; align-items: center; gap: 10px;">
+          <a class="deck-section-link modern-arrow-link" href="{% url 'all_decks:deck_category' 'started' %}">
+            My Decks
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
+          </a>
         </h2>
         <div class="deck-grid-scroll">
           <div class="deck-grid">
           {% for deck in started_decks %}
             <div class="deck">
-              <a href="{% url 'flashcards:flashcards' deck.slug %}">
+              <a href="{% url 'flashcards:deck_preview' deck.slug %}">
                 <span class="deck-title">{{ deck.name }}</span>
-                <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+                <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>
               </a>
             </div>
           {% empty %}
@@ -43,16 +68,19 @@
       </section>
 
       <section class="deck-section">
-        <h2 class="deck-section-heading">
-          <a class="deck-section-link" href="{% url 'all_decks:deck_category' 'not-started' %}">Explore Decks</a>
+        <h2 class="deck-section-heading" style="display: flex; align-items: center; gap: 10px;">
+          <a class="deck-section-link modern-arrow-link" href="{% url 'all_decks:deck_category' 'not-started' %}">
+            Explore Decks
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
+          </a>
         </h2>
         <div class="deck-grid-scroll">
           <div class="deck-grid">
           {% for deck in not_started_decks %}
             <div class="deck">
-              <a href="{% url 'flashcards:flashcards' deck.slug %}">
+              <a href="{% url 'flashcards:deck_preview' deck.slug %}">
                 <span class="deck-title">{{ deck.name }}</span>
-                <span class="deck-count">{{ deck.cards_to_review }} to review</span>
+                <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>
               </a>
             </div>
           {% empty %}
@@ -63,13 +91,20 @@
       </section>
     </div>
     </div>
+      {% endif %}
 {% else %}
-    <h1>Welcome to Living Flashcards! </h1>
-    <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started! </p>
+    <div class="logged-out-state">
+      <div class="logged-out-card">
+        <h1>Welcome to Living Flashcards!</h1>
+        <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started!</p>
+      </div>
+    </div>
 {% endif %}
 
 <!-- Load heatmap assets from static/heatmap/ -->
+    {% if user.is_authenticated and not coming_soon_language %}
 <link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
 <script src="{% static 'heatmap/heatmap.js' %}"></script>
+    {% endif %}
 <script src="{% static 'all_decks.js' %}"></script>
 {% endblock content %}

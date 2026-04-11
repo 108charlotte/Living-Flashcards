@@ -86,6 +86,9 @@
             <!-- speaker button only on the front face so the back side isn't mirrored -->
 
             <div class="card-front">
+              {% if card.card_id.audio_path %}
+                <audio id="card-audio" src="{% static 'sora_Audio/' %}{{ card.card_id.audio_path }}"></audio>
+              {% endif %}
               <button class="speaker-btn" title="Hear the word">
                 <img src="{% static 'Speaker_Icon.svg' %}" alt="Speaker icon">
               </button>
@@ -118,5 +121,19 @@
   </form>
   {% endif %}
 
+  <!--code written by claude-->
   <script src="{% static 'flashcards.js' %}"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const speakerBtn = document.querySelector('.speaker-btn');
+    const audio = document.getElementById('card-audio');
+    if (speakerBtn && audio) {
+      speakerBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        audio.currentTime = 0;
+        audio.play();
+      });
+    }
+  });
+  </script>
 {% endblock content %}

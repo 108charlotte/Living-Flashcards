@@ -386,4 +386,22 @@ h4 {
 .review-buttons .rating-interval {
   font-size: 15px;
 }
+/* Spacebar hint ChatGPT generated */
+.spacebar-hint {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 999;
+}
 
+.spacebar-hint.show {
+  opacity: 1;
+}

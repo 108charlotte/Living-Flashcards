@@ -60,7 +60,11 @@
 
 {% block content %}
 <div class="flashcards-content">
-  
+
+  <div id="spacebar-hint" class="spacebar-hint">
+  Press SPACE to flip the card
+</div> <!-- chatgpt generated spacebar hint -->
+
   <h4 class="deck-title-header">{{ deck_info.name }}</h4>
 
   {% if totalCards %}

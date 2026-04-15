@@ -1,0 +1,173 @@
+<!-- Copilot generated! -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Deck Preview{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'flashcards.css' %}">
+<style>
+.deck-preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    background: #FCFCF7;
+}
+.deck-title {
+    color: #0A3323;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    margin-top: 24px;
+    text-align: center;
+}
+.deck-phonetic {
+    color: #0A3323;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 24px;
+    margin-bottom: 32px;
+    text-align: center;
+}
+.deck-info-card {
+    background: #F7F7EF;
+    border-radius: 16px;
+    border: 2px solid #828282;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    padding: 40px 48px 32px 48px;
+    min-width: 380px;
+    max-width: 420px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.deck-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0;
+    min-height: 48px;
+}
+.deck-info-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 22px;
+    color: #222;
+}
+.deck-info-value {
+    background: #839958;
+    color: #0A3323;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    border-radius: 16px;
+    padding: 4px 28px;
+    min-width: 56px;
+    text-align: center;
+    margin-left: 16px;
+    display: inline-block;
+}
+.deck-info-value.duration {
+    background: #839958;
+    color: #0A3323;
+    font-size: 20px;
+    padding: 4px 22px;
+}
+.deck-info-divider {
+    width: 100%;
+    height: 2px;
+    background: #828282;
+    margin: 12px 0;
+    border-radius: 1px;
+}
+.practice-btn {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #839958;
+    border: 2px solid #839958;
+    border-radius: 999px;
+    padding: 10px 36px;
+    text-decoration: none;
+    background-color: #FCFCF7;
+    transition: background-color 0.2s, color 0.2s;
+    margin-top: 12px;
+    display: inline-block;
+}
+.practice-btn:hover {
+    background-color: #839958;
+    color: #fff;
+}
+</style>
+{% endblock extra_css %}
+
+{% block navbar %}
+ <nav class="navbar">
+      <div class="navbar-left">
+        <a href="/" class="navbar-brand">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+              <circle cx="32" cy="32" r="30" stroke="black" stroke-width="4" fill="black" />
+            </svg>
+          <span class="brand-text">Living Flashcards</span>
+        </a>
+      </div>
+      <div class="navbar-center">
+        <!-- No estimated time here -->
+      </div>
+      <div class="navbar-right">
+        <li class="nav-item dropdown" style="position: relative;">
+          <a
+            class="nav-right nav-link dropdown-toggle" href="{% url 'all_decks:profile' %}" id="profileDropdown">
+            <span class="profile-name">{{ user.username }}</span>
+            <img src="{% static 'all_decks/icon-profile.svg' %}" alt="profile" width="33" height="37" style="vertical-align: middle; margin-left: 4px;">
+          </a>
+        <ul class="dropdown-menu">  
+          {% if user.is_authenticated %}
+          <li>
+            <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link dropdown-item" >Logout</button>
+            </form>
+          </li>
+          {% else %}
+          <li><a class="dropdown-item" href="/login">Login</a></li>
+          <li><a class="dropdown-item" href="{% url 'authentication:sign-up' %}">Sign up</a></li>
+          {% endif %}
+        </ul>
+    </li>
+      </div>
+  </nav>
+{% endblock navbar %}
+
+{% block content %}
+<div class="deck-preview-container">
+  <div class="deck-title">{{ deck.name }}</div>
+  <div class="deck-phonetic">{{ deck.phonetic }}</div>
+  <div class="deck-info-card">
+    <div class="deck-info-row">
+      <span class="deck-info-label">New Today:</span>
+      <span class="deck-info-value">{{ new_count }}</span>
+    </div>
+    <div class="deck-info-divider"></div>
+    <div class="deck-info-row">
+      <span class="deck-info-label">Learning:</span>
+      <span class="deck-info-value">{{ learning_count }}</span>
+    </div>
+    <div class="deck-info-divider"></div>
+    <div class="deck-info-row">
+      <span class="deck-info-label">Total Duration:</span>
+      <span class="deck-info-value duration">{{ estimated_time }} minutes</span>
+    </div>
+    <div class="deck-info-divider"></div>
+    <div class="deck-info-row">
+      <span class="deck-info-label">Total Cards:</span>
+      <span class="deck-info-value">{{ total_cards }}</span>
+    </div>
+    <div class="deck-info-divider"></div>
+  </div>
+  <a href="{% url 'flashcards:flashcards' deck.slug %}" class="practice-btn">Practice Now!</a>
+</div>
+{% endblock content %}

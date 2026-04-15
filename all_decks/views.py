@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.conf import settings
@@ -9,11 +9,7 @@ from flashcards.models import CardToUser, Review
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
-from django.views.decorators.http import require_POST
 import json
-from authentication.models import UserStudySettings
-from authentication.forms import UserDailyLimitForm
 
 # Create your views here.
 
@@ -39,26 +35,8 @@ def about(request):
 def contact(request):
     return render(request, "contact.html")
 
-@login_required
 def profile(request):
-    # Keep settings persisted per user; create defaults automatically on first visit.
-    study_settings, _ = UserStudySettings.objects.get_or_create(user=request.user)
-
-    if request.method == 'POST':
-        form = UserDailyLimitForm(request.POST, instance=study_settings)
-        if form.is_valid():
-            form.save()
-            return redirect('all_decks:profile')
-    else:
-        form = UserDailyLimitForm(instance=study_settings)
-
-    return render(
-        request,
-        "profile.html",
-        {
-            "daily_limit_form": form,
-        },
-    )
+    return render(request, "profile.html")
 
 # Copilot generated code to add a new API endpoint for fetching heatmap data
 @login_required

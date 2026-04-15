@@ -46,7 +46,43 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cardElement) {
     cardElement.addEventListener('click', flipCard);
   }
+
+//copilot generated keyboard shortcut for flipping the card, again, hard, good, easy
+//did not make the space also apply to easy, this way 1 corresponds to the first button, 2 to the second, etc., to make it easier to explain to the user
+//might change it later?
+  document.addEventListener('keydown', handleFlipShortcut);
 });
+
+function handleFlipShortcut(event) {
+  if (event.repeat) return;
+
+  const target = event.target;
+  const tagName = target?.tagName;
+  const isInteractiveElement = target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(tagName);
+
+  if (isInteractiveElement) return;
+
+  const isSpaceKey = event.code === 'Space' || event.key === ' ';
+  if (isSpaceKey) {
+    const card = document.querySelector('.card.clickable-card');
+    if (!card || card.classList.contains('flipped')) return;
+    event.preventDefault();
+    flipCard({ currentTarget: card });
+    return;
+  }
+
+  // 1=Again, 2=Hard, 3=Good, 4=Easy
+  const ratingMap = { '1': 'again', '2': 'hard', '3': 'good', '4': 'easy' };
+  const rating = ratingMap[event.key];
+  if (!rating) return;
+
+  const form = document.getElementById('difficulty-buttons');
+  if (!form || form.classList.contains('hidden')) return;
+
+  event.preventDefault();
+  const btn = form.querySelector(`button[value="${rating}"]`);
+  if (btn) btn.click();
+}
 
 // copilot code to create card "flip"
 function flipCard(event) {
@@ -63,3 +99,20 @@ function flipCard(event) {
   if (back) back.classList.remove('hidden');
   if (buttons) buttons.classList.remove('hidden');
 }
+
+// ChatGPT generated code to show spacebar hint on page load, then hide it after a few seconds
+document.addEventListener("DOMContentLoaded", () => {
+  const hint = document.getElementById("spacebar-hint");
+
+  if (!hint) return;
+
+  // Show hint
+  setTimeout(() => {
+    hint.classList.add("show");
+  }, 500);
+
+  // Hide after a few seconds
+  setTimeout(() => {
+    hint.classList.remove("show");
+  }, 4000);
+});

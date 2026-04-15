@@ -39,6 +39,9 @@ class CardToUser(models.Model):
         related_name="user_cards")
     review_card = models.JSONField(default=dict, blank=True)
     see_next = models.DateTimeField(null=True, blank=True) # helps filter cards for review
+    # Tracks the first day this card was introduced into the user's new-card queue.
+    # Used to enforce a strict "new cards introduced per day" budget.
+    new_introduced_on = models.DateField(null=True, blank=True)
 
     def update_json(self, card): # card is type Card from fsrs library
         self.review_card = card.to_dict()

@@ -3,16 +3,12 @@
 }
 
 /*deck title styles*/
-h3 {
-  text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 24px;
-}
 
 h4 {
   text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  font-size: 36px;
+  margin: 32px 0 36px 0;
 }
 
 /* Navbar styles */
@@ -94,6 +90,7 @@ h4 {
   justify-content: space-between;
   padding: 12px 24px;
   border-bottom: none;
+  margin-bottom: 18px;
 }
 
 .navbar-left {
@@ -101,7 +98,44 @@ h4 {
   align-items: center;
   gap: 8px;
   width: auto;
+}
+
+.navbar-center {
+  flex: 1;
+  text-align: center;
+}
+
+.navbar-center h4 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.estimated-time {
+  margin: 4px 0 0 0;
+  font-size: 20px;
+  color: #666;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
   height: auto;
+}
+
+.brand-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-left: 6px;
+}
+
+.profile-name {
+  font-family: 'Inter', sans-serif;
+  margin-right: 8px;
+  font-weight: 600;
 }
 
 .navbar-left svg {
@@ -115,16 +149,30 @@ h4 {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 32px;
+}
+
+.flashcards-content {
+  position: relative;
+  margin-top: 22px;
 }
 
 /* Progress Bar*/
+.progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto 24px auto;
+}
+
 .progress {
   position: relative;
-  width: 210px;
-  margin: 0 auto 10px auto;
-  height: 20px;
+  width: 400px;
+  margin: 0;
+  height: 10px;
   background-color: #E2E2DE;
-  border-radius: 10px;
+  border-radius: 999px;
   overflow: hidden;
 }
 
@@ -132,24 +180,25 @@ h4 {
   background-color: #9EC7B5;
   height: 100%;
   width: 0%;
-  border-radius: 10px;
+  border-radius: 999px;
   transition: all 0.3s ease;
 }
 
 .progress_text {
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 16px;
+  font-size: 12px;
   color: black;
   margin: 0;
+  white-space: nowrap;
 }
 
 /*card styles*/
 .card-stack {
   position: relative;
   width: 450px;
-  margin: 30px auto 70px auto;
-  height: 360px;
+  margin: 44px auto 82px auto;
+  height: 340px;
 }
 
 /* enable 3D perspective for flip animation */
@@ -162,7 +211,7 @@ h4 {
     border-radius: 12px;
     background-color: #739F7F;
     width: 450px;
-    height: 350px;
+  height: 330px;
     z-index: 3;
     left: 50%;
     top: 0;
@@ -200,7 +249,7 @@ h4 {
 }
 
 .card-definition {
-    font-size: 20px;
+  font-size: 32px;
     color: white;
     font-family: 'Inter', sans-serif;
     text-align: center;
@@ -239,20 +288,20 @@ h4 {
 
 .stack-mid {
     background-color: #8FC29D;
-    top: 30px;
+    top: 26px;
     width: 400px;
-    height: 350px;
+    height: 330px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
 }
 
 .stack-back {
-  top: 102px;
+  top: 96px;
   z-index: 1;
   background-color: #9ED9AD;
   width: 350px;
-  height: 300px;
+  height: 280px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -297,10 +346,62 @@ h4 {
   display: block;
 }
 
+/* Buttons styles */
 .review-buttons {
     display: flex;
     align-items: center; 
     justify-content: center;
     gap: 10px;
+  margin-top: 10px;
 }
 
+.review-buttons button {
+  font-size: 15px;
+  padding: 8px 15px;
+  border-radius: 12px;
+  width: 100px;
+  min-height: 44px;
+  background-color: #e6e6e6;
+  border: 2px solid #c9c9c9;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-buttons button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.review-buttons .rating-label,
+.review-buttons .rating-interval {
+  display: block;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.review-buttons .rating-label {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.review-buttons .rating-interval {
+  font-size: 15px;
+}
+/* Spacebar hint ChatGPT generated */
+.spacebar-hint {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 999;
+}
+
+.spacebar-hint.show {
+  opacity: 1;
+}

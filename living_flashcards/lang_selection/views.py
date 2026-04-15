@@ -4,7 +4,10 @@ from .models import UserLanguage
 
 # Create your views here.
 def langselection(request): 
-    return render(request, 'lang_selection.html', {'available_languages': ['English']})
+    return render(request, 'lang_selection.html', {
+        'available_languages': ['English'],
+        'hide_main_nav': True,
+    })
 
 @require_POST
 def setlanguage(request): 

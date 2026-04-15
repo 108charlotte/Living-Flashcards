@@ -29,13 +29,13 @@ services:
    depends_on:
      - db
    environment:
-     DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-     DEBUG: ${DEBUG}
+     DJANGO_SECRET_KEY: ${"django-insecure-psvvmfc8ydkj-y#!7sthck7ckfrf3z6rcfw0=qtt0wp+9ba!"}
+     DEBUG: ${0}
      DJANGO_LOGLEVEL: ${DJANGO_LOGLEVEL}
-     DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
-     POSTGRES_DB: ${POSTGRES_DB}
-     POSTGRES_USER: ${POSTGRES_USER}
-     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+     DJANGO_ALLOWED_HOSTS: ${localhost,living-flashcards.onrender.com}
+     POSTGRES_DB: ${living_flashcards_db_4}
+     POSTGRES_USER: ${living_flashcards_db_4_user}
+     POSTGRES_PASSWORD: ${KCuYpJnFxzM9UoqmEZwlmeEeXYMrK2g5}
    env_file:
      - .env
 volumes:

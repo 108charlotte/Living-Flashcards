@@ -1,11 +1,5 @@
-/*page background*/
-body {
-    background-color: #FCFCF7;
-    margin: 0;
-    padding-top: 20px;
-}
 
-/* Heatmap color variables (defaults, can be overridden by theme) */
+/* Heatmap color variables */
 :root {
   --heatmap-level-0: #ebedf0;
   --heatmap-level-1: #c6e48b;
@@ -16,125 +10,369 @@ body {
   --heatmap-empty: #f7f7f7;
 }
 
-/* Navbar styles */
+/* ===== Beginning ChatGPT generated (or tbh it was a revision of my own code, which I believe also had Gemini aid) ===== */
 
-/* Hide dropdown by default */
-.nav-item.dropdown .dropdown-menu {
-    display: none;
-    position: absolute;      /* position relative to Profile */
-    top: 100%;               /* directly below Profile */
-    left: 0;
-    list-style: none;        /* remove bullet points */
-    padding: 0;
-    margin: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    min-width: 120px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    z-index: 1000;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== Page ===== */
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #FCFCF7;
+  color: #333;
 }
 
 .main-content,
 main.content {
-    margin-left: 260px; /* sidebar width (220px) + left position (16px) + spacing (24px) */
     padding: 20px;
 }
 
-/* Show dropdown */
-.nav-item.dropdown:hover .dropdown-menu {
-    display: block;
+/* ===== Header ===== */
+
+.main-header {
+  text-align: center;
+  padding: 20px 24px 12px 24px;
+  border-bottom: 1px solid #ddd;
+  background: linear-gradient(90deg, #839958 0%, #0A3323 100%);
+  color: #fff;
 }
 
-/* Style items in dropdown */
-.nav-item.dropdown .dropdown-menu a,
-.nav-item.dropdown .dropdown-menu button {
-    display: block;
-    width: 100%;
-    padding: 8px 16px;
-    text-align: left;
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: #000;
-    text-decoration: none;
-}
+/* Title */
 
-/* Hover effect for items */
-.nav-item.dropdown .dropdown-menu a:hover,
-.nav-item.dropdown .dropdown-menu button:hover {
-    background-color: #f0f0f0;
-}
-
-.navbar a {
+.app-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
   text-decoration: none;
-  color: #000000;
+  filter: invert(1);
 }
 
-.navbar a:hover {
-  text-decoration: underline;
+.app-logo svg {
+  width: 100%;
+  height: 100%;
+  filter: invert(1);
 }
 
-.navbar {
+.app-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: inline-block;
+  vertical-align: middle;
+  color: #fff;
+}
+
+/* ===== Language Selector ===== */
+
+.custom-dropdown { /* copilot generated */
+  position: relative; /* copilot generated */
+  display: inline-flex; /* copilot generated */
+  align-items: center; /* copilot generated */
+  cursor: pointer; /* copilot generated */
+  user-select: none; /* copilot generated */
+}
+
+.dropdown-toggle { /* copilot generated */
+  display: inline-flex; /* copilot generated */
+  align-items: center; /* copilot generated */
+  gap: 4px; /* copilot generated */
+  font-size: 19px; /* copilot generated */
+  color: #839958; /* copilot generated */
+  background: none; /* copilot generated */
+  border: none; /* copilot generated */
+  padding: 0; /* copilot generated */
+  margin: 0; /* copilot generated */
+  font-weight: 600; /* copilot generated */
+}
+
+.dropdown-toggle:hover { /* copilot generated */
+  opacity: 0.9; /* copilot generated */
+}
+
+.arrow { /* copilot generated */
+  font-size: 16px; /* copilot generated */
+  line-height: 1; /* copilot generated */
+  transform: rotate(0deg); /* copilot generated */
+  transition: transform 0.2s ease; /* copilot generated */
+}
+
+.custom-dropdown.active .arrow { /* copilot generated */
+  transform: rotate(180deg); /* copilot generated */
+}
+
+.dropdown-menu { /* copilot generated */
+  position: absolute; /* copilot generated */
+  top: 120%; /* copilot generated */
+  left: 0; /* copilot generated */
+  background: #fff; /* copilot generated */
+  color: black; /* copilot generated */
+  border-radius: 8px; /* copilot generated */
+  border: 1px solid #ddd; /* copilot generated */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1); /* copilot generated */
+  list-style: none; /* copilot generated */
+  padding: 8px 0; /* copilot generated */
+  margin: 0; /* copilot generated */
+  min-width: 180px; /* copilot generated */
+  display: none; /* copilot generated */
+  z-index: 2000; /* copilot generated */
+}
+
+.dropdown-menu li { /* copilot generated */
+  padding: 8px 12px; /* copilot generated */
+  cursor: pointer; /* copilot generated */
+}
+
+.dropdown-menu li:hover { /* copilot generated */
+  background: #f5f5f5; /* copilot generated */
+}
+
+.custom-dropdown.active .dropdown-menu { /* copilot generated */
+  display: block; /* copilot generated */
+}
+
+.custom-dropdown.active .dropdown-menu {
+  display: block;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown-menu li:hover {
+  background: #f0f0f0;
+}
+
+/* ===== Sub Navigation ===== */
+
+.sub-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
-  border-bottom: 1px solid #e5e7eb;
+  position: relative;
+  min-height: 70px;
+  padding: 12px 28px;
+  border-top: 3px solid #D8A48F;
+  border-bottom: 3px solid #D8A48F;
+  background: linear-gradient(90deg, #F7F4D5 0%, #D8A48F 100%);
 }
 
-.navbar-left {
+.profile-section,
+.donate-section {
+  flex: 0 0 auto;
+  z-index: 2;
+}
+
+.nav-language-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
-  gap: 8px;
-  width: auto;
-  height: auto;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: auto;
 }
 
-.navbar-left svg {
-  width: 40px !important;
-  height: 40px !important;
-  flex-shrink: 0;
+.nav-language-wrapper .custom-dropdown {
+  pointer-events: auto;
 }
 
-.navbar-nav {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  list-style: none;
-  margin: 0;
-  padding: 0;  
+.profile-section {
+  order: 1;
 }
 
-/* copilot styling for application name + logo */
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
+.donate-section {
+  order: 3;
 }
 
-.brand-line {
-  font-size: 16px;
+.nav-language .dropdown-toggle { /* copilot generated */
+  font-size: 18px; /* copilot generated */
+  color: #0A3323; /* copilot generated */
+  font-weight: 700; /* copilot generated */
+  border: 1px solid transparent; /* copilot generated */
+  border-radius: 999px; /* copilot generated */
+  padding: 4px 10px; /* copilot generated */
+}
+
+.nav-language .dropdown-toggle:hover { /* copilot generated */
+  background: #f3f3f3; /* copilot generated */
+}
+
+/* Left side (Profile area) */
+
+.profile-section {
+  margin-right: auto;
+}
+
+/* Right side (Donate) */
+
+.donate-section { /* copilot generated */
+  margin-left: auto; /* copilot generated */
+  display: flex; /* copilot generated */
+  align-items: center; /* copilot generated */
+}
+
+.donate-link {
+  font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
-  color: #000000;
+  font-size: 18px;
+  color: #839958;
+  border: 2px solid #839958;
+  border-radius: 999px;
+  padding: 7px 18px;
   text-decoration: none;
+  background-color: #FCFCF7;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.navbar-left a {
+.donate-link:hover {
+  background-color: #839958;
+  color: #fff;
+}
+
+/* ===== Profile Trigger ===== */
+
+.profile-container { /* copilot generated */
+  position: relative; /* copilot generated */
+  display: inline-block; /* copilot generated */
+}
+
+.profile-container.active .dropdown-card { /* copilot generated */
+  display: block; /* copilot generated */
+}
+
+.profile-trigger {
   display: flex;
   align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  color: #000000;
+  gap: 4px;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
 }
 
-/* end copilot */
+.profile-icon { /* copilot generated */
+  width: 28px; /* copilot generated */
+  height: 28px; /* copilot generated */
+  display: inline-flex; /* copilot generated */
+  align-items: center; /* copilot generated */
+  justify-content: center; /* copilot generated */
+  border-radius: 50%; /* copilot generated */
+  overflow: hidden; /* copilot generated */
+  border: 1px solid #ddd; /* copilot generated */
+}
 
-.block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
-    padding: 40px 24px;
+.profile-icon img { /* copilot generated */
+  width: 100%; /* copilot generated */
+  height: 100%; /* copilot generated */
+  object-fit: cover; /* copilot generated */
+}
+
+.profile-trigger:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.welcome-text { /* copilot generated */
+  font-size: 18px; /* copilot generated */
+  font-weight: 700; /* copilot generated */
+  color: #0A3323; /* copilot generated */
+  letter-spacing: 0.4px; /* copilot generated */
+}
+
+/* ===== Profile Dropdown ===== */
+
+.dropdown-card {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 200px;
+  background: white;
+  border: 1.5px solid #000;
+  margin-top: 8px;
+  display: none;
+  z-index: 1000;
+}
+
+.profile-container.active .dropdown-card {
+  display: block;
+}
+
+/* Dropdown menu list */
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li a,
+.sign-out-btn {
+  display: block;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #000;
+  font-size: 16px;
+  text-align: left;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.menu-list li { display: flex; align-items: center; gap: 10px; }
+.menu-list li a,
+.sign-out-btn {
+  display: block;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #000;
+  font-size: 16px;
+  text-align: left;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+  font-family: inherit;
+}
+.menu-list li svg { min-width: 20px; min-height: 20px; }
+.menu-list li:hover {
+  background: #f4f4f4;
+}
+
+/* Sign out button */
+
+.sign-out-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sign-out-icon {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Divider */
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 0;
 }

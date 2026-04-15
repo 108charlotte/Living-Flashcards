@@ -93,13 +93,79 @@
     </div>
       {% endif %}
 {% else %}
-    <div class="logged-out-state">
-      <div class="logged-out-card">
-        <h1>Welcome to Living Flashcards!</h1>
-        <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started!</p>
-      </div>
-    </div>
+/* CHATGPT styling for a base code I provided it with*/
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #f9fafb;
+  }
+
+  .logged-out-state {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logged-out-card {
+    text-align: center;
+    background: white;
+    padding: 40px 32px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .app-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+  }
+
+  .logged-out-card h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .logged-out-card p {
+    font-size: 16px;
+    color: #6b7280;
+  }
+
+  .logged-out-card a {
+    color: #4f46e5;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .logged-out-card a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="logged-out-state">
+  <div class="logged-out-card">
+
+    <img src="{% static 'LF_logo.svg' %}" alt="App Icon" class="app-icon">
+
+    <h1>Welcome to Living Flashcards!</h1>
+
+    <p>
+      <a href="/login">Log in</a> 
+      or 
+      <a href="{% url 'authentication:sign-up' %}">sign up</a> 
+      to get started!
+    </p>
+
+  </div>
+</div>
 {% endif %}
+{% load static %}
 
 <!-- Load heatmap assets from static/heatmap/ -->
     {% if user.is_authenticated and not coming_soon_language %}

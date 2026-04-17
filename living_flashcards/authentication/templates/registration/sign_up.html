@@ -1,85 +1,9 @@
-{% extends 'authentication/base.html' %}
+{% extends 'authentication/auth_base.html' %}
 {% block title %}Sign Up{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
 {% load static %}
-/* CHATGPT generated code for styling of sign up based on some old code a team member made */
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-  body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: #f9fafb;
-  }
-
-  .auth-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .auth-card {
-    background: white;
-    padding: 40px 32px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    width: 100%;
-    max-width: 420px;
-    text-align: center;
-  }
-
-  .auth-card h1 {
-    margin-bottom: 20px;
-    font-size: 26px;
-    font-weight: 600;
-  }
-
-  .auth-card form {
-    text-align: left;
-  }
-
-  /* Crispy form spacing tweak */
-  .auth-card .form-group {
-    margin-bottom: 16px;
-  }
-
-  .auth-card button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 10px;
-    background: #4f46e5;
-    color: white;
-    font-weight: 500;
-    font-size: 16px;
-    cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-  }
-
-  .auth-card button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.25);
-  }
-
-  .auth-card p {
-    margin-top: 18px;
-    text-align: center;
-    color: #6b7280;
-    font-size: 14px;
-  }
-
-  .auth-card a {
-    color: #4f46e5;
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .auth-card a:hover {
-    text-decoration: underline;
-  }
 </style>
 
 <div class="auth-container">

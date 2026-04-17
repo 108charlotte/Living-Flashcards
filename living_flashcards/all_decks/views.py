@@ -31,7 +31,27 @@ def all_decks(request):
     else: 
         for deck in decks:
             deck.cards_to_review = 0
-    return render(request, 'all_decks.html', {'decks': decks, 'available_languages': ["English"], 'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"]})
+    started_decks = get_all_decks_for_review_category("started", request.user.id)
+    not_started_decks = get_all_decks_for_review_category("not-started", request.user.id)
+    return render(request, 'all_decks.html', {'decks': decks, 'available_languages': ["English"], 'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"], 'started_decks': started_decks, 'not_started_decks': not_started_decks})
+
+def deck_category(request, category): 
+    category_decks = []
+    if request.user.is_authenticated: 
+        category_decks = get_all_decks_for_review_category(category, request.user.id)
+        return render(request, "deck_category.html", {'category_decks': category_decks, 'page_title': category, 'category_description': category})
+
+# utility function since this logic is for both full-screen (with deck_category view) and for all_decks
+def get_all_decks_for_review_category(category, user_id): 
+    category_decks = []
+    decks = Deck.objects.all()
+    for deck in decks:
+        user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user_id)
+        if category == "started" and user_cards.exists():
+            category_decks.append(deck)
+        elif category == "not-started" and not user_cards.exists():
+            category_decks.append(deck)
+    return category_decks
 
 def about(request):
     return render(request, "about.html")

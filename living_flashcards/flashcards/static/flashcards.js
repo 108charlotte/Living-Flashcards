@@ -1,21 +1,3 @@
-//copilot generated code for flashcard flipping and speaker button functionality
-// Speaker button lives only on the front face; stopping propagation prevents
-// the click from flipping the card when the user just wants audio.
-const speakerButtons = document.querySelectorAll('.speaker-btn');
-speakerButtons.forEach(btn => {
-  btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const wordElem = document.querySelector('.card-word');
-      if (!wordElem) return;
-      const word = wordElem.textContent;
-      // Use Web Speech API to speak the word
-      const utterance = new SpeechSynthesisUtterance(word);
-      utterance.rate = 1;
-      utterance.pitch = 1;
-      window.speechSynthesis.speak(utterance);
-  });
-});
-
 // copilot generated progress bar code
 function updateProgressBar() {
   const progressText = document.querySelector('.progress_text');
@@ -40,6 +22,28 @@ function updateProgressBar() {
 // Run on page load
 document.addEventListener('DOMContentLoaded', () => {
   updateProgressBar();
+
+  const speakerBtn = document.querySelector('.speaker-btn');
+    if (speakerBtn) {
+      speakerBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const audio = document.getElementById('card-audio');
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play();
+      } else {
+        // Copilot-generated
+        const wordElem = document.querySelector('.card-word');
+        if (!wordElem) return;
+        const word = wordElem.textContent;
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+      }
+      });
+    }
 
   // set up card click handler once DOM is ready
   const cardElement = document.querySelector('.card.clickable-card');

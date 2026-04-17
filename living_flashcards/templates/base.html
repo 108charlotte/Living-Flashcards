@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}Living Flashcards{% endblock %}</title>
- <link rel="stylesheet" href="{% static 'css/main.css' %}" />
-{% block extra_css %}{% endblock %} <!--for later-->
+{% block extra_css %}
+<style>
+
+</style>
+{% endblock %}
 </head>
 
 <body>
@@ -31,13 +34,6 @@
         </defs>
       </svg>
     </a>
-   <h1 class="app-title">Living Flashcards</h1>
-<div class="block">
-  <form id="target-language-form" method="post" action="{% url 'all_decks:set_study_language' %}" style="display:none;"> <!-- copilot generated -->
-    {% csrf_token %} <!-- copilot generated -->
-    <input type="hidden" name="language" id="hidden-lang-input"> <!-- copilot generated -->
-  </form>
-</div>
 </header>
 
 <!-- sub-header, which will include the new nav bar according to Sofia's drawing; GEMINI HELP-->
@@ -135,7 +131,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const profileTrigger = document.querySelector('.profile-trigger');
-      const profileContainer = document.querySelector('.profile-container');
+      const profil eContainer = document.querySelector('.profile-container');
       const profileMenu = document.querySelector('.profile-container .dropdown-card');
 
       if (profileTrigger && profileContainer && profileMenu) {

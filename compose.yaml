@@ -8,18 +8,18 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
-# db:
-#   image: postgres:17
-#   environment:
-#     POSTGRES_DB: ${POSTGRES_DB}
-#     POSTGRES_USER: ${POSTGRES_USER}
-#     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-#   ports:
-#     - "5432:5432"
-#   volumes:
-#     - postgres_data:/var/lib/postgresql/data
-#   env_file:
-#     - .env
+ db:
+   image: postgres:17
+   environment:
+     POSTGRES_DB: ${POSTGRES_DB}
+     POSTGRES_USER: ${POSTGRES_USER}
+     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+   ports:
+     - "5432:5432"
+   volumes:
+     - postgres_data:/var/lib/postgresql/data
+   env_file:
+     - .env
  
  django-web:
    build: .
@@ -29,13 +29,12 @@ services:
    depends_on:
      - db
    environment:
-     DJANGO_SECRET_KEY: ${"django-insecure-psvvmfc8ydkj-y#!7sthck7ckfrf3z6rcfw0=qtt0wp+9ba!"}
-     DEBUG: ${0}
-     DJANGO_LOGLEVEL: ${DJANGO_LOGLEVEL}
-     DJANGO_ALLOWED_HOSTS: ${localhost,living-flashcards.onrender.com}
-     POSTGRES_DB: ${living_flashcards_db_4}
-     POSTGRES_USER: ${living_flashcards_db_4_user}
-     POSTGRES_PASSWORD: ${KCuYpJnFxzM9UoqmEZwlmeEeXYMrK2g5}
+     DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+     DEBUG: ${DEBUG}
+     DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+     POSTGRES_DB: ${DJANGO_}
+     POSTGRES_USER: ${POSTGRES_USER}
+     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
    env_file:
      - .env
 volumes:

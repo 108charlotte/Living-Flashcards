@@ -5,7 +5,8 @@
 {% block title %}Flashcards{% endblock %}
 
 {% block extra_css %}
- <link rel="stylesheet" href="{% static 'flashcards.css' %}">
+  <style>
+  </style>
 {% endblock extra_css %}
 
 {% block navbar %}
@@ -116,17 +117,4 @@
     {% endif %}
   
   <script src="{% static 'flashcards.js' %}"></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const speakerBtn = document.querySelector('.speaker-btn');
-    const audio = document.getElementById('card-audio');
-    if (speakerBtn && audio) {
-      speakerBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        audio.currentTime = 0;
-        audio.play();
-      });
-    }
-  });
-  </script>
 {% endblock content %}

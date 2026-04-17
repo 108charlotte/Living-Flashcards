@@ -2,24 +2,12 @@
 
 {% load static %}
 
-{% block title %}Living Flashcards{% if selected_language %} | {{ selected_language }}{% endif %}{% endblock %}
+{% block title %}Living Flashcards{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'all_decks.css' %}">
+{% block css %}
 <style>
-  .modern-arrow-link {
-    color: #0A3323;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.25rem;
-    transition: text-decoration 0.2s;
-  }
-  .modern-arrow-link:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
 </style>
-{% endblock extra_css %}
+{% endblock css %}
 
 {% block content %}
 {% if user.is_authenticated %}
@@ -45,10 +33,10 @@
 
       <!-- copilt rule for separating decks with zero Review events by this user -->
       <section class="deck-section">
-        <h2 class="deck-section-heading" style="display: flex; align-items: center; gap: 10px;">
-          <a class="deck-section-link modern-arrow-link" href="{% url 'all_decks:deck_category' 'started' %}">
+        <h2>
+          <a href="{% url 'all_decks:deck_category' 'started' %}">
             My Decks
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
           </a>
         </h2>
         <div class="deck-grid-scroll">
@@ -68,10 +56,10 @@
       </section>
 
       <section class="deck-section">
-        <h2 class="deck-section-heading" style="display: flex; align-items: center; gap: 10px;">
+        <h2 class="deck-section-heading">
           <a class="deck-section-link modern-arrow-link" href="{% url 'all_decks:deck_category' 'not-started' %}">
             Explore Decks
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
           </a>
         </h2>
         <div class="deck-grid-scroll">
@@ -93,60 +81,6 @@
     </div>
       {% endif %}
 {% else %}
-/* CHATGPT styling for a base code I provided it with*/
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-  body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: #f9fafb;
-  }
-
-  .logged-out-state {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .logged-out-card {
-    text-align: center;
-    background: white;
-    padding: 40px 32px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    max-width: 400px;
-    width: 100%;
-  }
-
-  .app-icon {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 20px;
-  }
-
-  .logged-out-card h1 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-
-  .logged-out-card p {
-    font-size: 16px;
-    color: #6b7280;
-  }
-
-  .logged-out-card a {
-    color: #4f46e5;
-    font-weight: 500;
-    text-decoration: none;
-  }
-
-  .logged-out-card a:hover {
-    text-decoration: underline;
-  }
-</style>
 
 <div class="logged-out-state">
   <div class="logged-out-card">
@@ -169,7 +103,6 @@
 
 <!-- Load heatmap assets from static/heatmap/ -->
     {% if user.is_authenticated and not coming_soon_language %}
-<link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
 <script src="{% static 'heatmap/heatmap.js' %}"></script>
     {% endif %}
 <script src="{% static 'all_decks.js' %}"></script>

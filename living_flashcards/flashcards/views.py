@@ -53,7 +53,6 @@ def estimate_deck_completion_time(request, deck):
 from django.contrib.auth.decorators import login_required
 @login_required
 def deck_preview(request, slug):
-    from all_decks.views import get_daily_new_limit
     deck = get_object_or_404(Deck, slug=slug)
     user = request.user
     today = timezone.localdate()
@@ -244,7 +243,7 @@ def review_card(request):
   # tbh idk why i have this here its just what came to mind
   assert user_confidence_rating in ["easy", "good", "hard", "again"]
   # need to get the current card on display
-  card = get_object_or_404(CardToUser, card_id__card_id=card_id, user_id=request.user.id)
+  card = get_object_or_404(CardToUser.objects.select_related('card_id'), card_id__card_id=card_id, user_id=request.user.id)
   # now update next reviews for card + spacing
   review_card = card.get_card() # creates fsrs card object w/ data
 
@@ -280,7 +279,7 @@ def review_card(request):
     # Do not fail the review flow if analytics recording fails
     pass
 
-  deck = get_object_or_404(CardInfo, card_id=card_id).deck
+  deck = card.card_id.deck
 
   # re-load cards to review
   to_review = get_cards_to_review(request, deck)
@@ -294,7 +293,7 @@ def review_card(request):
 
   # If session progress is missing/stale (new deck or refreshed session),
   # rebuild baseline using "this review = 1 completed".
-  if saved_deck_id != deck.id or not isinstance(saved_completed, int):
+  if saved_deck_id != deck.pk or not isinstance(saved_completed, int):
     completed_cards = 1
   else:
     completed_cards = saved_completed + 1
@@ -304,8 +303,7 @@ def review_card(request):
 
   total_cards = completed_cards + remaining_cards
 
-  # Persist progress state for the current deck review session.
-  request.session[PROGRESS_DECK_SESSION_KEY] = deck.id
+  request.session[PROGRESS_DECK_SESSION_KEY] = deck.pk
   request.session[PROGRESS_COMPLETED_SESSION_KEY] = completed_cards
 
   if start_card:

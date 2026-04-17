@@ -103,7 +103,8 @@
 
 <!-- Load heatmap assets from static/heatmap/ -->
     {% if user.is_authenticated and not coming_soon_language %}
-<script src="{% static 'heatmap/heatmap.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
+    <script src="{% static 'heatmap/heatmap.js' %}"></script>
     {% endif %}
 <script src="{% static 'all_decks.js' %}"></script>
 {% endblock content %}

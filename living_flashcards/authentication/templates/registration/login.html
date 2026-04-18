@@ -21,15 +21,16 @@
       .lf-form .invalid-feedback, .lf-form .errorlist { font-size: 12px; color: #993C1D; margin-top: 4px; }
       .lf-form .form-control.is-invalid { border-color: #993C1D; }
     </style>
-
+<form method="post">
+    {% csrf_token %}
     <div class="lf-form">
       {{ form|crispy }}
     </div>
-
     <button type="submit" style="width: 100%; padding: 0.75rem 1rem; background: #739F7F; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 0.25rem; font-family: 'Inter', sans-serif;">
       Log in
     </button>
-
+</form>
+    
     <p style="font-size: 13px; color: #5F5E5A; text-align: center; margin: 1.25rem 0 0; font-family: 'Inter', sans-serif;">
       Don't have an account yet? <a href="/sign-up" style="color: #739F7F; text-decoration: none; font-weight: 500;">Sign up</a>
     </p>

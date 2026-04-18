@@ -1,4 +1,3 @@
-<!-- Copilot generated! -->
 {% extends 'base.html' %}
 {% load static %}
 
@@ -6,74 +5,185 @@
 
 {% block extra_css %}
 <style>
-  
+/*ChatGPT generated*/  
+/* Page layout */
+.deck-preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #FCFCF7;
+    min-height: 85vh;
+    font-family: 'Instrument Sans', sans-serif;
+}
+
+/* Title */
+.deck-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #0A3323;
+    margin-top: 20px;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+/* Phonetic */
+.deck-phonetic {
+    font-size: 18px;
+    color: #4F4F4F;
+    margin-bottom: 28px;
+}
+
+/* Card container */
+.deck-info-card {
+    background: #F7F7EF;
+    border-radius: 18px;
+    border: 1.5px solid #D6D6CC;
+    padding: 28px 28px;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+/* Row layout */
+.deck-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Labels */
+.deck-info-label {
+    font-size: 18px;
+    color: #2F2F2F;
+}
+
+/* Values (green pills) */
+.deck-info-value {
+    background: #839958;
+    color: #0A3323;
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 999px;
+    padding: 4px 14px;
+    min-width: 36px;
+    text-align: center;
+}
+
+/* Duration slightly smaller */
+.deck-info-value.duration {
+    font-size: 16px;
+    padding: 4px 12px;
+}
+
+/* Divider */
+.deck-info-divider {
+    height: 1px;
+    width: 100%;
+    background: #E0E0D6;
+}
+
+/* Button */
+.practice-btn {
+    margin-top: 24px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #839958;
+    border: 2px solid #839958;
+    border-radius: 999px;
+    padding: 10px 28px;
+    text-decoration: none;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.practice-btn:hover {
+    background: #839958;
+    color: white;
+}
 </style>
 {% endblock extra_css %}
 
 {% block navbar %}
- <nav class="navbar">
-      <div class="navbar-left">
+<!-- (unchanged) -->
+<nav class="navbar">
+    <div class="navbar-left">
         <a href="/" class="navbar-brand">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
-              <circle cx="32" cy="32" r="30" stroke="black" stroke-width="4" fill="black" />
+            <svg viewBox="0 0 64 64" width="40" height="40">
+                <circle cx="32" cy="32" r="30" fill="black" />
             </svg>
-          <span class="brand-text">Living Flashcards</span>
+            <span class="brand-text">Living Flashcards</span>
         </a>
-      </div>
-      <div class="navbar-center">
-        <!-- No estimated time here -->
-      </div>
-      <div class="navbar-right">
+    </div>
+    <div class="navbar-center"></div>
+    <div class="navbar-right">
         <li class="nav-item dropdown" style="position: relative;">
-          <a
-            class="nav-right nav-link dropdown-toggle" href="{% url 'all_decks:profile' %}" id="profileDropdown">
-            <span class="profile-name">{{ user.username }}</span>
-            <img src="{% static 'all_decks/icon-profile.svg' %}" alt="profile" width="33" height="37" style="vertical-align: middle; margin-left: 4px;">
-          </a>
-        <ul class="dropdown-menu">  
-          {% if user.is_authenticated %}
-          <li>
-            <form method="post" action="{% url 'logout' %}">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-link dropdown-item" >Logout</button>
-            </form>
-          </li>
-          {% else %}
-          <li><a class="dropdown-item" href="/login">Login</a></li>
-          <li><a class="dropdown-item" href="{% url 'authentication:sign-up' %}">Sign up</a></li>
-          {% endif %}
-        </ul>
-    </li>
-      </div>
-  </nav>
+            <a class="nav-right nav-link dropdown-toggle"
+               href="{% url 'all_decks:profile' %}">
+                <span class="profile-name">{{ user.username }}</span>
+                <img src="{% static 'all_decks/icon-profile.svg' %}"
+                     width="33" height="37"
+                     style="margin-left: 4px;">
+            </a>
+            <ul class="dropdown-menu">
+                {% if user.is_authenticated %}
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item">Logout</button>
+                    </form>
+                </li>
+                {% else %}
+                <li><a class="dropdown-item" href="/login">Login</a></li>
+                <li><a class="dropdown-item" href="{% url 'authentication:sign-up' %}">Sign up</a></li>
+                {% endif %}
+            </ul>
+        </li>
+    </div>
+</nav>
 {% endblock navbar %}
 
 {% block content %}
 <div class="deck-preview-container">
-  <div class="deck-title">{{ deck.name }}</div>
-  <div class="deck-phonetic">{{ deck.phonetic }}</div>
-  <div class="deck-info-card">
-    <div class="deck-info-row">
-      <span class="deck-info-label">New Today:</span>
-      <span class="deck-info-value">{{ new_count }}</span>
+
+    <div class="deck-title">{{ deck.name }}</div>
+    <div class="deck-phonetic">{{ deck.phonetic }}</div>
+
+    <div class="deck-info-card">
+
+        <div class="deck-info-row">
+            <span class="deck-info-label">New Today:</span>
+            <span class="deck-info-value">{{ new_count }}</span>
+        </div>
+
+        <div class="deck-info-divider"></div>
+
+        <div class="deck-info-row">
+            <span class="deck-info-label">Learning:</span>
+            <span class="deck-info-value">{{ learning_count }}</span>
+        </div>
+
+        <div class="deck-info-divider"></div>
+
+        <div class="deck-info-row">
+            <span class="deck-info-label">Total Duration:</span>
+            <span class="deck-info-value duration">{{ estimated_time }} min</span>
+        </div>
+
+        <div class="deck-info-divider"></div>
+
+        <div class="deck-info-row">
+            <span class="deck-info-label">Total Cards:</span>
+            <span class="deck-info-value">{{ total_cards }}</span>
+        </div>
+
     </div>
-    <div class="deck-info-divider"></div>
-    <div class="deck-info-row">
-      <span class="deck-info-label">Learning:</span>
-      <span class="deck-info-value">{{ learning_count }}</span>
-    </div>
-    <div class="deck-info-divider"></div>
-    <div class="deck-info-row">
-      <span class="deck-info-label">Total Duration:</span>
-      <span class="deck-info-value duration">{{ estimated_time }} minutes</span>
-    </div>
-    <div class="deck-info-divider"></div>
-    <div class="deck-info-row">
-      <span class="deck-info-label">Total Cards:</span>
-      <span class="deck-info-value">{{ total_cards }}</span>
-    </div>
-    <div class="deck-info-divider"></div>
-  </div>
-  <a href="{% url 'flashcards:flashcards' deck.slug %}" class="practice-btn">Practice Now!</a>
+
+    <a href="{% url 'flashcards:flashcards' deck.slug %}" class="practice-btn">
+        Practice Now!
+    </a>
+
 </div>
 {% endblock content %}

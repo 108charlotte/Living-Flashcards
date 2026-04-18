@@ -5,14 +5,115 @@
 {% block title %}About{% endblock %}
 
 {% block extra_css %}
- <style>
-  
- </style>
+<style>
+  body {
+    background-color: #F7F7EF;
+  }
+
+  .about-container {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #2f2f2f;
+  }
+
+  .about-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  }
+
+  .about-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .about-subtitle {
+    text-align: center;
+    font-size: 1rem;
+    color: #6b6b6b;
+    margin-bottom: 30px;
+  }
+
+  .section {
+    margin-bottom: 30px;
+  }
+
+  .section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #739F7F;
+  }
+
+  .section p {
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  .highlight-box {
+    background-color: #8FC29D;
+    color: white;
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 20px;
+  }
+
+  .highlight-box p {
+    margin: 0;
+  }
+
+  .accent-line {
+    height: 6px;
+    width: 60px;
+    background-color: #9ED9AD;
+    border-radius: 10px;
+    margin: 0 auto 20px auto;
+  }
+</style>
 {% endblock extra_css %}
 
 {% block content %}
-<div class="block">
-  <h1>About</h1>
-  <p>Fill out with info about us, living tongues, why this app is important, etc.</p>
+<div class="about-container">
+  <div class="about-card">
+    
+    <div class="about-title">About Living Flashcards</div>
+    <div class="accent-line"></div>
+    <div class="about-subtitle">Learning languages, preserving culture</div>
+
+    <div class="section">
+      <h2>Our Mission</h2>
+      <p>
+        We have partnered with The Living Tongues Institute for Endangered Languages to further their mission of bringing revitalization to dying languages worldwide. With our unique tool 
+        Living Flashcards is designed to make language learning more meaningful, especially for languages that are at risk of being lost.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>Why It Matters</h2>
+      <p>
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+        Many languages around the world are endangered, and with them, entire cultures and histories risk disappearing.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>How It Works</h2>
+      <p>
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+        This app uses spaced repetition and semantic grouping to help learners retain vocabulary more effectively.
+      </p>
+    </div>
+
+    <div class="highlight-box">
+      <p>
+        Every word learned is a step toward keeping a language alive.
+      </p>
+    </div>
+
+  </div>
 </div>
 {% endblock %}

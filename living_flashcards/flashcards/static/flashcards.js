@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //copilot generated keyboard shortcut for flipping the card, again, hard, good, easy
 //did not make the space also apply to easy, this way 1 corresponds to the first button, 2 to the second, etc., to make it easier to explain to the user
-//might change it later?
+//space also flips the card backwards and forwards now
   document.addEventListener('keydown', handleFlipShortcut);
 });
 
@@ -68,12 +68,14 @@ function handleFlipShortcut(event) {
 
   const isSpaceKey = event.code === 'Space' || event.key === ' ';
   if (isSpaceKey) {
-    const card = document.querySelector('.card.clickable-card');
-    if (!card || card.classList.contains('flipped')) return;
-    event.preventDefault();
-    flipCard({ currentTarget: card });
-    return;
-  }
+    
+  const card = document.querySelector('.card.clickable-card');
+  if (!card) return;
+
+  event.preventDefault();
+  flipCard({ currentTarget: card });
+  return;
+}
 
   // 1=Again, 2=Hard, 3=Good, 4=Easy
   const ratingMap = { '1': 'again', '2': 'hard', '3': 'good', '4': 'easy' };
@@ -87,21 +89,35 @@ function handleFlipShortcut(event) {
   const btn = form.querySelector(`button[value="${rating}"]`);
   if (btn) btn.click();
 }
-
-// copilot code to create card "flip"
+// ChatGPT
+// updated flipCard to allow flipping back and forth
 function flipCard(event) {
   const card = event ? event.currentTarget : document.querySelector('.card.clickable-card');
   const buttons = document.getElementById('difficulty-buttons');
   if (!card) return;
 
-  // only flip once (show definition and controls)
-  if (card.classList.contains('flipped')) return;
-
-  card.classList.add('flipped');
-
+  const front = card.querySelector('.card-front');
   const back = card.querySelector('.card-back');
-  if (back) back.classList.remove('hidden');
-  if (buttons) buttons.classList.remove('hidden');
+
+  const isFlipped = card.classList.contains('flipped');
+
+  if (!isFlipped) {
+    // FRONT → BACK
+    card.classList.add('flipped');
+
+    if (front) front.classList.add('hidden');
+    if (back) back.classList.remove('hidden');
+
+    // Show buttons only after first flip
+    if (buttons) buttons.classList.remove('hidden');
+
+  } else {
+    // BACK → FRONT
+    card.classList.remove('flipped');
+
+    if (back) back.classList.add('hidden');
+    if (front) front.classList.remove('hidden');
+  }
 }
 
 // ChatGPT generated code to show spacebar hint on page load, then hide it after a few seconds

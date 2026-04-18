@@ -4,58 +4,65 @@
 
 {% block title %}Contact{% endblock %}
 
-{% block extra_css %}
- <link rel="stylesheet" href="{% static 'contact.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-<style>
-</style>
 
-<div class="contact-banner">
-  To contact Living Tongues, 
-  <a href="https://livingtongues.org/contact-us/">click here</a>.
-</div>
+ <!-- Claude generated styling to a simple form code found online -->
 
-<!--form code taken from https://web3forms.com/templates/ajax-contact-form-using-javascript-->
-<div class="flex items-center min-h-screen bg-gray-50 dark:bg-gray-900">
-  <div class="container mx-auto">
-    <div class="max-w-md mx-auto my-10 bg-white p-5 rounded-md shadow-sm">
-      <div class="text-center">
-        <h1 class="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200">
-          Contact Us
-        </h1>
-        <p class="text-gray-400 dark:text-gray-400">
-          Fill up the form below to send us a message.
-        </p>
+<div style="font-family: 'Inter', sans-serif; min-height: calc(100vh - 80px); background: #FCFCF7; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; box-sizing: border-box;">
+
+  <div style="width: 100%; max-width: 480px;">
+
+    <div style="background: #F2F2ED; border-radius: 16px; padding: 2.25rem 2.5rem; box-sizing: border-box;">
+
+      <h1 style="font-size: 22px; font-weight: 700; color: #2C2C2A; margin: 0 0 0.35rem; letter-spacing: -0.3px;">Contact Us</h1>
+      <p style="font-size: 14px; color: #5F5E5A; margin: 0 0 1.75rem; font-family: 'Inter', sans-serif;">Fill up the form below to send us a message.</p>
+
+      <form action="https://api.web3forms.com/submit" method="POST" id="form">
+        <input type="hidden" name="access_key" value="78cf9e74-3f39-4aee-b3fa-bbd4969a85c4" />
+        <input type="hidden" name="subject" value="New Submission from Web3Forms" />
+        <input type="checkbox" name="botcheck" style="display: none;" />
+
+        <!-- Full Name -->
+        <div style="margin-bottom: 1.1rem;">
+          <label for="name" style="display: block; font-size: 14px; color: #5F5E5A; margin-bottom: 6px; font-family: 'Inter', sans-serif;">Full Name</label>
+          <input type="text" name="name" id="name" placeholder="John Doe" required
+            style="width: 100%; box-sizing: border-box; padding: 11px 14px; border-radius: 8px; border: 1px solid #D3D1C7; background: #ffffff; font-size: 16px; color: #2C2C2A; outline: none; font-family: 'Inter', sans-serif;"
+            onfocus="this.style.borderColor='#739F7F'; this.style.boxShadow='0 0 0 3px rgba(115,159,127,0.15)';"
+            onblur="this.style.borderColor='#D3D1C7'; this.style.boxShadow='none';">
+        </div>
+
+        <!-- Email -->
+        <div style="margin-bottom: 1.1rem;">
+          <label for="email" style="display: block; font-size: 14px; color: #5F5E5A; margin-bottom: 6px; font-family: 'Inter', sans-serif;">Email Address</label>
+          <input type="email" name="email" id="email" placeholder="you@company.com" required
+            style="width: 100%; box-sizing: border-box; padding: 11px 14px; border-radius: 8px; border: 1px solid #D3D1C7; background: #ffffff; font-size: 16px; color: #2C2C2A; outline: none; font-family: 'Inter', sans-serif;"
+            onfocus="this.style.borderColor='#739F7F'; this.style.boxShadow='0 0 0 3px rgba(115,159,127,0.15)';"
+            onblur="this.style.borderColor='#D3D1C7'; this.style.boxShadow='none';">
+        </div>
+
+        <!-- Message -->
+        <div style="margin-bottom: 1.25rem;">
+          <label for="message" style="display: block; font-size: 14px; color: #5F5E5A; margin-bottom: 6px; font-family: 'Inter', sans-serif;">Your Message</label>
+          <textarea rows="5" name="message" id="message" placeholder="Your message..." required
+            style="width: 100%; box-sizing: border-box; padding: 11px 14px; border-radius: 8px; border: 1px solid #D3D1C7; background: #ffffff; font-size: 16px; color: #2C2C2A; outline: none; font-family: 'Inter', sans-serif; resize: vertical;"
+            onfocus="this.style.borderColor='#739F7F'; this.style.boxShadow='0 0 0 3px rgba(115,159,127,0.15)';"
+            onblur="this.style.borderColor='#D3D1C7'; this.style.boxShadow='none';"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+          style="width: 100%; padding: 0.75rem 1rem; background: #739F7F; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif;">
+          Send Message
+        </button>
+
+        <p style="font-size: 13px; color: #5F5E5A; text-align: center; margin: 1rem 0 0; font-family: 'Inter', sans-serif;" id="result"></p>
+      </form>
+
+      <div style="margin-top: 1.25rem; font-size: 13px; color: #5F5E5A; text-align: center; font-family: 'Inter', sans-serif;">
+      To contact Living Tongues,
+      <a href="https://livingtongues.org/contact-us/" style="color: #739F7F; text-decoration: none; font-weight: 500;">click here</a>.
       </div>
-      <div class="m-7">
-        <form action="https://api.web3forms.com/submit" method="POST" id="form">
-          <input type="hidden" name="access_key" value="78cf9e74-3f39-4aee-b3fa-bbd4969a85c4" />
-          <input type="hidden" name="subject" value="New Submission from Web3Forms" />
-          <input type="checkbox" name="botcheck" id="" style="display: none;" />
 
-          <div class="mb-6">
-            <label for="name" class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Full Name</label>
-            <input type="text" name="name" id="name" placeholder="John Doe" required class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" />
-          </div>
-          <div class="mb-6">
-            <label for="email" class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Email Address</label>
-            <input type="email" name="email" id="email" placeholder="you@company.com" required class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" />
-          </div>
-          <div class="mb-6">
-            <label for="message" class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Your Message</label>
-
-            <textarea rows="5" name="message" id="message" placeholder="Your Message" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" required></textarea>
-          </div>
-          <div class="mb-6">
-            <button type="submit" class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none">
-              Send Message
-            </button>
-          </div>
-          <p class="text-base text-center text-gray-400" id="result"></p>
-        </form>
-      </div>
     </div>
   </div>
 </div>
@@ -68,43 +75,34 @@ form.addEventListener("submit", function (e) {
   const formData = new FormData(form);
   e.preventDefault();
   var object = {};
-  formData.forEach((value, key) => {
-    object[key] = value;
-  });
+  formData.forEach((value, key) => { object[key] = value; });
   var json = JSON.stringify(object);
   result.innerHTML = "Please wait...";
 
   fetch("https://api.web3forms.com/submit", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: json
   })
     .then(async (response) => {
       let json = await response.json();
       if (response.status == 200) {
         result.innerHTML = json.message;
-        result.classList.remove("text-gray-500");
-        result.classList.add("text-green-500");
+        result.style.color = "#739F7F";
       } else {
-        console.log(response);
         result.innerHTML = json.message;
-        result.classList.remove("text-gray-500");
-        result.classList.add("text-red-500");
+        result.style.color = "#993C1D";
       }
     })
     .catch((error) => {
-      console.log(error);
       result.innerHTML = "Something went wrong!";
+      result.style.color = "#993C1D";
     })
     .then(function () {
       form.reset();
-      setTimeout(() => {
-        result.style.display = "none";
-      }, 5000);
+      setTimeout(() => { result.style.display = "none"; }, 5000);
     });
 });
 </script>
+
 {% endblock %}

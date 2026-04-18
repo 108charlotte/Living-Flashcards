@@ -1,30 +1,87 @@
 {% extends "base.html" %}
 
-{% load static %}
-
 {% block title %}Profile{% endblock %}
 
-{% block extra_css %}
- <style>
-  
- </style>
-{% endblock extra_css %}
-
 {% block content %}
-<div class="block">
-  <h1>Profile</h1>
-  <p>Manage your study settings below.</p>
+<div style="font-family: 'Inter', sans-serif; min-height: 100vh; background: #FCFCF7; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem 2rem; box-sizing: border-box;">
 
-  <form method="post">
-    {% csrf_token %}
-    {{ daily_limit_form.non_field_errors }}
-    <div>
-      {{ daily_limit_form.daily_new_limit.label_tag }}
-      {{ daily_limit_form.daily_new_limit }}
-      {{ daily_limit_form.daily_new_limit.errors }}
-    </div>
-    <p>{{ daily_limit_form.daily_new_limit.help_text }}</p>
-    <button type="submit">Save</button>
-  </form>
+  <h1 style="font-size: 32px; font-weight: 700; color: #2C2C2A; margin: 0 0 0.5rem; letter-spacing: -0.5px;">
+    Profile
+  </h1>
+
+  <p style="font-size: 14px; color: #5F5E5A; margin-bottom: 1.75rem;">
+    Manage your study settings below.
+  </p>
+
+  <div style="background: #F2F2ED; border-radius: 16px; padding: 2.25rem 2.5rem; width: 100%; max-width: 480px; box-sizing: border-box;">
+
+    <style>
+      .lf-form .form-group, .lf-form .mb-3 { margin-bottom: 1.1rem; }
+
+      .lf-form label {
+        display: block;
+        font-size: 14px;
+        color: #5F5E5A;
+        margin-bottom: 6px;
+        font-weight: 400;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .lf-form input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 14px;
+        border-radius: 8px;
+        border: 1px solid #D3D1C7;
+        background: #ffffff;
+        font-size: 16px;
+        color: #2C2C2A;
+        outline: none;
+        box-shadow: none;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .lf-form input:focus {
+        border-color: #739F7F;
+        box-shadow: 0 0 0 3px rgba(115,159,127,0.15);
+      }
+
+      .lf-form .errorlist {
+        font-size: 12px;
+        color: #993C1D;
+        margin-top: 4px;
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .lf-form .helptext {
+        font-size: 12px;
+        color: #8A887F;
+        margin-top: 4px;
+      }
+    </style>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="lf-form">
+        {{ daily_limit_form.non_field_errors }}
+
+        <div class="mb-3">
+          {{ daily_limit_form.daily_new_limit.label_tag }}
+          {{ daily_limit_form.daily_new_limit }}
+          {{ daily_limit_form.daily_new_limit.errors }}
+          <div class="helptext">
+            {{ daily_limit_form.daily_new_limit.help_text }}
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" style="width: 100%; padding: 0.75rem 1rem; background: #739F7F; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; font-family: 'Inter', sans-serif;">
+        Save Changes
+      </button>
+    </form>
+
+  </div>
 </div>
 {% endblock %}

@@ -1,8 +1,18 @@
 {% extends 'authentication/auth_base.html' %}
 {% block title %}Logged Out{% endblock %}
 {% block content %}
-<div class="mt-5">
-    <h1>You have been successfully logged out</h1>
-    <a href="{% url 'login' %}" class="btn btn-primary">Log in again</a>
+<!-- Claude Generated Code with Prompts from our Figma Designs -->
+<div style="font-family: 'Inter', sans-serif; height: 100vh; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; box-sizing: border-box;">
+
+  <img src="{% static 'LF_logo.svg' %}" alt="Living Flashcards logo" style="width: 72px; height: 72px; margin-bottom: 1rem;">
+
+  <h1 style="font-size: 32px; font-weight: 700; color: #2C2C2A; margin: 0 0 0.5rem; letter-spacing: -0.5px;">Living Flashcards</h1>
+
+  <p style="font-size: 15px; color: #5F5E5A; margin: 0 0 1.75rem;">You've been successfully logged out.</p>
+
+  <a href="{% url 'login' %}" style="padding: 0.75rem 2rem; background: #739F7F; color: #fff; border-radius: 10px; font-size: 15px; font-weight: 500; text-decoration: none; font-family: 'Inter', sans-serif;">
+    Log in again
+  </a>
+
 </div>
 {% endblock %}

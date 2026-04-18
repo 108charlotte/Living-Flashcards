@@ -5,18 +5,50 @@
 {% block title %}Living Flashcards{% endblock %}
 
 {% block content %}
+<!-- Claude Generated Code with Prompts from our Figma Designs -->
+<style>
+  select#user-language-dropdown {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid #D3D1C7;
+    background: #ffffff;
+    font-size: 16px;
+    color: #2C2C2A;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235F5E5A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    cursor: pointer;
+  }
+  select#user-language-dropdown:focus {
+    border-color: #739F7F;
+    box-shadow: 0 0 0 3px rgba(115,159,127,0.15);
+  }
+  label[for="user-language-dropdown"] {
+    display: block;
+    font-size: 14px;
+    color: #5F5E5A;
+    margin-bottom: 6px;
+    font-family: 'Inter', sans-serif;
+  }
+</style>
 
-{% block extra_css %}
-  <style>
+<div style="font-family: 'Inter', sans-serif; height: 100vh; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; box-sizing: border-box; overflow: hidden;">
 
-  </style>
-{% endblock extra_css %}
+  <img src="{% static 'LF_logo.svg' %}" alt="Living Flashcards logo" style="width: 72px; height: 72px; margin-bottom: 1rem;">
 
-<div class="page-wrapper">
-  <div class="language-card">
+  <h1 style="font-size: 32px; font-weight: 700; color: #2C2C2A; margin: 0 0 1.75rem; letter-spacing: -0.5px;">Living Flashcards</h1>
+
+  <div style="background: #F2F2ED; border-radius: 16px; padding: 2.25rem 2.5rem; width: 100%; max-width: 480px; box-sizing: border-box;">
+
     {% if user.is_authenticated %}
-      <h1>Select a language:</h1>
-      <p>This is the language for the card definitions and user interface, not the language(s) that you would like to study!</p>
+      <h2 style="font-size: 20px; font-weight: 700; color: #2C2C2A; margin: 0 0 0.5rem;">Select a language</h2>
+      <p style="font-size: 13px; color: #5F5E5A; margin: 0 0 1.5rem; font-family: 'Inter', sans-serif;">This is the language for card definitions and the user interface, not the language(s) you'd like to study.</p>
+
       <form id="user-language-form" method="post" action="{% url 'lang_selection:setlanguage' %}">
         {% csrf_token %}
         <label for="user-language-dropdown">Select a language:</label>
@@ -25,13 +57,22 @@
             <option value="{{ available_language }}">{{ available_language }}</option>
           {% endfor %}
         </select>
-        <button type="submit">Set language</button>
+
+        <button type="submit" style="width: 100%; padding: 0.75rem 1rem; background: #739F7F; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 1rem; font-family: 'Inter', sans-serif;">
+          Set language
+        </button>
       </form>
+
     {% else %}
-      <h1>Please create an account!</h1>
-      <p><a href="/login">Log in</a> or <a href="{% url 'authentication:sign-up' %}">sign up</a> to get started!</p>
+      <h2 style="font-size: 20px; font-weight: 700; color: #2C2C2A; margin: 0 0 0.75rem;">Please create an account!</h2>
+      <p style="font-size: 13px; color: #5F5E5A; font-family: 'Inter', sans-serif; margin: 0;">
+        <a href="/login" style="color: #739F7F; text-decoration: none; font-weight: 500;">Log in</a>
+        or
+        <a href="{% url 'authentication:sign-up' %}" style="color: #739F7F; text-decoration: none; font-weight: 500;">Sign up</a>
+        to get started!
+      </p>
     {% endif %}
+
   </div>
 </div>
-
 {% endblock content %}

@@ -16,3 +16,4 @@ sqlparse==0.5.3
 typing_extensions==4.15.0
 urllib3==2.6.3
 gunicorn==23.0.0
+whitenoise==6.12.0

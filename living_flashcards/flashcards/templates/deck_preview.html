@@ -312,4 +312,19 @@
     </a>
 
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggle = document.getElementById('previewProfileToggle');
+    const dropdown = document.getElementById('previewProfileDropdown');
+    if (toggle && dropdown) {
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+      });
+      document.addEventListener('click', function (e) {
+        if (!dropdown.contains(e.target)) dropdown.classList.remove('active');
+      });
+    }
+  });
+</script>
 {% endblock content %}

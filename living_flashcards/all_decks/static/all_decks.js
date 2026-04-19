@@ -61,35 +61,27 @@ document.addEventListener('click', (event) => {
 	}
 });
 
-// Heatmap rendering
+// Heatmap loader — Claude Generated
 const heatmapContainer = document.querySelector('#heatmap-container');
-
+ 
 if (heatmapContainer) {
-	const svgUrl = heatmapContainer.dataset.svgUrl;
-	const heatmapUrl = heatmapContainer.dataset.heatmapUrl;
-
-	if (svgUrl && heatmapUrl) {
-		fetch(svgUrl)
-			.then((resp) => resp.text())
-			.then((svgText) => {
-				return fetch(heatmapUrl)
-					.then((response) => response.json())
-					.then((data) => ({ svgText, data }));
-			})
-			.then(({ svgText, data }) => {
-				const config = {
-					heatmapShowStreak: true,
-					heatmapShowMonths: true,
-					heatmapShowWeekdays: true,
-					heatmapShowWeekHeader: true,
-					heatmapDefaultView: 'month',
-					heatmapSvgContent: svgText,
-				};
-
-				if (window.OnigiriHeatmap) {
-					window.OnigiriHeatmap.render('heatmap-container', data, config);
-				}
-			})
-			.catch((err) => console.error('Heatmap load error', err));
-	}
+    const svgUrl     = heatmapContainer.dataset.svgUrl;
+    const dataUrl    = heatmapContainer.dataset.heatmapUrl;
+ 
+    if (svgUrl && dataUrl) {
+        Promise.all([
+            fetch(svgUrl).then(r => r.text()),
+            fetch(dataUrl).then(r => r.json()),
+        ])
+        .then(([svgContent, data]) => {
+            if (window.Heatmap) {
+                window.Heatmap.render('heatmap-container', data, {
+                    showStreak: true,
+                    svgContent,
+                });
+            }
+        })
+        .catch(err => console.error('Heatmap load error:', err));
+    }
 }
+ 

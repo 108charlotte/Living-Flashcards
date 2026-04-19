@@ -5,16 +5,91 @@
 
 {% block title %}Living Flashcards{% endblock %}
 
-{% block css %}
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet"> 
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
 <style>
-  /* Styiling is inline for the logged out state...sorry about that, just made more sense when I was looking at it to have it that way*/
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  .deck-sections {
+    display: flex;
+    font-family: 'Inter', sans-serif;
+    min-height: 300px;
+    background: #F5F4EE;
+  }
+
+  .deck-section {
+    flex: 1;
+    padding: 2rem 2.5rem;
+  }
+
+  .deck-section:first-child {
+    border-right: 1.5px solid #D8D7D0;
+  }
+
+  .deck-section h2 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .deck-section h2 a,
+  .deck-section-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  .deck-section h2 a:hover {
+    opacity: 0.75;
+  }
+
+  .deck-section h2 svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .deck-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .deck {
+    background: #739F7F;
+    border-radius: 12px;
+    padding: 14px 16px;
+    min-width: 140px;
+    max-width: 180px;
+  }
+
+  .deck a {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .deck-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a3325;
+    line-height: 1.3;
+  }
+
+  .deck-count {
+    font-size: 0.775rem;
+    color: #2d5240;
+  }
 </style>
-{% endblock css %}
+{% endblock extra_css %}
 
 {% block content %}
 {% if user.is_authenticated %}
-    {% if coming_soon_language %}
+  {% if coming_soon_language %}
     <div class="coming-soon-layout">
       <div class="coming-soon-state">
         <h1>Flashcards for {{ coming_soon_language }} are coming soon!</h1>
@@ -22,101 +97,109 @@
         <p>Please select Sora from the language dropdown to continue studying now.</p>
       </div>
     </div>
-    {% else %}
-    <!-- Heatmap -->
+  {% else %}
     <div class="all-decks-home">
-    <div class="all-decks-heatmap">
-      <div
-        id="heatmap-container"
-        data-svg-url="{% static 'heatmap/square.svg' %}"
-        data-heatmap-url="{% url 'all_decks:heatmap_data' %}"
-      ></div>
-    </div>
 
-    <div class="deck-sections">
+      <div class="all-decks-heatmap">
+        <div
+          id="heatmap-container"
+          data-svg-url="{% static 'heatmap/square.svg' %}"
+          data-heatmap-url="{% url 'all_decks:heatmap_data' %}"
+        ></div>
+      </div>
+      {% load static %}
+      <script src="{% static 'heatmap/heatmap.js' %}"></script>
+      <script src="{% static 'all_decks.js' %}"></script>
 
-      <!-- copilt rule for separating decks with zero Review events by this user -->
-      <section class="deck-section">
-        <h2>
-          <a href="{% url 'all_decks:deck_category' 'started' %}">
-            My Decks
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
-          </a>
-        </h2>
-        <div class="deck-grid-scroll">
-          <div class="deck-grid">
-          {% for deck in started_decks %}
-            <div class="deck">
-              <a href="{% url 'flashcards:instructions_screen' deck.slug %}">
-                <span class="deck-title">{{ deck.name }}</span>
-                <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning<br></span>
-              </a>
+      <div class="deck-sections">
+
+        <section class="deck-section">
+          <h2>
+            <a href="{% url 'all_decks:deck_category' 'started' %}">
+              <svg width="20" height="20" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4" y="16" width="34" height="24" rx="3" fill="transparent" stroke="currentColor" stroke-width="1.6" transform="rotate(-6 4 16)"/>
+                <rect x="14" y="12" width="34" height="24" rx="3" fill="transparent" stroke="currentColor" stroke-width="1.6"/>
+                <line x1="21" y1="21" x2="40" y2="21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+                <line x1="21" y1="26" x2="36" y2="26" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+                <line x1="21" y1="31" x2="33" y2="31" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+              </svg>
+              My Decks
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
+            </a>
+          </h2>
+          <div class="deck-grid-scroll">
+            <div class="deck-grid">
+              {% for deck in started_decks %}
+                <div class="deck">
+                  <a href="{% url 'flashcards:instructions_screen' deck.slug %}">
+                    <span class="deck-title">{{ deck.name }}</span>
+                    <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>
+                  </a>
+                </div>
+              {% empty %}
+                <p>You haven't started any decks yet.</p>
+              {% endfor %}
             </div>
-          {% empty %}
-            <p>You haven't started any decks yet.</p>
-          {% endfor %}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="deck-section">
-        <h2 class="deck-section-heading">
-          <a class="deck-section-link modern-arrow-link" href="{% url 'all_decks:deck_category' 'not-started' %}">
-            Explore Decks
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
-          </a>
-        </h2>
-        <div class="deck-grid-scroll">
-          <div class="deck-grid">
-          {% for deck in not_started_decks %}
-            <div class="deck">
-              <a href="{% url 'flashcards:instructions_screen' deck.slug %}">
-                <span class="deck-title">{{ deck.name }}</span>
-                <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>
-              </a>
+        <section class="deck-section">
+          <h2 class="deck-section-heading">
+            <a class="deck-section-link modern-arrow-link" href="{% url 'all_decks:deck_category' 'not-started' %}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="9" stroke="#1a1a1a" stroke-width="1.8"/>
+                <path d="M16.5 7.5l-2.5 5.5-5.5 2.5 2.5-5.5 5.5-2.5z" fill="#1a1a1a"/>
+              </svg>
+              Explore Decks
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H21" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/><path d="M16 9L21 14L16 19" stroke="#0A3323" stroke-width="3" stroke-linecap="round"/></svg>
+            </a>
+          </h2>
+          <div class="deck-grid-scroll">
+            <div class="deck-grid">
+              {% for deck in not_started_decks %}
+                <div class="deck">
+                  <a href="{% url 'flashcards:instructions_screen' deck.slug %}">
+                    <span class="deck-title">{{ deck.name }}</span>
+                    <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>
+                  </a>
+                </div>
+              {% empty %}
+                <p>You've started all available decks.</p>
+              {% endfor %}
             </div>
-          {% empty %}
-            <p>You've started all available decks.</p>
-          {% endfor %}
           </div>
-        </div>
-      </section>
-    </div>
-    </div>
-      {% endif %}
+        </section>
+
+      </div><!-- /.deck-sections -->
+
+    </div><!-- /.all-decks-home -->
+  {% endif %}<!-- end coming_soon_language -->
+
 {% else %}
- <!-- Claude generated code for base home page, based on a figma design and tons of tuning lol-->
-<div style="font-family: 'Inter', sans-serif; height: 100vh; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; box-sizing: border-box; overflow: hidden;">
+  <!-- logged out state -->
+  <div style="font-family: 'Inter', sans-serif; height: 100vh; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; box-sizing: border-box; overflow: hidden;">
 
-  <img src="{% static 'LF_logo.svg' %}" alt="App Icon" style="width: 72px; height: 72px; margin-bottom: 1rem;">
+    <img src="{% static 'LF_logo.svg' %}" alt="App Icon" style="width: 72px; height: 72px; margin-bottom: 1rem;">
 
-  <h1 style="font-size: 32px; font-weight: 700; color: #2C2C2A; margin: 0 0 1.75rem; letter-spacing: -0.5px;">Welcome to Living Flashcards!</h1>
+    <h1 style="font-size: 32px; font-weight: 700; color: #2C2C2A; margin: 0 0 1.75rem; letter-spacing: -0.5px;">Welcome to Living Flashcards!</h1>
 
-  <div style="background: #FFFFFF; border-radius: 16px; padding: 2.25rem 2.5rem; width: 100%; max-width: 480px; text-align: center; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.05)">
+    <div style="background: #FFFFFF; border-radius: 16px; padding: 2.25rem 2.5rem; width: 100%; max-width: 480px; text-align: center; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.05)">
 
-    <h2 style="font-size: 24px; font-weight: 700; color: #2C2C2A; margin: 0 0 0.35rem; letter-spacing: -0.4px;">Save a language from extinction!</h2>
+      <h2 style="font-size: 24px; font-weight: 700; color: #2C2C2A; margin: 0 0 0.35rem; letter-spacing: -0.4px;">Save a language from extinction!</h2>
 
-    <p style="font-size: 14px; color: #5F5E5A; margin: 0 0 1.75rem;">Get started today!</p>
+      <p style="font-size: 14px; color: #5F5E5A; margin: 0 0 1.75rem;">Get started today!</p>
 
-    <a href="{% url 'authentication:sign-up' %}" style="display: block; width: 100%; padding: 0.75rem 1rem; background: #739F7F; color: #ffffff; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; border: none; border-radius: 10px; cursor: pointer; text-decoration: none; margin-bottom: 1rem; box-sizing: border-box;">Sign Up Free</a>
+      <a href="{% url 'authentication:sign-up' %}" style="display: block; width: 100%; padding: 0.75rem 1rem; background: #739F7F; color: #ffffff; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; border: none; border-radius: 10px; cursor: pointer; text-decoration: none; margin-bottom: 1rem; box-sizing: border-box;">Sign Up Free</a>
 
-    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-      <div style="flex: 1; height: 1px; background: #B4B2A9;"></div>
-      <span style="font-size: 13px; color: #5F5E5A;">or login</span>
-      <div style="flex: 1; height: 1px; background: #B4B2A9;"></div>
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+        <div style="flex: 1; height: 1px; background: #B4B2A9;"></div>
+        <span style="font-size: 13px; color: #5F5E5A;">or login</span>
+        <div style="flex: 1; height: 1px; background: #B4B2A9;"></div>
+      </div>
+
+      <a href="/login" style="display: block; width: 100%; padding: 0.75rem 1rem; background: #EEEEEE; color: #000000; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; border: none; border-radius: 10px; cursor: pointer; text-decoration: none; box-sizing: border-box;">Login</a>
+
     </div>
-
-    <a href="/login" style="display: block; width: 100%; padding: 0.75rem 1rem; background: #EEEEEE; color: #000000; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; border: none; border-radius: 10px; cursor: pointer; text-decoration: none; box-sizing: border-box;">Login</a>
-
   </div>
-</div>
-{% endif %}
-{% load static %}
-
-<!-- Load heatmap assets from static/heatmap/ -->
-    {% if user.is_authenticated and not coming_soon_language %}
-    <link rel="stylesheet" href="{% static 'heatmap/heatmap.css' %}">
-    <script src="{% static 'heatmap/heatmap.js' %}"></script>
-    {% endif %}
-<script src="{% static 'all_decks.js' %}"></script>
+{% endif %}<!-- end user.is_authenticated -->
 {% endblock content %}

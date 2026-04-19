@@ -5,16 +5,135 @@
 {% block title %}{{ page_title }}{% endblock %}
 
 {% block extra_css %}
-  <style>
-  </style>
+<!-- Claude generated styling for deck category page -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  .deck-category-page {
+    font-family: 'Inter', sans-serif;
+    background: #F5F4EE;
+    min-height: 100vh;
+    padding: 2rem 2.5rem;
+  }
+
+  /* --- Back link --- */
+  .deck-category-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #2d5240;
+    background: #739F7F22;
+    border: 1px solid #739F7F55;
+    padding: 5px 12px 5px 8px;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  .deck-category-back:hover {
+    background: #739F7F33;
+    border-color: #739F7F99;
+  }
+
+  .deck-category-back .back-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: #739F7F;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .deck-category-back .back-arrow svg {
+    width: 9px;
+    height: 9px;
+    fill: #fff;
+  }
+
+  /* --- Header --- */
+  .deck-category-header {
+    margin-bottom: 2rem;
+  }
+
+  .deck-category-header h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 0.4rem 0;
+  }
+
+  .deck-category-header p {
+    font-size: 0.875rem;
+    color: #6b7260;
+    margin: 0;
+  }
+
+  /* --- Deck grid (matches existing) --- */
+  .deck-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .deck {
+    background: #739F7F;
+    border-radius: 12px;
+    padding: 14px 16px;
+    min-width: 140px;
+    max-width: 180px;
+  }
+
+  .deck a {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .deck-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a3325;
+    line-height: 1.3;
+  }
+
+  .deck-count {
+    font-size: 0.775rem;
+    color: #2d5240;
+  }
+
+  /* --- Empty state --- */
+  .deck-empty {
+    font-size: 0.875rem;
+    color: #9a9a90;
+  }
+</style>
 {% endblock extra_css %}
 
 {% block content %}
 <div class="deck-category-page">
+
   <div class="deck-category-header">
-    <a class="deck-category-back" href="{% url 'all_decks:all_decks' %}">← Back to all decks</a>
+
+    <a class="deck-category-back" href="{% url 'all_decks:all_decks' %}">
+      <span class="back-arrow">
+        <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.5 1.5 L2.5 5 L6.5 8.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </span>
+      All decks
+    </a>
+
     <h1>{{ page_title }}</h1>
-    <p>{{ category_description }}</p>
+    {% if category_description %}
+      <p>{{ category_description }}</p>
+    {% endif %}
+
   </div>
 
   <div class="deck-grid">
@@ -26,8 +145,9 @@
         </a>
       </div>
     {% empty %}
-      <p>{{ empty_message }}</p>
+      <p class="deck-empty">{{ empty_message }}</p>
     {% endfor %}
   </div>
+
 </div>
 {% endblock content %}

@@ -19,11 +19,21 @@ from flashcards.views import get_cards_to_review, count_cards_available_to_revie
 # Create your views here.
 
 def all_decks(request):
-    started_decks = get_all_decks_for_review_category("started", request.user)
-    set_num_cards_to_review(request, started_decks)
-    not_started_decks = get_all_decks_for_review_category("not-started", request.user)
-    set_num_cards_to_review(request, not_started_decks)
-    return render(request, 'all_decks.html', {'available_languages': ["English"], 'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"], 'started_decks': started_decks, 'not_started_decks': not_started_decks})
+    if request.user.is_authenticated:
+        started_decks = get_all_decks_for_review_category("started", request.user)
+        set_num_cards_to_review(request, started_decks)
+        not_started_decks = get_all_decks_for_review_category("not-started", request.user)
+        set_num_cards_to_review(request, not_started_decks)
+    else:
+        started_decks = []
+        not_started_decks = []
+
+    return render(request, 'all_decks.html', {
+        'available_languages': ["English"],
+        'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"],
+        'started_decks': started_decks,
+        'not_started_decks': not_started_decks
+    })
 
 def set_num_cards_to_review(request, decks):
     for deck in decks:

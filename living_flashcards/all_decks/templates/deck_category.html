@@ -112,6 +112,12 @@
     font-size: 0.875rem;
     color: #9a9a90;
   }
+
+  .deck-empty {
+    background: #D8D7D0 !important;
+    color: #888 !important;
+    opacity: 0.7;
+  }
 </style>
 {% endblock extra_css %}
 
@@ -138,7 +144,7 @@
 
   <div class="deck-grid">
     {% for deck in category_decks %}
-      <div class="deck">
+      <div class="deck{% if deck.cards_new == 0 and deck.cards_learning == 0 %} deck-empty{% endif %}">
         <a href="{% url 'flashcards:flashcards' deck.slug %}">
           <span class="deck-title">{{ deck.name }}</span>
           <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>

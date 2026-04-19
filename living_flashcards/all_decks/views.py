@@ -44,6 +44,7 @@ def deck_category(request, category):
     category_decks = []
     if request.user.is_authenticated: 
         category_decks = get_all_decks_for_review_category(category, request.user.id)
+        set_num_cards_to_review(request, category_decks)
         return render(request, "deck_category.html", {'category_decks': category_decks, 'page_title': category, 'category_description': category})
 
 # utility function since this logic is for both full-screen (with deck_category view) and for all_decks

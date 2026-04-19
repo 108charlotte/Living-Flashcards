@@ -53,7 +53,7 @@ def estimate_deck_completion_time(request, deck):
 @login_required
 def instructions_screen(request, slug): 
     user_model, _ = UserStudySettings.objects.get_or_create(user=request.user)
-    if user_model.first_deck_opened is None or True:
+    if user_model.first_deck_opened is None:
       user_model.first_deck_opened = timezone.localdate()
       user_model.save()
       return render(request, 'first_time_instructions.html', {'deck_slug': slug})

@@ -14,6 +14,9 @@ class UserStudySettings(models.Model):
 		default=20,
 		validators=[MinValueValidator(5), MaxValueValidator(30)],
 	)
+	# here since this is the only place to store user-specific custom information
+	# this is a date storing when the user opened their first deck. this will allow us to show update notes to users in the future if we change parts of the flashcard experience, rather than only showing the about screen as a one-off
+	first_deck_opened = models.DateTimeField(null=True, blank=True)
 
 	def __str__(self):
 		return f"Study settings for {self.user}"

@@ -65,5 +65,7 @@
     </ul>
     <p>Next to the text saying "Again", "Hard", "Good", and "Easy", you will also see a time (ex. "< 10 mins").</p>
     <p>This corresponds to when the next review will be set</p>
+    <p>Once you select an option, you will be presented with the next card! Check the progress bar above the deck to see how far you've gotten in the deck (green) and how much you have left to go (gray)</p>
+    <a class="btn" href="{% url 'flashcards:deck_preview' deck_slug %}">Get Started</a>
 </div>
 {% endblock content %}

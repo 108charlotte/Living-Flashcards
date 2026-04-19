@@ -46,9 +46,9 @@
           <div class="deck-grid">
           {% for deck in started_decks %}
             <div class="deck">
-              <a href="{% url 'flashcards:deck_preview' deck.slug %}">
+              <a href="{% url 'flashcards:instructions_screen' deck.slug %}">
                 <span class="deck-title">{{ deck.name }}</span>
-                <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning<br><strong>{{ deck.cards_to_review }} left to review</strong></span>
+                <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning<br></span>
               </a>
             </div>
           {% empty %}
@@ -69,7 +69,7 @@
           <div class="deck-grid">
           {% for deck in not_started_decks %}
             <div class="deck">
-              <a href="{% url 'flashcards:deck_preview' deck.slug %}">
+              <a href="{% url 'flashcards:instructions_screen' deck.slug %}">
                 <span class="deck-title">{{ deck.name }}</span>
                 <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>
               </a>

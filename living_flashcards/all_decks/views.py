@@ -45,7 +45,9 @@ def get_all_decks_for_review_category(category, user_id):
         if category == "started" and user_cards.exists():
             category_decks.append(deck)
         elif category == "not-started" and not user_cards.exists():
-            category_decks.append(deck)
+            # makes sure decks without any cards are hidden, even if they happen to be present in the database
+            if deck.cards.count() != 0: 
+                category_decks.append(deck)
     return category_decks
 
 def about(request):

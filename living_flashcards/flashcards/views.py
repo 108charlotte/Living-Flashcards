@@ -49,6 +49,17 @@ def estimate_deck_completion_time(request, deck):
     total_minutes = math.ceil(total_seconds / 60)
     return total_minutes
 
+# everything will redirect here instead of to deck_preview, and it will handle traffic depending on whether the user has ever reviewed a deck before
+@login_required
+def instructions_screen(request, slug): 
+    user_model, _ = UserStudySettings.objects.get_or_create(user=request.user)
+    if user_model.first_deck_opened is None or True:
+      user_model.first_deck_opened = timezone.localdate()
+      user_model.save()
+      return render(request, 'first_time_instructions.html', {'deck_slug': slug})
+    return deck_preview(request, slug)
+   
+
 # Deck preview view
 from django.contrib.auth.decorators import login_required
 @login_required
@@ -153,30 +164,28 @@ def flashcards(request, slug):
     'hide_main_nav': True,
   })
 
-def count_cards_available_to_review(user, deck):
+def get_cards_available_to_review(user, deck):
     now = timezone.now()
     today = timezone.localdate()
     user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user)
     daily_new_limit = get_daily_new_limit(user)
+    
+    learning_due = user_cards.exclude(review_card={}).filter(see_next__lte=now)
+    previously_introduced_new = user_cards.filter(review_card={}, new_introduced_on__isnull=False)
 
-    learning_due = user_cards.exclude(review_card={}).filter(see_next__lte=now).count()
-    previously_introduced_new = user_cards.filter(review_card={}, new_introduced_on__isnull=False).count()
+    return (learning_due | previously_introduced_new)
 
-    return learning_due + previously_introduced_new
+def count_cards_available_to_review(user, deck):
+  return get_cards_available_to_review(user, deck).count()
 
 def get_cards_to_review(user, deck): 
 
   # Learning cards are reviewed at least once and due now/past; they are never capped.
-  learning_due = count_cards_available_to_review(user, deck)
+  learning_and_prev_new = get_cards_available_to_review(user, deck)
 
   today = timezone.localdate()
-  # all cardtouser cards for current user, code written by Copilot
   user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user)
   daily_new_limit = get_daily_new_limit(user)
-  # Strict daily budget:
-  # 1) Count how many cards were introduced today for this deck/user.
-  # 2) Introduce only the remaining number of brand-new cards today.
-  # 3) Always keep previously introduced-but-unreviewed new cards available.
   introduced_today_count = user_cards.filter(new_introduced_on=today).count()
   remaining_budget = max(daily_new_limit - introduced_today_count, 0)
 
@@ -191,9 +200,9 @@ def get_cards_to_review(user, deck):
       user_cards.filter(id__in=newly_introduced_ids).update(new_introduced_on=today)
 
   available_new_cards = user_cards.filter(review_card={}).exclude(new_introduced_on__isnull=True)
-  
-  # Combine learning and available new cards into the queue shown to the user.
-  to_review = (learning_due | available_new_cards).order_by('see_next', 'id')
+
+  # Combine learning+prev_new and available new cards into the queue shown to the user.
+  to_review = (learning_and_prev_new | available_new_cards).order_by('see_next', 'id')
   return to_review
 
 

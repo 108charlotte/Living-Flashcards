@@ -5,57 +5,199 @@
 {% block title %}Flashcards{% endblock %}
 
 {% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'flashcards.css' %}">
+<style>
+  /* ── Claude GeneratedNavbar Styling── */
+  .preview-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 80px;
+    background: #FCFCF7;
+    border-bottom: 1px solid #E8E8E3;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .preview-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .preview-nav-brand {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2C2C2A;
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: -0.3px;
+  }
+  .navbar-center {
+  /* This ensures the container itself centers its inline content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  }
+
+  .estimated-time {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 400; /* 400 is the standard 'Regular' weight */
+  margin: 0;        /* Removes default paragraph spacing */
+  text-align: center;
+  }
+  .preview-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+  }
+
+  .preview-profile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C2C2A;
+    font-family: 'Inter', sans-serif;
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .preview-profile-toggle:hover { background: #F2F2ED; }
+
+  /* Profile dropdown */
+  .preview-profile-dropdown { position: relative; }
+
+  .preview-dropdown-card {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #E8E8E3;
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    z-index: 100;
+    min-width: 210px;
+    overflow: hidden;
+  }
+  .preview-profile-dropdown.active .preview-dropdown-card { display: block; }
+
+ .preview-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  margin: 0 12px;           
+  border-bottom: 2px solid #2C2C2A;
+  background: #FCFCF7;
+  border-radius: 8px 8px 0 0; /* optional polish */
+}
+
+  .preview-dropdown-header span {
+    font-size: 20px;
+    font-weight: 800;
+    color: #2C2C2A;
+    font-family: 'Inter', sans-serif;
+    align-items: left;
+  }
+
+  .preview-dropdown-card ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+
+  .preview-dropdown-card ul li a,
+  .preview-dropdown-card ul li button {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+    padding: 0.7rem 1.25rem;
+    font-size: 14px;
+    font-weight: 400;
+    color: #2C2C2A;
+    text-decoration: none;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.12s;
+    box-sizing: border-box;
+  }
+  .preview-dropdown-card ul li a:hover,
+  .preview-dropdown-card ul li button:hover { background: #F2F2ED; }
+
+  .preview-dropdown-card hr { border: none; border-top: 1px solid #E8E8E3; margin: 0.4rem 0; }
+
+  .sign-out-btn { color: #993C1D !important; }  </style>
 {% endblock extra_css %}
 
 {% block navbar %}
- <nav class="navbar">
-      <div class="navbar-left">
-        <a href="/" class="navbar-brand">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
-              <circle cx="32" cy="32" r="30" stroke="black" stroke-width="4" fill="black" />
-            </svg>
-          <span class="brand-text">Living Flashcards</span>
-        </a>
-      </div>
+ <nav class="preview-nav">
 
+  <!-- Left: logo + brand -->
+  <div class="preview-nav-left">
+    <a href="/">
+      <img src="{% static 'LF_logo.svg' %}" alt="Living Flashcards logo" style="width: 40px; height: 40px; display: block;">
+    </a>
+    <a href="/" class="preview-nav-brand">Living Flashcards</a>
+  </div>
+<!-- Center: Estimated time -->
       <div class="navbar-center">
         {% if estimated_time %}
           <p class="estimated-time">Estimated time: {{ estimated_time }} minute{{ estimated_time|pluralize }}</p>
         {% endif %}
       </div>
 
-<div class="navbar-right">
-        <li class="nav-item dropdown" style="position: relative;">
-          <a
-            class="nav-right nav-link dropdown-toggle" href="{% url 'all_decks:profile' %}" id="profileDropdown">
-            <span class="profile-name">{{ user.username }}</span>
-              <svg width="33" height="37" viewBox="0 0 33 37" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <rect width="32.3462" height="36.0784" fill="url(#pattern0_18_193)"/>
-                <defs>
-                <pattern id="pattern0_18_193" patternContentUnits="objectBoundingBox" width="1" height="1">
-                <use xlink:href="#image0_18_193" transform="matrix(0.0111111 0 0 0.00996169 0 0.0517241)"/>
-                </pattern>
-                <image id="image0_18_193" width="90" height="90" preserveAspectRatio="none" xlink:href="data:image/png;base64,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"/>
-                </defs>
+<!-- Right: profile -->
+  <div class="preview-nav-right">
+    <div class="preview-profile-dropdown" id="previewProfileDropdown">
+      <button class="preview-profile-toggle" id="previewProfileToggle">
+        <span>{{ user.username }}</span>
+        <img width="34" height="34" src="https://img.icons8.com/ios-glyphs/30/test-account.png" alt="profile">
+      </button>
+
+      <div class="preview-dropdown-card">
+        <div class="preview-dropdown-header">
+          <span>{{ user.username }}</span>
+        </div>
+        <ul>
+          <li>
+            <a href="{% url 'all_decks:profile' %}">
+              <svg width="16" height="16" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+                <circle cx="17" cy="13" r="5.5" stroke="#2C2C2A" stroke-width="2"/>
+                <path d="M5 31c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="#2C2C2A" stroke-width="2" stroke-linecap="round"/>
               </svg>
+              Profile
             </a>
-        <ul class="dropdown-menu">  
-          {% if user.is_authenticated %}
+          </li>
+          <hr>
           <li>
             <form method="post" action="{% url 'logout' %}">
               {% csrf_token %}
-              <button type="submit" class="btn btn-link dropdown-item" >Logout</button>
+              <button type="submit" class="sign-out-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="#993C1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <polyline points="16 17 21 12 16 7" stroke="#993C1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="21" y1="12" x2="9" y2="12" stroke="#993C1D" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+                Sign Out
+              </button>
             </form>
           </li>
-          {% else %}
-          <li><a class="dropdown-item" href="/login">Login</a></li>
-          <li><a class="dropdown-item" href="{% url 'authentication:sign-up' %}">Sign up</a></li>
-          {% endif %}
         </ul>
-    </li>
       </div>
-  </nav>
+    </div>
+  </div>
+
+</nav>
 {% endblock navbar %}
 
 {% block content %}

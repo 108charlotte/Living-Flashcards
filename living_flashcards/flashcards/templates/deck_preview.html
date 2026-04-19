@@ -4,9 +4,125 @@
 {% block title %}Deck Preview{% endblock %}
 
 {% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/*ChatGPT generated*/  
-/* Page layout */
+  /* ── Claude GeneratedNavbar Styling── */
+  .preview-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 80px;
+    background: #FCFCF7;
+    border-bottom: 1px solid #E8E8E3;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .preview-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .preview-nav-brand {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2C2C2A;
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: -0.3px;
+  }
+
+  .preview-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+  }
+
+  .preview-profile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C2C2A;
+    font-family: 'Inter', sans-serif;
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .preview-profile-toggle:hover { background: #F2F2ED; }
+
+  /* Profile dropdown */
+  .preview-profile-dropdown { position: relative; }
+
+  .preview-dropdown-card {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #E8E8E3;
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    z-index: 100;
+    min-width: 210px;
+    overflow: hidden;
+  }
+  .preview-profile-dropdown.active .preview-dropdown-card { display: block; }
+
+ .preview-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  margin: 0 12px;           
+  border-bottom: 2px solid #2C2C2A;
+  background: #FCFCF7;
+  border-radius: 8px 8px 0 0; /* optional polish */
+}
+
+  .preview-dropdown-header span {
+    font-size: 20px;
+    font-weight: 800;
+    color: #2C2C2A;
+    font-family: 'Inter', sans-serif;
+    align-items: left;
+  }
+
+  .preview-dropdown-card ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+
+  .preview-dropdown-card ul li a,
+  .preview-dropdown-card ul li button {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+    padding: 0.7rem 1.25rem;
+    font-size: 14px;
+    font-weight: 400;
+    color: #2C2C2A;
+    text-decoration: none;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.12s;
+    box-sizing: border-box;
+  }
+  .preview-dropdown-card ul li a:hover,
+  .preview-dropdown-card ul li button:hover { background: #F2F2ED; }
+
+  .preview-dropdown-card hr { border: none; border-top: 1px solid #E8E8E3; margin: 0.4rem 0; }
+
+  .sign-out-btn { color: #993C1D !important; }   
+
+/*ChatGPT generated page layout*/  
 .deck-preview-container {
     display: flex;
     flex-direction: column;
@@ -107,41 +223,57 @@
 {% endblock extra_css %}
 
 {% block navbar %}
-<!-- (unchanged) -->
-<nav class="navbar">
-    <div class="navbar-left">
-        <a href="/" class="navbar-brand">
-            <svg viewBox="0 0 64 64" width="40" height="40">
-                <circle cx="32" cy="32" r="30" fill="black" />
-            </svg>
-            <span class="brand-text">Living Flashcards</span>
-        </a>
-    </div>
-    <div class="navbar-center"></div>
-    <div class="navbar-right">
-        <li class="nav-item dropdown" style="position: relative;">
-            <a class="nav-right nav-link dropdown-toggle"
-               href="{% url 'all_decks:profile' %}">
-                <span class="profile-name">{{ user.username }}</span>
-                <img src="{% static 'all_decks/icon-profile.svg' %}"
-                     width="33" height="37"
-                     style="margin-left: 4px;">
+<nav class="preview-nav">
+
+  <!-- Left: logo + brand -->
+  <div class="preview-nav-left">
+    <a href="/">
+      <img src="{% static 'LF_logo.svg' %}" alt="Living Flashcards logo" style="width: 40px; height: 40px; display: block;">
+    </a>
+    <a href="/" class="preview-nav-brand">Living Flashcards</a>
+  </div>
+
+  <!-- Right: profile -->
+  <div class="preview-nav-right">
+    <div class="preview-profile-dropdown" id="previewProfileDropdown">
+      <button class="preview-profile-toggle" id="previewProfileToggle">
+        <span>{{ user.username }}</span>
+        <img width="34" height="34" src="https://img.icons8.com/ios-glyphs/30/test-account.png" alt="profile">
+      </button>
+
+      <div class="preview-dropdown-card">
+        <div class="preview-dropdown-header">
+          <span>{{ user.username }}</span>
+        </div>
+        <ul>
+          <li>
+            <a href="{% url 'all_decks:profile' %}">
+              <svg width="16" height="16" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+                <circle cx="17" cy="13" r="5.5" stroke="#2C2C2A" stroke-width="2"/>
+                <path d="M5 31c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="#2C2C2A" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Profile
             </a>
-            <ul class="dropdown-menu">
-                {% if user.is_authenticated %}
-                <li>
-                    <form method="post" action="{% url 'logout' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="dropdown-item">Logout</button>
-                    </form>
-                </li>
-                {% else %}
-                <li><a class="dropdown-item" href="/login">Login</a></li>
-                <li><a class="dropdown-item" href="{% url 'authentication:sign-up' %}">Sign up</a></li>
-                {% endif %}
-            </ul>
-        </li>
+          </li>
+          <hr>
+          <li>
+            <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="sign-out-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="#993C1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <polyline points="16 17 21 12 16 7" stroke="#993C1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="21" y1="12" x2="9" y2="12" stroke="#993C1D" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+                Sign Out
+              </button>
+            </form>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
+
 </nav>
 {% endblock navbar %}
 

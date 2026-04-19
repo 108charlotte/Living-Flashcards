@@ -36,9 +36,15 @@ def all_decks(request):
     })
 
 def set_num_cards_to_review(request, decks):
+    from collections import defaultdict
+    deck_ids = [deck.id for deck in decks]
+    user_cards = CardToUser.objects.filter(user_id=request.user, card_id__deck_id__in=deck_ids).select_related('card_id')
+    cards_by_deck = defaultdict(list)
+    for ctu in user_cards:
+        cards_by_deck[ctu.card_id.deck_id].append(ctu)
     for deck in decks:
-        deck.cards_new = count_new_cards_available_today(request.user, deck)
-        deck.cards_learning = count_cards_available_to_review(request.user, deck)
+        deck.cards_new = count_new_cards_available_today(request.user, deck, user_cards=cards_by_deck.get(deck.id, []))
+        deck.cards_learning = count_cards_available_to_review(request.user, deck, user_cards=cards_by_deck.get(deck.id, []))
 
 def deck_category(request, category): 
     category_decks = []
@@ -48,18 +54,17 @@ def deck_category(request, category):
         return render(request, "deck_category.html", {'category_decks': category_decks, 'page_title': category, 'category_description': category})
 
 # utility function since this logic is for both full-screen (with deck_category view) and for all_decks
-def get_all_decks_for_review_category(category, user_id): 
-    category_decks = []
-    decks = Deck.objects.all()
-    for deck in decks:
-        user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user_id)
-        if category == "started" and user_cards.exists():
-            category_decks.append(deck)
-        elif category == "not-started" and not user_cards.exists():
-            # makes sure decks without any cards are hidden, even if they happen to be present in the database
-            if deck.cards.count() != 0: 
-                category_decks.append(deck)
-    return category_decks
+def get_all_decks_for_review_category(category, user_id):
+    user_deck_ids = set(
+        CardToUser.objects.filter(user_id=user_id)
+        .values_list('card_id__deck', flat=True)
+    )
+    decks = Deck.objects.only('id', 'name', 'slug').prefetch_related('cards')
+    if category == "started":
+        return [deck for deck in decks if deck.id in user_deck_ids]
+    elif category == "not-started":
+        return [deck for deck in decks if deck.id not in user_deck_ids and deck.cards.count() != 0]
+    return []
 
 def about(request):
     return render(request, "about.html")

@@ -32,15 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (audio) {
         audio.currentTime = 0;
         audio.play();
-      } else {
-        // Copilot-generated
-        const wordElem = document.querySelector('.card-word');
-        if (!wordElem) return;
-        const word = wordElem.textContent;
-        const utterance = new SpeechSynthesisUtterance(word);
-        utterance.rate = 1;
-        utterance.pitch = 1;
-        window.speechSynthesis.speak(utterance);
       }
       });
     }

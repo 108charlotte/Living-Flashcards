@@ -136,7 +136,11 @@
 
   .preview-dropdown-card hr { border: none; border-top: 1px solid #E8E8E3; margin: 0.4rem 0; }
 
-  .sign-out-btn { color: #993C1D !important; }  </style>
+  .sign-out-btn { color: #993C1D !important; } 
+  
+  .button-link { margin-top: 48px !important; }
+  .block p { margin-bottom: 24px; }
+  </style>
 {% endblock extra_css %}
 
 {% block navbar %}
@@ -223,11 +227,11 @@
         <div class="card clickable-card">
             <div class="card-front">
               {% if card.card_id.audio_path %}
-                <audio id="card-audio" src="{% static 'sora_Audio/' %}{{ card.card_id.audio_path }}"></audio>
-              {% endif %}
+                <audio id="card-audio" src="{{ card.card_id.audio_path }}"></audio>
               <button class="speaker-btn" title="Hear the word">
                 <img src="{% static 'Speaker_Icon.svg' %}" alt="Speaker icon">
               </button>
+              {% endif %}
               <h2 class="card-word">{{ card.card_id.term }}</h2>
               <p class="card-phonetic">{{ card.card_id.phonetic }}</p>
             </div>

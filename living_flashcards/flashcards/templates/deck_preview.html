@@ -122,102 +122,96 @@
 
   .sign-out-btn { color: #993C1D !important; }   
 
-/*ChatGPT generated page layout*/  
+/*Claude generated styling to match all_decks page*/  
+/* ── Deck Preview Content ── */
 .deck-preview-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #FCFCF7;
-    min-height: 85vh;
-    font-family: 'Instrument Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #F5F4EE;
+  min-height: 85vh;
+  font-family: 'Inter', sans-serif;
+  padding: 2.5rem 1rem;
+  box-sizing: border-box;
 }
 
-/* Title */
 .deck-title {
-    font-size: 42px;
-    font-weight: 700;
-    color: #0A3323;
-    margin-top: 20px;
-    margin-bottom: 6px;
-    text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 0.3rem;
+  text-align: center;
+  letter-spacing: -0.3px;
 }
 
-/* Phonetic */
 .deck-phonetic {
-    font-size: 18px;
-    color: #4F4F4F;
-    margin-bottom: 28px;
+  font-size: 0.95rem;
+  color: #5F5E5A;
+  margin: 0 0 1.75rem;
+  font-weight: 400;
 }
 
-/* Card container */
 .deck-info-card {
-    background: #F7F7EF;
-    border-radius: 18px;
-    border: 1.5px solid #D6D6CC;
-    padding: 28px 28px;
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1.5px solid #D8D7D0;
+  padding: 0 1.75rem;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Row layout */
 .deck-info-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 0;
 }
 
-/* Labels */
-.deck-info-label {
-    font-size: 18px;
-    color: #2F2F2F;
-}
-
-/* Values (green pills) */
-.deck-info-value {
-    background: #839958;
-    color: #0A3323;
-    font-weight: 700;
-    font-size: 18px;
-    border-radius: 999px;
-    padding: 4px 14px;
-    min-width: 36px;
-    text-align: center;
-}
-
-/* Duration slightly smaller */
-.deck-info-value.duration {
-    font-size: 16px;
-    padding: 4px 12px;
-}
-
-/* Divider */
 .deck-info-divider {
-    height: 1px;
-    width: 100%;
-    background: #E0E0D6;
+  height: 1.5px;
+  width: 100%;
+  background: #D8D7D0;
 }
 
-/* Button */
+.deck-info-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.deck-info-value {
+  background: #739F7F;
+  color: #1a3325;
+  font-weight: 600;
+  font-size: 0.775rem;
+  border-radius: 999px;
+  padding: 3px 12px;
+  min-width: 32px;
+  text-align: center;
+}
+
+.deck-info-value.duration {
+  font-size: 0.775rem;
+}
+
 .practice-btn {
-    margin-top: 24px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #839958;
-    border: 2px solid #839958;
-    border-radius: 999px;
-    padding: 10px 28px;
-    text-decoration: none;
-    background: transparent;
-    transition: all 0.2s ease;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1a3325;
+  background: #739F7F;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 28px;
+  text-decoration: none;
+  transition: opacity 0.15s;
 }
 
 .practice-btn:hover {
-    background: #839958;
-    color: white;
+  opacity: 0.85;
+  color: #1a3325;
 }
 </style>
 {% endblock extra_css %}

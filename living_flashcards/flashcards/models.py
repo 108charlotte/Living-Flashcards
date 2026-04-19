@@ -27,6 +27,7 @@ class CardInfo(models.Model):
     term = models.CharField(max_length=100)
     definition = models.TextField()
     audio_path = models.CharField(max_length=400, null=True, blank=True)
+    living_dictionaries_id = models.CharField(max_length=100)
     
     def __str__(self): 
         return self.term

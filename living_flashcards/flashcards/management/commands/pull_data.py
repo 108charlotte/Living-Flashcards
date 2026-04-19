@@ -67,13 +67,19 @@ class Command(BaseCommand):
                 audio_path = item.get("audios", [])[0].get("storage_path")
             except (AttributeError, TypeError, KeyError, IndexError): 
                 audio_path = None
-
-            # copilot code: require at least a term and an English gloss; include audio when present
-            if lexeme and en_gloss:
+            
+            try: 
+                living_dictionaries_id = item.get("id")
+            except (AttributeError, TypeError, KeyError, IndexError): 
+                living_dictionaries_id = None
+            
+            # copilot code: require at least a term and an English gloss, I later added the ID from the living flashcards JSON; include audio when present
+            if lexeme and en_gloss and living_dictionaries_id:
                 card = {
                     "term": lexeme,
                     "definition": en_gloss,
                     "domains": this_card_domains,
+                    "living_dictionaries_id": living_dictionaries_id
                 }
 
                 if audio_path:
@@ -117,7 +123,8 @@ class Command(BaseCommand):
                 deck=deck,
                 term=card["term"],
                 definition=card["definition"],
-                audio_path=card.get("audio_path")
+                audio_path=card.get("audio_path"), 
+                living_dictionaries_id=card.get("living_dictionaries_id")
             ))
         
         CardInfo.objects.bulk_create(new_cards)

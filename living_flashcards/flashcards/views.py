@@ -121,15 +121,9 @@ def flashcards(request, slug):
 
   # Copilot code to create cardtouser instances any unseen cards
   existing_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user).values_list('card_id', flat=True)
-  new_cards = deck.cards.exclude(id__in=existing_cards)
-  
-  # updated with copilot to bulk create, hopefully speed up deck load times
-  CardToUser.objects.bulk_create([
-    CardToUser(card_id=card_info, user_id=request.user)
-    for card_info in new_cards
-])
-  
-  # end copilot
+  new_card = CardInfo.objects.filter(deck=deck).exclude(id__in=existing_cards).only('id').first()
+  if new_card:
+      CardToUser.objects.create(card_id=new_card, user_id=request.user) # create new cardtouser instance
 
   to_review = get_cards_to_review(request.user, deck)
 
@@ -175,11 +169,16 @@ def get_cards_available_to_review(user, deck):
 
     return (learning_due | previously_introduced_new)
 
-def count_cards_available_to_review(user, deck):
-  return get_cards_available_to_review(user, deck).count()
+# optimized by Copilot (making improvements to combat slow load time)
+def count_cards_available_to_review(user, deck, user_cards=None):
+    if user_cards is None:
+        user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user)
+    now = timezone.now()
+    learning_due = [c for c in user_cards if getattr(c, 'review_card', {}) != {} and getattr(c, 'see_next', None) is not None and c.see_next <= now]
+    previously_introduced_new = [c for c in user_cards if getattr(c, 'review_card', {}) == {} and getattr(c, 'new_introduced_on', None) is not None]
+    return len(learning_due) + len(previously_introduced_new)
 
 def get_cards_to_review(user, deck): 
-
   # Learning cards are reviewed at least once and due now/past; they are never capped.
   learning_and_prev_new = get_cards_available_to_review(user, deck)
 
@@ -190,14 +189,16 @@ def get_cards_to_review(user, deck):
   remaining_budget = max(daily_new_limit - introduced_today_count, 0)
 
   if remaining_budget > 0:
-    newly_introduced_ids = list(
+    # Copilot speed optimization: Only introduce one new card per review to minimize DB writes
+    newly_introduced_id = (
       user_cards
       .filter(review_card={}, new_introduced_on__isnull=True)
       .order_by('id')
-      .values_list('id', flat=True)[:remaining_budget]
+      .values_list('id', flat=True)
+      .first()
     )
-    if newly_introduced_ids:
-      user_cards.filter(id__in=newly_introduced_ids).update(new_introduced_on=today)
+    if newly_introduced_id:
+      user_cards.filter(id=newly_introduced_id).update(new_introduced_on=today)
 
   available_new_cards = user_cards.filter(review_card={}).exclude(new_introduced_on__isnull=True)
 
@@ -213,14 +214,15 @@ def count_learning_cards(user, deck):
     return user_cards.exclude(review_card={}).filter(see_next__lte=now).count()
 
 # uses code from get_cards_to_review and get_new_cards_for_today and help from copilot
-def count_new_cards_available_today(user, deck):
+def count_new_cards_available_today(user, deck, user_cards=None):
     today = timezone.localdate()
-    user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user.id)
+    if user_cards is None:
+        user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user.id)
     daily_new_limit = get_daily_new_limit(user)
-    introduced_today_count = user_cards.filter(new_introduced_on=today).count()
+    introduced_today_count = sum(1 for c in user_cards if getattr(c, 'new_introduced_on', None) == today)
     remaining_budget = max(daily_new_limit - introduced_today_count, 0)
-    not_yet_introduced = user_cards.filter(review_card={}, new_introduced_on__isnull=True).count()
-    seen_card_ids = set(user_cards.values_list('card_id', flat=True))
+    not_yet_introduced = sum(1 for c in user_cards if getattr(c, 'review_card', {}) == {} and getattr(c, 'new_introduced_on', None) is None)
+    seen_card_ids = set(getattr(c.card_id, 'id', None) for c in user_cards)
     all_card_ids = set(deck.cards.values_list('id', flat=True))
     unseen_count = len(all_card_ids - seen_card_ids)
     total_new = not_yet_introduced + unseen_count

@@ -48,7 +48,7 @@
             <div class="deck">
               <a href="{% url 'flashcards:deck_preview' deck.slug %}">
                 <span class="deck-title">{{ deck.name }}</span>
-                <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning</span>
+                <span class="deck-count">{{ deck.cards_new }} new · {{ deck.cards_learning }} learning<br><strong>{{ deck.cards_to_review }} left to review</strong></span>
               </a>
             </div>
           {% empty %}

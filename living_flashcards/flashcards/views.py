@@ -25,7 +25,7 @@ def estimate_deck_completion_time(request, deck):
     """
     BASE_TIME_PER_CARD = 8  # seconds
     BASE_MULTIPLIER = 4
-    cards_to_review = get_cards_to_review(request, deck)
+    cards_to_review = get_cards_to_review(request.user, deck)
     total_seconds = 0
     reviewed_card_ids = set()
     for card_to_user in cards_to_review:
@@ -120,7 +120,7 @@ def flashcards(request, slug):
   
   # end copilot
 
-  to_review = get_cards_to_review(request, deck)
+  to_review = get_cards_to_review(request.user, deck)
 
   remaining_cards = to_review.count()
 
@@ -153,16 +153,26 @@ def flashcards(request, slug):
     'hide_main_nav': True,
   })
 
-def get_cards_to_review(request, deck): 
-  now = timezone.now()
-  today = timezone.localdate()
-  # all cardtouser cards for current user, code written by Copilot
-  user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user)
-  daily_new_limit = get_daily_new_limit(request.user)
+def count_cards_available_to_review(user, deck):
+    now = timezone.now()
+    today = timezone.localdate()
+    user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user)
+    daily_new_limit = get_daily_new_limit(user)
+
+    learning_due = user_cards.exclude(review_card={}).filter(see_next__lte=now).count()
+    previously_introduced_new = user_cards.filter(review_card={}, new_introduced_on__isnull=False).count()
+
+    return learning_due + previously_introduced_new
+
+def get_cards_to_review(user, deck): 
 
   # Learning cards are reviewed at least once and due now/past; they are never capped.
-  learning_due = user_cards.exclude(review_card={}).filter(see_next__lte=now)
+  learning_due = count_cards_available_to_review(user, deck)
 
+  today = timezone.localdate()
+  # all cardtouser cards for current user, code written by Copilot
+  user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user)
+  daily_new_limit = get_daily_new_limit(user)
   # Strict daily budget:
   # 1) Count how many cards were introduced today for this deck/user.
   # 2) Introduce only the remaining number of brand-new cards today.
@@ -181,10 +191,57 @@ def get_cards_to_review(request, deck):
       user_cards.filter(id__in=newly_introduced_ids).update(new_introduced_on=today)
 
   available_new_cards = user_cards.filter(review_card={}).exclude(new_introduced_on__isnull=True)
-
+  
   # Combine learning and available new cards into the queue shown to the user.
   to_review = (learning_due | available_new_cards).order_by('see_next', 'id')
   return to_review
+
+
+# uses code from get_cards_to_review and get_new_cards_for_today
+def count_learning_cards(user, deck):
+    now = timezone.now()
+    user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user.id)
+    return user_cards.exclude(review_card={}).filter(see_next__lte=now).count()
+
+# uses code from get_cards_to_review and get_new_cards_for_today and help from copilot
+def count_new_cards_available_today(user, deck):
+    today = timezone.localdate()
+    user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user.id)
+    daily_new_limit = get_daily_new_limit(user)
+    introduced_today_count = user_cards.filter(new_introduced_on=today).count()
+    remaining_budget = max(daily_new_limit - introduced_today_count, 0)
+    not_yet_introduced = user_cards.filter(review_card={}, new_introduced_on__isnull=True).count()
+    seen_card_ids = set(user_cards.values_list('card_id', flat=True))
+    all_card_ids = set(deck.cards.values_list('id', flat=True))
+    unseen_count = len(all_card_ids - seen_card_ids)
+    total_new = not_yet_introduced + unseen_count
+    return min(total_new, remaining_budget)
+
+def get_new_cards_for_today(user, deck): 
+  today = timezone.localdate()
+  # all cardtouser cards for current user, code written by Copilot
+  user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user)
+  daily_new_limit = get_daily_new_limit(user)
+  # Strict daily budget:
+  # 1) Count how many cards were introduced today for this deck/user.
+  # 2) Introduce only the remaining number of brand-new cards today.
+  # 3) Always keep previously introduced-but-unreviewed new cards available.
+  introduced_today_count = user_cards.filter(new_introduced_on=today).count()
+  remaining_budget = max(daily_new_limit - introduced_today_count, 0)
+
+  if remaining_budget > 0:
+    newly_introduced_ids = list(
+      user_cards
+      .filter(review_card={}, new_introduced_on__isnull=True)
+      .order_by('id')
+      .values_list('id', flat=True)[:remaining_budget]
+    )
+    if newly_introduced_ids:
+      user_cards.filter(id__in=newly_introduced_ids).update(new_introduced_on=today)
+
+  available_new_cards = user_cards.filter(review_card={}).exclude(new_introduced_on__isnull=True)
+  return available_new_cards
+
 
 def clean_times(now, due_date): 
   difference = due_date - now
@@ -282,7 +339,7 @@ def review_card(request):
   deck = card.card_id.deck
 
   # re-load cards to review
-  to_review = get_cards_to_review(request, deck)
+  to_review = get_cards_to_review(request.user, deck)
 
   remaining_cards = to_review.count()
 

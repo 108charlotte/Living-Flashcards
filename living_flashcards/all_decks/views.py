@@ -14,26 +14,21 @@ from django.views.decorators.http import require_POST
 import json
 from authentication.models import UserStudySettings
 from authentication.forms import UserDailyLimitForm
+from flashcards.views import get_cards_to_review, count_cards_available_to_review, count_new_cards_available_today
 
 # Create your views here.
 
 def all_decks(request):
-    decks = Deck.objects.all()
-    if request.user.is_authenticated: 
-        for deck in decks:
-            now = timezone.now()
-            user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user.id)
-            if user_cards.exists():
-                to_review = (user_cards.filter(see_next__lte=now) | user_cards.filter(see_next__isnull=True))
-                deck.cards_to_review = to_review.count() # sets temp python attribute
-            else:
-                deck.cards_to_review = deck.cards.count()
-    else: 
-        for deck in decks:
-            deck.cards_to_review = 0
-    started_decks = get_all_decks_for_review_category("started", request.user.id)
-    not_started_decks = get_all_decks_for_review_category("not-started", request.user.id)
-    return render(request, 'all_decks.html', {'decks': decks, 'available_languages': ["English"], 'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"], 'started_decks': started_decks, 'not_started_decks': not_started_decks})
+    started_decks = get_all_decks_for_review_category("started", request.user)
+    set_num_cards_to_review(request, started_decks)
+    not_started_decks = get_all_decks_for_review_category("not-started", request.user)
+    set_num_cards_to_review(request, not_started_decks)
+    return render(request, 'all_decks.html', {'available_languages': ["English"], 'available_languages_to_learn': ["Sora", "Future language 1", "Future language 2"], 'started_decks': started_decks, 'not_started_decks': not_started_decks})
+
+def set_num_cards_to_review(request, decks):
+    for deck in decks:
+        deck.cards_new = count_new_cards_available_today(request.user, deck)
+        deck.cards_learning = count_cards_available_to_review(request.user, deck)
 
 def deck_category(request, category): 
     category_decks = []

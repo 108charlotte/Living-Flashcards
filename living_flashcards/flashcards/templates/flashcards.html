@@ -149,12 +149,7 @@
     </a>
     <a href="/" class="preview-nav-brand">Living Flashcards</a>
   </div>
-<!-- Center: Estimated time -->
-      <div class="navbar-center">
-        {% if estimated_time %}
-          <p class="estimated-time">Estimated time: {{ estimated_time }} minute{{ estimated_time|pluralize }}</p>
-        {% endif %}
-      </div>
+
 
 <!-- Right: profile -->
   <div class="preview-nav-right">
@@ -203,9 +198,12 @@
 {% block content %}
 <div class="flashcards-content">
 
-  <div id="spacebar-hint" class="spacebar-hint">
-  Press SPACE to flip the card
-</div> <!-- chatgpt generated spacebar hint -->
+  <!-- Center: Estimated time -->
+      <div class="navbar-center">
+        {% if estimated_time %}
+          <p class="estimated-time">Estimated time: {{ estimated_time }} minute{{ estimated_time|pluralize }}</p>
+        {% endif %}
+      </div>
 
   <h4 class="deck-title-header">{{ deck_info.name }}</h4>
 

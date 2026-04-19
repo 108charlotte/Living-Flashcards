@@ -119,20 +119,3 @@ function flipCard(event) {
     if (front) front.classList.remove('hidden');
   }
 }
-
-// ChatGPT generated code to show spacebar hint on page load, then hide it after a few seconds
-document.addEventListener("DOMContentLoaded", () => {
-  const hint = document.getElementById("spacebar-hint");
-
-  if (!hint) return;
-
-  // Show hint
-  setTimeout(() => {
-    hint.classList.add("show");
-  }, 500);
-
-  // Hide after a few seconds
-  setTimeout(() => {
-    hint.classList.remove("show");
-  }, 4000);
-});

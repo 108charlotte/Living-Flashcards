@@ -4,3 +4,4 @@ Hello Technovation Judges! This is the code for our web app, which is also avail
 Sign-offs...\
 Sofia Cano here, signing off nearly 30 minutes before the deadline!!! This project changed my life fr.\
 Charlotte Woodrum, who managed to not crash out managing prs and merges across 5+ branches ᐠ( ᐛ )ᐟ it's been so amazing getting to know you all, and to create this project together which I never would have thought possible otherwise <3\
+This was such a random but fun life experience. I'll either look back on this and think I was crazy, or... look back on this and think I was crazy. Fr though, I enjoyed this :) -Marta Sainz

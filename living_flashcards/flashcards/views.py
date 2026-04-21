@@ -119,11 +119,24 @@ def flashcards(request, slug):
   # take slug and use to get deck to pass to template
   deck = get_object_or_404(Deck, slug=slug)
 
-  # Copilot code to create cardtouser instances any unseen cards
-  existing_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user).values_list('card_id', flat=True)
-  new_card = CardInfo.objects.filter(deck=deck).exclude(id__in=existing_cards).only('id').first()
-  if new_card:
-      CardToUser.objects.create(card_id=new_card, user_id=request.user) # create new cardtouser instance
+  # start Copilot code to introduce the correct number of new cards
+  # Create up to the daily new card limit of CardToUser instances for unseen cards
+  existing_cards = set(CardToUser.objects.filter(card_id__deck=deck, user_id=request.user).values_list('card_id', flat=True))
+  all_card_ids = set(CardInfo.objects.filter(deck=deck).values_list('id', flat=True))
+  unseen_card_ids = list(all_card_ids - existing_cards)
+  daily_new_limit = get_daily_new_limit(request.user)
+  # Count how many new cards have already been introduced today
+  today = timezone.localdate()
+  user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=request.user)
+  introduced_today_count = user_cards.filter(new_introduced_on=today).count()
+  remaining_budget = max(daily_new_limit - introduced_today_count, 0)
+  # Only create up to the remaining budget
+  to_create_count = min(remaining_budget, len(unseen_card_ids))
+  if to_create_count > 0:
+    to_create_ids = unseen_card_ids[:to_create_count]
+    CardToUser.objects.bulk_create([
+      CardToUser(card_id_id=cid, user_id=request.user) for cid in to_create_ids
+    ])
 
   to_review = get_cards_to_review(request.user, deck)
 
@@ -134,7 +147,7 @@ def flashcards(request, slug):
   if start_card:
     # Initialize progress state when a review run begins for this deck.
     # Progress fill should follow completed / (completed + remaining).
-    request.session[PROGRESS_DECK_SESSION_KEY] = deck.id
+    request.session[PROGRESS_DECK_SESSION_KEY] = deck.pk
     request.session[PROGRESS_COMPLETED_SESSION_KEY] = 0
     current_index = 0
     total_cards = remaining_cards
@@ -171,12 +184,12 @@ def get_cards_available_to_review(user, deck):
 
 # optimized by Copilot (making improvements to combat slow load time)
 def count_cards_available_to_review(user, deck, user_cards=None):
-    if user_cards is None:
-        user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user)
-    now = timezone.now()
-    learning_due = [c for c in user_cards if getattr(c, 'review_card', {}) != {} and getattr(c, 'see_next', None) is not None and c.see_next <= now]
-    previously_introduced_new = [c for c in user_cards if getattr(c, 'review_card', {}) == {} and getattr(c, 'new_introduced_on', None) is not None]
-    return len(learning_due) + len(previously_introduced_new)
+  if user_cards is None:
+    user_cards = CardToUser.objects.filter(card_id__deck=deck, user_id=user)
+  now = timezone.now()
+  learning_due = [c for c in user_cards if getattr(c, 'review_card', {}) != {} and getattr(c, 'see_next', None) is not None and c.see_next is not None and c.see_next <= now]
+  previously_introduced_new = [c for c in user_cards if getattr(c, 'review_card', {}) == {} and getattr(c, 'new_introduced_on', None) is not None]
+  return len(learning_due) + len(previously_introduced_new)
 
 def get_cards_to_review(user, deck): 
   # Learning cards are reviewed at least once and due now/past; they are never capped.
@@ -189,20 +202,18 @@ def get_cards_to_review(user, deck):
   remaining_budget = max(daily_new_limit - introduced_today_count, 0)
 
   if remaining_budget > 0:
-    # Copilot speed optimization: Only introduce one new card per review to minimize DB writes
-    newly_introduced_id = (
+    newly_introduced_ids = list(
       user_cards
       .filter(review_card={}, new_introduced_on__isnull=True)
       .order_by('id')
-      .values_list('id', flat=True)
-      .first()
+      .values_list('id', flat=True)[:remaining_budget]
     )
-    if newly_introduced_id:
-      user_cards.filter(id=newly_introduced_id).update(new_introduced_on=today)
+    if newly_introduced_ids:
+      user_cards.filter(id__in=newly_introduced_ids).update(new_introduced_on=today)
 
   available_new_cards = user_cards.filter(review_card={}).exclude(new_introduced_on__isnull=True)
 
-  # Combine learning+prev_new and available new cards into the queue shown to the user.
+  # combine learning+prev_new and available new cards to show to user
   to_review = (learning_and_prev_new | available_new_cards).order_by('see_next', 'id')
   return to_review
 

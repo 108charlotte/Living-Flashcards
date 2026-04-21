@@ -242,11 +242,12 @@
       </div>
 
     {% else %}
-      <div class="block">
-        <p>You've finished the deck for now!</p>
-        <a href="/" class="button-link">Go home</a>
-      </div>
-    {% endif %}
+  <div style="background: #D3D1C7; border-radius: 16px; padding: 2.25rem 2.5rem; width: 100%; max-width: 480px; text-align: center; box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0 auto;">
+    <h2 style="font-size: 24px; font-weight: 700; color: #2C2C2A; margin: 0 0 0.35rem; letter-spacing: -0.4px;">You've finished reviewing all your cards for now!</h2>
+    <p style="font-size: 14px; color: #5F5E5A; margin: 0 0 1.75rem;">tardʒubsinan</p>
+    <a href="/" style="display: block; width: 100%; padding: 0.75rem 1rem; background: #739F7F; color: #ffffff; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; border: none; border-radius: 10px; cursor: pointer; text-decoration: none; box-sizing: border-box;">Go home</a>
+  </div>
+  {% endif %}
 
     {% if card %}
       <form action="{% url 'flashcards:review_card' %}" method="post" class="hidden review-buttons" id="difficulty-buttons">
